@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : logout
     Created on : 23 Mar 2022, 11:04:34 am
     Author     : zelno
@@ -9,9 +9,16 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <link rel="stylesheet" href="Discordo.css">
+        <title>Logout Page</title>
     </head>
+
+    <jsp:include page="JSPHeader.jsp"/>
+    
     <body>
-        <h1>Hello this is the logout page!</h1>
+        <form class="align-center" action="/ISDWebApp/login.jsp" method="POST">
+            <h1>YOU HAVE BEEN LOGGED OUT</h1>
+            <button type="submit"><b>Return to Login</b></button>
+        </form>
     </body>
 </html>
