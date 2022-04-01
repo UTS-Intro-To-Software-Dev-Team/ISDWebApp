@@ -8,26 +8,22 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="Discordo.css">
+        <jsp:include page="PageComponents/CommonMeta.jsp"/>
         <title>Login Page</title>
     </head>
 
-    <jsp:include page="JSPHeader.jsp"/>
-
     <body>
-        <div class="align-center">
-            <label for="email">Username/Email:</label>
-            <br>
-            <input type="email" name="email" placeholder="12345678@student.uts.edu.au">
-            <br>
+        <jsp:include page="PageComponents/JSPHeader.jsp"/>
+        <form action="homePage.jsp" method="POST">
+            <table class="align-center form-table">
+                <tr><td><label for="email">Username/Email:</label></td></tr>
+                <tr><td><input type="email" name="email" placeholder="Enter email" required></td></tr>
 
-            <label for="password">Password:</label>
-            <br>
-            <input type="password" name="password">
-            <br>
+                <tr><td><label for="password">Password:</label></td></tr>
+                <tr><td><input type="password" name="password" placeholder="Enter password" required></td></tr>
 
-            <button type="button"><b>Submit</b></button>
-        </div>
+                <tr><td><button type="button"><b>Submit</b></button></td></tr>
+            </table>
+        </form>
     </body>
 </html>

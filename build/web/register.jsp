@@ -8,38 +8,31 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="Discordo.css">
+        <jsp:include page="PageComponents/CommonMeta.jsp"/>
         <title>Register Page</title>
     </head>
 
-    <jsp:include page="JSPHeader.jsp"/>
-    
     <body>
-        <form class="align-center" action="/ISDWebApp/login.jsp" method="POST">
-            <h1>CREATE ACCOUNT</h1>
+        <jsp:include page="PageComponents/JSPHeader.jsp"/>
 
-            <label  for="firstname">First Name:</label>
-            <br>
-            <input type="text" name="firstname" placeholder="Jack">
-            <br>
+        <h1 class="align-center">CREATE ACCOUNT</h1>
 
-            <label for="lastname">Last Name:</label>
-            <br>
-            <input type="text" name="lastname" placeholder="Frost">
-            <br>
+        <form action="login.jsp" method="POST">
+            <table class="align-center form-table">
+                <tr><td><label for="firstname">First Name:</label></td></tr>
+                <tr><td><input type="text" name="firstname" placeholder="Enter first name" required></td></tr>
 
-            <label for="email">Email:</label>
-            <br>
-            <input type="email" name="email" placeholder="12345678@student.uts.edu.au">
-            <br>
+                <tr><td><label for="lastname">Last Name:</label></td></tr>
+                <tr><td><input type="text" name="lastname" placeholder="Enter last name" required></td></tr>
 
-            <label for="password">Password:</label>
-            <br>
-            <input type="password" name="password">
-            <br>
+                <tr><td><label for="email">Email:</label></td></tr>
+                <tr><td><input type="email" name="email" placeholder="Enter email" required></td></tr>
 
-            <button type="submit" value="Register"><b>Register</b></button>
+                <tr><td><label for="password">Password:</label></td></tr>
+                <tr><td><input type="password" name="password" placeholder="Enter password" required></td></tr>
+
+                <tr><td><button type="submit" value="Register"><b>Register</b></button></td></tr>
+            </table>
         </form>
     </body>
 </html>

@@ -8,17 +8,16 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" href="Discordo.css">
+        <jsp:include page="PageComponents/CommonMeta.jsp"/>
         <title>Logout Page</title>
     </head>
 
-    <jsp:include page="JSPHeader.jsp"/>
-    
+    <jsp:include page="PageComponents/JSPHeader.jsp"/>
+
     <body>
-        <form class="align-center" action="/ISDWebApp/login.jsp" method="POST">
+        <div class="align-center">
             <h1>YOU HAVE BEEN LOGGED OUT</h1>
-            <button type="submit"><b>Return to Login</b></button>
-        </form>
+            <a href="login.jsp"><button type="submit"><b>Return to Login</b></button></a>
+        </div>
     </body>
 </html>
