@@ -2,6 +2,7 @@
     display: flex;
     color: #7289DA;
     align-items: center;
+    height: 100px;
 }
 
 #header a {
@@ -16,7 +17,7 @@
 }
 
 #header #header-links a {
-    font-size: 20px;
+    font-size: 18px;
 }
 
 #header #header-links td {
@@ -25,4 +26,8 @@
 
 #header #header-links a:hover {
     color: #D9D9D9;
+}
+
+#header label:hover {
+    cursor: pointer;
 }

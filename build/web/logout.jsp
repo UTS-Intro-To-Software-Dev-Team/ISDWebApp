@@ -1,9 +1,3 @@
-<%--
-    Document   : logout
-    Created on : 23 Mar 2022, 11:04:34 am
-    Author     : zelno
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -15,9 +9,10 @@
     <jsp:include page="PageComponents/JSPHeader.jsp"/>
 
     <body>
-        <div class="align-center">
+        <div class="align-center spaced-letters">
             <h1>YOU HAVE BEEN LOGGED OUT</h1>
             <a href="login.jsp"><button type="submit"><b>Return to Login</b></button></a>
+            <% session.invalidate(); %>
         </div>
     </body>
 </html>

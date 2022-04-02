@@ -3,8 +3,9 @@ package org.apache.jsp;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
+import uts.isd.model.Customer;
 
-public final class login_jsp extends org.apache.jasper.runtime.HttpJspBase
+public final class homePage_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent {
 
   private static final JspFactory _jspxFactory = JspFactory.getDefaultFactory();
@@ -43,33 +44,48 @@ public final class login_jsp extends org.apache.jasper.runtime.HttpJspBase
 
       out.write("\n");
       out.write("\n");
-      out.write("\n");
       out.write("<!DOCTYPE html>\n");
       out.write("<html>\n");
       out.write("    <head>\n");
-      out.write("        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n");
-      out.write("        <link rel=\"stylesheet\" href=\"Discordo.css\">\n");
-      out.write("        <title>Login Page</title>\n");
+      out.write("        ");
+      org.apache.jasper.runtime.JspRuntimeLibrary.include(request, response, "PageComponents/CommonMeta.jsp", out, false);
+      out.write("\n");
+      out.write("        <title>Home Page</title>\n");
       out.write("    </head>\n");
       out.write("\n");
       out.write("    ");
-      org.apache.jasper.runtime.JspRuntimeLibrary.include(request, response, "JSPHeader.jsp", out, false);
+
+        Customer customer = (Customer)session.getAttribute("customer");
+        if (customer == null && request.getParameter("firstname") == null) {
+            customer = new Customer(
+                request.getParameter("firstname"),
+                request.getParameter("lastname"),
+                request.getParameter("email"),
+                request.getParameter("username"),
+                request.getParameter("password")
+            );
+            session.setAttribute("customer", customer);
+        }
+    
       out.write("\n");
       out.write("\n");
       out.write("    <body>\n");
-      out.write("        <div class=\"align-center\">\n");
-      out.write("            <label for=\"email\">Username/Email:</label>\n");
-      out.write("            <br>\n");
-      out.write("            <input type=\"email\" name=\"email\" placeholder=\"12345678@student.uts.edu.au\">\n");
-      out.write("            <br>\n");
+      out.write("        ");
+      org.apache.jasper.runtime.JspRuntimeLibrary.include(request, response, "PageComponents/JSPHeader.jsp", out, false);
       out.write("\n");
-      out.write("            <label for=\"password\">Password:</label>\n");
-      out.write("            <br>\n");
-      out.write("            <input type=\"password\" name=\"password\">\n");
-      out.write("            <br>\n");
+      out.write("        ");
+ if (customer != null) { 
       out.write("\n");
-      out.write("            <button type=\"button\"><b>Submit</b></button>\n");
-      out.write("        </div>\n");
+      out.write("            <h1>Welcome ");
+      out.print( customer.getUsername() );
+      out.write("!</h1>\n");
+      out.write("        ");
+ } else { 
+      out.write("\n");
+      out.write("            <h1>Welcome!</h1>\n");
+      out.write("        ");
+ } 
+      out.write("\n");
       out.write("    </body>\n");
       out.write("</html>\n");
     } catch (Throwable t) {

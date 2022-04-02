@@ -1,9 +1,4 @@
-<%--
-    Document   : homePage
-    Created on : 1 Apr 2022, 11:59:33 pm
-    Author     : zelno
---%>
-
+<%@page import="uts.isd.model.Customer" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,8 +7,35 @@
         <title>Home Page</title>
     </head>
 
+    <%
+        Customer customer = (Customer)session.getAttribute("customer");
+        if (customer == null && request.getParameter("register") != null) {
+            customer = new Customer(
+                request.getParameter("firstname"),
+                request.getParameter("lastname"),
+                request.getParameter("email"),
+                request.getParameter("username"),
+                request.getParameter("password")
+            );
+            session.setAttribute("customer", customer);
+        }
+    %>
+
     <body>
         <jsp:include page="PageComponents/JSPHeader.jsp"/>
-        <h1>Hello World!</h1>
+
+        <% if (customer != null) { %>
+            <h1>Welcome <%= customer.getUsername() %>!</h1>
+        <% } else { %>
+            <h1>Welcome!</h1>
+        <% } %>
+
+        <% if (request.getParameter("register") != null) { %>
+            <p>Hello newly registered customer!</p>
+        <% } %>
+
+        <% if (request.getParameter("login") != null) { %>
+            <p>Welcome back registered customer!</p>
+        <% } %>
     </body>
 </html>
