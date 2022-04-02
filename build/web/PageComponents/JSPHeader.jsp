@@ -3,21 +3,38 @@
 </head>
 
 <div id="header">
-    <div>
-        <a href="homePage.jsp"><label><b>IoTBay</b></label></a>
-    </div>
 
     <%
         String uri = request.getRequestURI();
         String pageName = uri.substring(uri.lastIndexOf("/")+1);
     %>
+    <div>
+        <% if (!pageName.equals("homePage.jsp")) { %>
+            <a href="homePage.jsp"><label class="link"><b>IoTBay</b></label></a>
+        <% } else { %>
+            <label><b>IoTBay</b></label>
+        <% } %>
+    </div>
 
     <div id="header-links">
         <table>
             <tr>
                 <% if (session.getAttribute("customer") == null || pageName.equals("logout.jsp")) { %>
-                    <td><a title="Login" href="login.jsp">Login</a></td>
-                    <td><a title="Register" href="register.jsp">Register</a></td>
+                    <td>
+                        <% if (!pageName.equals("login.jsp")) { %>
+                            <a title="Login" href="login.jsp">Login</a>
+                        <% } else { %>
+                            <p><b>Login</b></p>
+                        <% } %>
+                    </td>
+
+                    <td>
+                        <% if (!pageName.equals("register.jsp")) { %>
+                            <a title="Register" href="register.jsp">Register</a>
+                        <% } else { %>
+                            <p><b>Register</b></p>
+                        <% } %>
+                    </td>
                 <% } else { %>
                     <td><a title="Logout" href="logout.jsp">Logout</a></td>
                 <% } %>

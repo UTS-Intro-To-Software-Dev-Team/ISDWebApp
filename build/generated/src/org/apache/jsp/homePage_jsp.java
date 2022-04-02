@@ -56,7 +56,7 @@ public final class homePage_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("    ");
 
         Customer customer = (Customer)session.getAttribute("customer");
-        if (customer == null && request.getParameter("firstname") == null) {
+        if (customer == null && request.getParameter("register") != null) {
             customer = new Customer(
                 request.getParameter("firstname"),
                 request.getParameter("lastname"),
@@ -73,6 +73,7 @@ public final class homePage_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        ");
       org.apache.jasper.runtime.JspRuntimeLibrary.include(request, response, "PageComponents/JSPHeader.jsp", out, false);
       out.write("\n");
+      out.write("\n");
       out.write("        ");
  if (customer != null) { 
       out.write("\n");
@@ -83,6 +84,22 @@ public final class homePage_jsp extends org.apache.jasper.runtime.HttpJspBase
  } else { 
       out.write("\n");
       out.write("            <h1>Welcome!</h1>\n");
+      out.write("        ");
+ } 
+      out.write("\n");
+      out.write("\n");
+      out.write("        ");
+ if (request.getParameter("register") != null) { 
+      out.write("\n");
+      out.write("            <p>Hello newly registered customer!</p>\n");
+      out.write("        ");
+ } 
+      out.write("\n");
+      out.write("\n");
+      out.write("        ");
+ if (request.getParameter("login") != null) { 
+      out.write("\n");
+      out.write("            <p>Welcome back registered customer!</p>\n");
       out.write("        ");
  } 
       out.write("\n");
