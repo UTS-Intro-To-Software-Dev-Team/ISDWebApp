@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <jsp:include page="PageComponents/CommonMeta.jsp"/>
+        <jsp:include page="/PageComponents/CommonMeta.jsp"/>
         <title>Home Page</title>
     </head>
 

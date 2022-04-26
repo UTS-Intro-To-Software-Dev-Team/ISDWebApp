@@ -10,7 +10,7 @@
     %>
     <div>
         <% if (!pageName.equals("homePage.jsp")) { %>
-            <a href="homePage.jsp"><label class="link"><b>IoTBay</b></label></a>
+            <a href="../homePage.jsp"><label class="link"><b>IoTBay</b></label></a>
         <% } else { %>
             <label><b>IoTBay</b></label>
         <% } %>
@@ -22,7 +22,7 @@
                 <% if (session.getAttribute("customer") == null || pageName.equals("logout.jsp")) { %>
                     <td>
                         <% if (!pageName.equals("login.jsp")) { %>
-                            <a title="Login" href="login.jsp">Login</a>
+                            <a title="Login" href="../login.jsp">Login</a>
                         <% } else { %>
                             <p><b>Login</b></p>
                         <% } %>
@@ -30,7 +30,7 @@
 
                     <td>
                         <% if (!pageName.equals("register.jsp")) { %>
-                            <a title="Register" href="register.jsp">Register</a>
+                            <a title="Register" href="../register.jsp">Register</a>
                         <% } else { %>
                             <p><b>Register</b></p>
                         <% } %>
