@@ -1,3 +1,4 @@
+<%@page import="uts.isd.model.*" %>
 <head>
     <link rel="stylesheet" href="CSS/Header.css">
 </head>
@@ -7,6 +8,14 @@
     <%
         String uri = request.getRequestURI();
         String pageName = uri.substring(uri.lastIndexOf("/")+1);
+
+        boolean newDB = false;
+        CustomerDatabase cdb = (CustomerDatabase)session.getAttribute("Customer Database");
+        if (cdb == null) {
+            newDB = true;
+            cdb = new CustomerDatabase();
+            session.setAttribute("Customer Database", cdb);
+        }
     %>
     <div>
         <% if (!pageName.equals("homePage.jsp")) { %>
@@ -35,6 +44,12 @@
                             <p><b>Register</b></p>
                         <% } %>
                     </td>
+
+                    <% if (newDB) { %>
+                    <td>
+                        <p>Created a new DB</p>
+                    </td>
+                    <% } %>
                 <% } else { %>
                     <td><a title="Logout" href="logout.jsp">Logout</a></td>
                 <% } %>

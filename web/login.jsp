@@ -9,7 +9,8 @@
     <body>
         <jsp:include page="PageComponents/JSPHeader.jsp"/>
         <form action="homePage.jsp" method="POST">
-                <input type="hidden" name="login" value="true">
+            <input type="hidden" name="login" value="true">
+            
             <table class="align-center form-table">
                 <tr><td><label for="username"><b>Username:</b></label></td></tr>
                 <tr><td><input type="text" name="username" placeholder="Enter username" required></td></tr>

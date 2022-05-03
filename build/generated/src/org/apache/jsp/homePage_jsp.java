@@ -3,7 +3,7 @@ package org.apache.jsp;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
-import uts.isd.model.Customer;
+import uts.isd.model.*;
 
 public final class homePage_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent {
@@ -55,8 +55,13 @@ public final class homePage_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("    ");
 
-        Customer customer = (Customer)session.getAttribute("customer");
-        if (customer == null && request.getParameter("register") != null) {
+        boolean isRegistered = request.getParameter("register") != null;
+        boolean isLoggedIn = request.getParameter("login") != null;
+
+        CustomerDatabase cdb = (CustomerDatabase)session.getAttribute("Customer Database");
+
+        Customer customer;
+        if (isRegistered) {
             customer = new Customer(
                 request.getParameter("firstname"),
                 request.getParameter("lastname"),
@@ -65,6 +70,11 @@ public final class homePage_jsp extends org.apache.jasper.runtime.HttpJspBase
                 request.getParameter("password")
             );
             session.setAttribute("customer", customer);
+            cdb.AddCustomer(customer);
+        } else if (isLoggedIn) {
+            customer = cdb.GetCustomer(request.getParameter("username"), request.getParameter("password"));
+        } else {
+            customer = (Customer)session.getAttribute("customer");
         }
     
       out.write("\n");
@@ -72,7 +82,6 @@ public final class homePage_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("    <body>\n");
       out.write("        ");
       org.apache.jasper.runtime.JspRuntimeLibrary.include(request, response, "PageComponents/JSPHeader.jsp", out, false);
-      out.write("\n");
       out.write("\n");
       out.write("        ");
  if (customer != null) { 
@@ -89,7 +98,7 @@ public final class homePage_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("\n");
       out.write("        ");
- if (request.getParameter("register") != null) { 
+ if (isRegistered) { 
       out.write("\n");
       out.write("            <p>Hello newly registered customer!</p>\n");
       out.write("        ");
@@ -97,7 +106,7 @@ public final class homePage_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("\n");
       out.write("        ");
- if (request.getParameter("login") != null) { 
+ if (isLoggedIn) { 
       out.write("\n");
       out.write("            <p>Welcome back registered customer!</p>\n");
       out.write("        ");

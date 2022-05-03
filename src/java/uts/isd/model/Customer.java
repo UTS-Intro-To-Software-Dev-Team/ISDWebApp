@@ -18,4 +18,8 @@ public class Customer {
     public String getUsername() {
         return username;
     }
+
+    public boolean ComparePassword(String password) {
+        return this.password.equals(password);
+    }
 }

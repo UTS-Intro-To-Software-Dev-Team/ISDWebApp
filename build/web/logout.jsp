@@ -12,7 +12,7 @@
         <div class="align-center spaced-letters">
             <h1>YOU HAVE BEEN LOGGED OUT</h1>
             <a href="login.jsp"><button type="submit"><b>Return to Login</b></button></a>
-            <% session.invalidate(); %>
+            <% session.removeAttribute("Customer"); %>
         </div>
     </body>
 </html>

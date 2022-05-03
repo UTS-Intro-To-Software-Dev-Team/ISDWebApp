@@ -1,3 +1,4 @@
+<%@page import="uts.isd.model.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -6,12 +7,23 @@
         <title>Register Page</title>
     </head>
 
+    <script>
+        function validate() {
+            var cdb = session.getAttribute("Customer Database");
+            var username = document.forms["registerForm"]["username"].value;
+            if (cdb.CheckCustomer(username)) {
+                alert("Either the username already exists or it is empty!");
+                return false;
+            }
+        }
+    </script>
+
     <body>
         <jsp:include page="PageComponents/JSPHeader.jsp"/>
 
         <h1 class="align-center spaced-letters blue">CREATE ACCOUNT</h1>
 
-        <form action="homePage.jsp" method="POST">
+        <form name="registerForm" action="homePage.jsp" method="POST">
             <input type="hidden" name="register" value="true">
 
             <table class="align-center form-table">
