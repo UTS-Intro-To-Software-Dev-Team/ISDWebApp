@@ -3,9 +3,8 @@ package org.apache.jsp;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
-import uts.isd.model.Customer;
 
-public final class homePage_jsp extends org.apache.jasper.runtime.HttpJspBase
+public final class login_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent {
 
   private static final JspFactory _jspxFactory = JspFactory.getDefaultFactory();
@@ -43,66 +42,31 @@ public final class homePage_jsp extends org.apache.jasper.runtime.HttpJspBase
       _jspx_resourceInjector = (org.glassfish.jsp.api.ResourceInjector) application.getAttribute("com.sun.appserv.jsp.resource.injector");
 
       out.write("\r\n");
-      out.write("\r\n");
       out.write("<!DOCTYPE html>\r\n");
       out.write("<html>\r\n");
       out.write("    <head>\r\n");
       out.write("        ");
       org.apache.jasper.runtime.JspRuntimeLibrary.include(request, response, "PageComponents/CommonMeta.jsp", out, false);
       out.write("\r\n");
-      out.write("        <title>Home Page</title>\r\n");
+      out.write("        <title>Login Page</title>\r\n");
       out.write("    </head>\r\n");
-      out.write("\r\n");
-      out.write("    ");
-
-        Customer customer = (Customer)session.getAttribute("customer");
-        if (customer == null && request.getParameter("register") != null) {
-            customer = new Customer(
-                request.getParameter("firstname"),
-                request.getParameter("lastname"),
-                request.getParameter("email"),
-                request.getParameter("username"),
-                request.getParameter("password")
-            );
-            session.setAttribute("customer", customer);
-        }
-    
-      out.write("\r\n");
       out.write("\r\n");
       out.write("    <body>\r\n");
       out.write("        ");
       org.apache.jasper.runtime.JspRuntimeLibrary.include(request, response, "PageComponents/JSPHeader.jsp", out, false);
       out.write("\r\n");
+      out.write("        <form action=\"homePage.jsp\" method=\"POST\">\r\n");
+      out.write("                <input type=\"hidden\" name=\"login\" value=\"true\">\r\n");
+      out.write("            <table class=\"align-center form-table\">\r\n");
+      out.write("                <tr><td><label for=\"username\"><b>Username:</b></label></td></tr>\r\n");
+      out.write("                <tr><td><input type=\"text\" name=\"username\" placeholder=\"Enter username\" required></td></tr>\r\n");
       out.write("\r\n");
-      out.write("        ");
- if (customer != null) { 
+      out.write("                <tr><td><label for=\"password\"><b>Password:</b></label></td></tr>\r\n");
+      out.write("                <tr><td><input type=\"password\" name=\"password\" placeholder=\"Enter password\" required></td></tr>\r\n");
       out.write("\r\n");
-      out.write("            <h1>Welcome ");
-      out.print( customer.getUsername() );
-      out.write("!</h1>\r\n");
-      out.write("        ");
- } else { 
-      out.write("\r\n");
-      out.write("            <h1>Welcome!</h1>\r\n");
-      out.write("        ");
- } 
-      out.write("\r\n");
-      out.write("\r\n");
-      out.write("        ");
- if (request.getParameter("register") != null) { 
-      out.write("\r\n");
-      out.write("            <p>Hello newly registered customer!</p>\r\n");
-      out.write("        ");
- } 
-      out.write("\r\n");
-      out.write("\r\n");
-      out.write("        ");
- if (request.getParameter("login") != null) { 
-      out.write("\r\n");
-      out.write("            <p>Welcome back registered customer!</p>\r\n");
-      out.write("        ");
- } 
-      out.write("\r\n");
+      out.write("                <tr><td><button type=\"submit\" value=\"login\"><b>Login</b></button></td></tr>\r\n");
+      out.write("            </table>\r\n");
+      out.write("        </form>\r\n");
       out.write("    </body>\r\n");
       out.write("</html>\r\n");
     } catch (Throwable t) {
