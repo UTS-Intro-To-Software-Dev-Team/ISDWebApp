@@ -7,43 +7,83 @@
         <title>Register Page</title>
     </head>
 
-    <script>
-        function validate() {
-            var cdb = session.getAttribute("Customer Database");
-            var username = document.forms["registerForm"]["username"].value;
-            if (cdb.CheckCustomer(username)) {
-                alert("Either the username already exists or it is empty!");
-                return false;
-            }
-        }
-    </script>
+    <jsp:include page="PageComponents/JSPHeader.jsp"/>
 
     <body>
-        <jsp:include page="PageComponents/JSPHeader.jsp"/>
-
+        <%
+            String emailErr = (String) session.getAttribute("emailErr");
+            String passErr = (String) session.getAttribute("passErr");
+            String existErr = (String) session.getAttribute("existErr");
+            String firstNameErr = (String) session.getAttribute("firstNameErr");
+            String lastNameErr = (String) session.getAttribute("lastNameErr");
+            String dateErr = (String) session.getAttribute("dateErr");
+            String postcodeErr = (String) session.getAttribute("postcodeErr");
+        %>
         <h1 class="align-center spaced-letters blue">CREATE ACCOUNT</h1>
-
-        <form name="registerForm" action="homePage.jsp" method="POST">
-            <input type="hidden" name="register" value="true">
-
+        <form action="RegisterServlet" method="POST">
             <table class="align-center form-table">
-                <tr><td><label for="firstname"><b>First Name:</b></label></td></tr>
-                <tr><td><input type="text" name="firstname" placeholder="Enter first name" required></td></tr>
+                <% if (existErr != null) { %>
+                    <tr><td><b><%= existErr %></b></td></tr>
+                <% } %>
 
-                <tr><td><label for="lastname"><b>Last Name:</b></label></td></tr>
-                <tr><td><input type="text" name="lastname" placeholder="Enter last name" required></td></tr>
+                <tr><td><label for="firstName"><b>First Name:</b></label></td></tr>
+                <tr><td><input type="text" name="firstName" placeholder="Enter first name" required pattern="[A-Z][a-z]*" title="First character must be a letter and capitalised."></td></tr>
+                <% if (firstNameErr != null) { %>
+                    <tr><td><b><%= firstNameErr %></b></td></tr>
+                <% } %>
+
+                <tr><td><label for="lastName"><b>Last Name:</b></label></td></tr>
+                <tr><td><input type="text" name="lastName" placeholder="Enter last name" required pattern="[A-Z][a-z]*" title="First character must be a letter and capitalised."></td></tr>
+                <% if (lastNameErr != null) { %>
+                    <tr><td><b><%= lastNameErr %></b></td></tr>
+                <% } %>
 
                 <tr><td><label for="email"><b>Email:</b></label></td></tr>
                 <tr><td><input type="email" name="email" placeholder="Enter email" required></td></tr>
-
-                <tr><td><label for="username"><b>Username:</b></label></td></tr>
-                <tr><td><input type="text" name="username" placeholder="Enter username" required></td></tr>
+                <% if (emailErr != null) { %>
+                    <tr><td><b><%= emailErr %></b></td></tr>
+                <% } %>
 
                 <tr><td><label for="password"><b>Password:</b></label></td></tr>
-                <tr><td><input type="password" name="password" placeholder="Enter password" required></td></tr>
+                <tr><td><input type="password" name="password" placeholder="Enter password" required minlength="8"></td></tr>
+                <% if (passErr != null) { %>
+                    <tr><td><b><%= passErr %></b></td></tr>
+                <% } %>
+
+                <tr><td><label for="dob"><b>Date Of Birth:</b></label></td></tr>
+                <tr><td><input type="date" name="dob" required></td></tr>
+                <% if (dateErr != null) { %>
+                    <tr><td><b><%= dateErr %></b></td></tr>
+                <% } %>
+
+                <tr><td><label for="street"><b>Street:</b></label></td></tr>
+                <tr><td><input type="text" name="street" required></td></tr>
+
+                <tr><td><label for="city"><b>City:</b></label></td></tr>
+                <tr><td><input type="text" name="city" required></td></tr>
+
+                <tr><td><label for="state"><b>State:</b></label></td></tr>
+                <tr><td>
+                    <select name="state" required selected>
+                        <option value="NSW">New South Wales</option>
+                        <option value="QLD">Queensland</option>
+                        <option value="SA">South Australia</option>
+                        <option value="TAS">Tasmania</option>
+                        <option value="VIC">Victoria</option>
+                        <option value="WA">Western Australia</option>
+                    </select>
+                </td></tr>
+
+                <tr><td><label for="postcode"><b>Postcode:</b></label></td></tr>
+                <tr><td><input type="text" name="postcode" style="width: 5%; text-align: center;" required minlength="4" maxlength="4"></td></tr>
+                <% if (postcodeErr != null) { %>
+                    <tr><td><b><%= postcodeErr %></b></td></tr>
+                <% } %>
 
                 <tr><td><button type="submit" value="Register"><b>Register</b></button></td></tr>
             </table>
         </form>
     </body>
+
+    <jsp:include page="PageComponents/JSPFooter.jsp"/>
 </html>

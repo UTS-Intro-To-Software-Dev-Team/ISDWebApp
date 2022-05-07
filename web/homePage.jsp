@@ -7,44 +7,25 @@
         <title>Home Page</title>
     </head>
 
-    <%
-        boolean isRegistered = request.getParameter("register") != null;
-        boolean isLoggedIn = request.getParameter("login") != null;
-
-        CustomerDatabase cdb = (CustomerDatabase)session.getAttribute("Customer Database");
-
-        Customer customer;
-        if (isRegistered) {
-            customer = new Customer(
-                request.getParameter("firstname"),
-                request.getParameter("lastname"),
-                request.getParameter("email"),
-                request.getParameter("username"),
-                request.getParameter("password")
-            );
-            session.setAttribute("customer", customer);
-            cdb.AddCustomer(customer);
-        } else if (isLoggedIn) {
-            customer = cdb.GetCustomer(request.getParameter("username"), request.getParameter("password"));
-        } else {
-            customer = (Customer)session.getAttribute("customer");
-        }
-    %>
+    <jsp:include page="PageComponents/JSPHeader.jsp"/>
 
     <body>
-        <jsp:include page="PageComponents/JSPHeader.jsp"/>
+        <%
+            Customer customer = (Customer)session.getAttribute("customer");
+        %>
+        <h1>Welcome!</h1>
         <% if (customer != null) { %>
-            <h1>Welcome <%= customer.getUsername() %>!</h1>
-        <% } else { %>
-            <h1>Welcome!</h1>
-        <% } %>
-
-        <% if (isRegistered) { %>
-            <p>Hello newly registered customer!</p>
-        <% } %>
-
-        <% if (isLoggedIn) { %>
-            <p>Welcome back registered customer!</p>
+            <p>Email: <%= customer.getEmail() %></p>
+            <p>Password: <%= customer.getPassword() %></p>
+            <p>First name: <%= customer.getFirstName() %></p>
+            <p>Last name: <%= customer.getLastName() %></p>
+            <p>DOB: <%= customer.getDob() %></p>
+            <p>Street: <%= customer.getStreet() %></p>
+            <p>City: <%= customer.getCity() %></p>
+            <p>State: <%= customer.getState() %></p>
+            <p>Postcode: <%= customer.getPostcode() %></p>
         <% } %>
     </body>
+
+    <jsp:include page="PageComponents/JSPFooter.jsp"/>
 </html>
