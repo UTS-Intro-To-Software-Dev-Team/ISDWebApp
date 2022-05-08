@@ -64,7 +64,7 @@ public class RegisterServlet extends HttpServlet {
         String message = "Email format is incorrect. An example: JohnSmith@Mail.com";
         hasFailed = dataCheck(hasFailed, validator.validateEmail(email), "emailErr", message);
 
-        message = "Password must contain:\n\t1. At least one digit [0-9].\n\t2. at least one lowercase Latin character [a-z].\n\t3. at least one uppercase Latin character [A-Z].\n\t4. at least one special character like ! @ # & ( ).\n\t5. a length of at least 8 characters.";
+        message = "Password must contain:<br>1. At least one digit [0-9].<br>2. at least one lowercase Latin character [a-z].<br>3. at least one uppercase Latin character [A-Z].<br>4. at least one special character like ! @ # & ( ).<br>5. a length of at least 8 characters.";
         hasFailed = dataCheck(hasFailed, validator.validatePassword(password), "passErr", message);
 
         message = "This should only contain letters and start with a capitalised letter.";

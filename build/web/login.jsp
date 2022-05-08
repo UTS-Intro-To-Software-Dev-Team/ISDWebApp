@@ -12,6 +12,8 @@
         <%
             String emailErr = (String) session.getAttribute("emailErr");
             String passErr = (String) session.getAttribute("passErr");
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
         %>
 
         <form action="LoginServlet" method="POST">
@@ -19,13 +21,13 @@
 
             <table class="align-center form-table">
                 <tr><td><label for="email"><b>Email:</b></label></td></tr>
-                <tr><td><input type="text" name="email" placeholder="Enter username" required></td></tr>
+                <tr><td><input type="email" name="email" placeholder="Enter username" required value="<%= email != null ? email : "" %>"></td></tr>
                 <% if (emailErr != null) { %>
                     <tr><td><b><%= emailErr %></b></td></tr>
                 <% } %>
 
                 <tr><td><label for="password"><b>Password:</b></label></td></tr>
-                <tr><td><input type="password" name="password" placeholder="Enter password" required minlength="8"></td></tr>
+                <tr><td><input type="password" name="password" placeholder="Enter password" required minlength="8" value="<%= password != null ? password : "" %>"></td></tr>
                 <% if (passErr != null) { %>
                     <tr><td><b><%= passErr %></b></td></tr>
                 <% } %>

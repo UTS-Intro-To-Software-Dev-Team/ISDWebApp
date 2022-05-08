@@ -1,3 +1,4 @@
-<div>
-    <jsp:include page="/ConnServlet" flush="true" />
-</div>
+<%@page import="uts.isd.controller.*" %>
+<%
+    Validator validator = new Validator(session);
+%>

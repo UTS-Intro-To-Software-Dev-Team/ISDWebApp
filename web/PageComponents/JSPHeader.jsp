@@ -4,7 +4,7 @@
 </head>
 
 <div id="header">
-
+    <jsp:include page="/ConnServlet" flush="true" />
     <%
         String uri = request.getRequestURI();
         String pageName = uri.substring(uri.lastIndexOf("/") + 1);

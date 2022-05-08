@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
                 redirect = "homePage";
             } else {
                 session.setAttribute("emailErr", validator.validateEmail(email) ? null : "Email does not exist.");
-                session.setAttribute("passwordErr", validator.validatePassword(password) ? null : "Password is incorrect.");
+                session.setAttribute("passErr", validator.validatePassword(password) ? null : "Password is incorrect.");
             }
         } catch (SQLException ex) {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
