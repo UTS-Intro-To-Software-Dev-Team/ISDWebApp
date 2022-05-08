@@ -30,7 +30,7 @@
             String postcode = request.getParameter("postcode");
         %>
         <h1 class="align-center spaced-letters blue">CREATE ACCOUNT</h1>
-        <form action="RegisterServlet" method="POST">
+        <form action="DBServlet" method="POST">
             <table class="align-center form-table">
                 <% if (existErr != null) { %>
                     <tr><td><b><%= existErr %></b></td></tr>
@@ -90,7 +90,7 @@
                     <tr><td><b><%= postcodeErr %></b></td></tr>
                 <% } %>
 
-                <tr><td><button type="submit" value="Register"><b>Register</b></button></td></tr>
+                <tr><td><button type="submit"><b>Register</b></button></td></tr>
             </table>
         </form>
     </body>

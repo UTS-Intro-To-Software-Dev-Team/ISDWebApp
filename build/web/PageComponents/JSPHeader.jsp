@@ -8,6 +8,7 @@
     <%
         String uri = request.getRequestURI();
         String pageName = uri.substring(uri.lastIndexOf("/") + 1);
+        session.setAttribute("pageName", pageName);
     %>
     <div>
         <% if (!pageName.equals("homePage.jsp")) { %>

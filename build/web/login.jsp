@@ -16,7 +16,7 @@
             String password = request.getParameter("password");
         %>
 
-        <form action="LoginServlet" method="POST">
+        <form action="DBServlet" method="POST">
             <input type="hidden" name="login" value="true">
 
             <table class="align-center form-table">
@@ -32,7 +32,7 @@
                     <tr><td><b><%= passErr %></b></td></tr>
                 <% } %>
 
-                <tr><td><button type="submit" value="login"><b>Login</b></button></td></tr>
+                <tr><td><button type="submit"><b>Login</b></button></td></tr>
             </table>
         </form>
     </body>

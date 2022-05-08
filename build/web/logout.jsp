@@ -15,6 +15,4 @@
             <% session.invalidate(); %>
         </div>
     </body>
-
-    <jsp:include page="PageComponents/JSPFooter.jsp"/>
 </html>
