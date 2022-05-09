@@ -90,7 +90,7 @@
                     <tr><td><b><%= postcodeErr %></b></td></tr>
                 <% } %>
 
-                <tr><td><button type="submit"><b>Register</b></button></td></tr>
+                <tr><td><button type="submit"><b>Register Now</b></button></td></tr>
             </table>
         </form>
     </body>
