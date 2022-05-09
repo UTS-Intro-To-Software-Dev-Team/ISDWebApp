@@ -118,4 +118,24 @@ public class DBServlet extends HttpServlet {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    private void EditServlet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException
+    {
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        Customer customer = null;
+        try {
+            customer = manager.findCustomer(email, password);
+            if (customer != null) {
+                session.setAttribute("customer", customer);
+                request.getRequestDispatcher("edit.jsp").include(request, response);
+            } else {
+                session.setAttribute("existErr", "Customer does not exist in the Database!");
+                request.getRequestDispatcher("edit.jsp").include(request, response);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

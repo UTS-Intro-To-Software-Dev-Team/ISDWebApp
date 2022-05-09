@@ -29,7 +29,7 @@
                             <p><b>Login</b></p>
                         <% } %>
                     </td>
-
+                    
                     <td>
                         <% if (!pageName.equals("register.jsp")) { %>
                             <a title="Register" href="register.jsp">Register</a>
