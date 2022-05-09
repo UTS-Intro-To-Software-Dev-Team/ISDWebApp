@@ -1,12 +1,14 @@
+<%@page import="uts.isd.model.*" %>
 <head>
     <link rel="stylesheet" href="CSS/Header.css">
 </head>
 
 <div id="header">
-
+    <jsp:include page="/ConnServlet" flush="true" />
     <%
         String uri = request.getRequestURI();
-        String pageName = uri.substring(uri.lastIndexOf("/")+1);
+        String pageName = uri.substring(uri.lastIndexOf("/") + 1);
+        session.setAttribute("pageName", pageName);
     %>
     <div>
         <% if (!pageName.equals("homePage.jsp")) { %>

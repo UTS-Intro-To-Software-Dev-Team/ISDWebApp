@@ -51,23 +51,61 @@ public final class login_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        <title>Login Page</title>\r\n");
       out.write("    </head>\r\n");
       out.write("\r\n");
-      out.write("    <body>\r\n");
-      out.write("        ");
+      out.write("    ");
       org.apache.jasper.runtime.JspRuntimeLibrary.include(request, response, "PageComponents/JSPHeader.jsp", out, false);
       out.write("\r\n");
-      out.write("        <form action=\"homePage.jsp\" method=\"POST\">\r\n");
-      out.write("                <input type=\"hidden\" name=\"login\" value=\"true\">\r\n");
+      out.write("\r\n");
+      out.write("    <body>\r\n");
+      out.write("        ");
+
+            String emailErr = (String) session.getAttribute("emailErr");
+            String passErr = (String) session.getAttribute("passErr");
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
+        
+      out.write("\r\n");
+      out.write("\r\n");
+      out.write("        <form action=\"DBServlet\" method=\"POST\">\r\n");
+      out.write("            <input type=\"hidden\" name=\"login\" value=\"true\">\r\n");
+      out.write("\r\n");
       out.write("            <table class=\"align-center form-table\">\r\n");
-      out.write("                <tr><td><label for=\"username\"><b>Username:</b></label></td></tr>\r\n");
-      out.write("                <tr><td><input type=\"text\" name=\"username\" placeholder=\"Enter username\" required></td></tr>\r\n");
+      out.write("                <tr><td><label for=\"email\"><b>Email:</b></label></td></tr>\r\n");
+      out.write("                <tr><td><input type=\"email\" name=\"email\" placeholder=\"Enter username\" required value=\"");
+      out.print( email != null ? email : "" );
+      out.write("\"></td></tr>\r\n");
+      out.write("                ");
+ if (emailErr != null) { 
+      out.write("\r\n");
+      out.write("                    <tr><td><b>");
+      out.print( emailErr );
+      out.write("</b></td></tr>\r\n");
+      out.write("                ");
+ } 
+      out.write("\r\n");
       out.write("\r\n");
       out.write("                <tr><td><label for=\"password\"><b>Password:</b></label></td></tr>\r\n");
-      out.write("                <tr><td><input type=\"password\" name=\"password\" placeholder=\"Enter password\" required></td></tr>\r\n");
+      out.write("                <tr><td><input type=\"password\" name=\"password\" placeholder=\"Enter password\" required minlength=\"8\" value=\"");
+      out.print( password != null ? password : "" );
+      out.write("\"></td></tr>\r\n");
+      out.write("                ");
+ if (passErr != null) { 
       out.write("\r\n");
-      out.write("                <tr><td><button type=\"submit\" value=\"login\"><b>Login</b></button></td></tr>\r\n");
+      out.write("                    <tr><td><b>");
+      out.print( passErr );
+      out.write("</b></td></tr>\r\n");
+      out.write("                ");
+ } 
+      out.write("\r\n");
+      out.write("\r\n");
+      out.write("                <tr><td><button type=\"submit\"><b>Login</b></button></td></tr>\r\n");
       out.write("            </table>\r\n");
       out.write("        </form>\r\n");
       out.write("    </body>\r\n");
+      out.write("\r\n");
+      out.write("    ");
+      org.apache.jasper.runtime.JspRuntimeLibrary.include(request, response, "PageComponents/JSPFooter.jsp", out, false);
+      out.write("\r\n");
+      out.write("\r\n");
       out.write("</html>\r\n");
     } catch (Throwable t) {
       if (!(t instanceof SkipPageException)){
