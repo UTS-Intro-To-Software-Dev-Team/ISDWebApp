@@ -32,7 +32,8 @@ public class DBServlet extends HttpServlet {
             default -> System.out.println("Unknown page: " + session.getAttribute("pageName"));
         }
         
-        request.getRequestDispatcher(redirect + ".jsp").include(request, response);
+        //request.getRequestDispatcher(redirect + ".jsp").include(request, response);
+        response.sendRedirect(request.getContextPath() + "/" + redirect + ".jsp");
     }
 
     private void RegisterServlet(HttpServletRequest request, HttpServletResponse response)
