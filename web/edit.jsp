@@ -18,7 +18,8 @@
             Customer customer = (Customer)session.getAttribute("Customer");
             String updated = (String)session.getAttribute("Updated");
         %>
-        <h1 class="align-center">Edit User Details <span><%= (updated !=null) ? "Update was successful":""%></span></h1>
+        
+        <h1 class="align-center">Edit User Details <span><%= (updated !=null ? updated : "")%></span></h1>
         <form class="align-center" action="DBServlet" method="POST">
 
             <label for="email">Email:</label>
@@ -47,7 +48,7 @@
             
             <label for="dob">Date of Birth:</label>
             <br>
-            <input type="text" name="dob" value="${customer.dob}">
+            <input type="date" name="dob" value="${customer.dob}">
             <br>
             <br>
             
@@ -75,9 +76,8 @@
             <br>
             <br>
             
-            <button> <a href="homePage.jsp"> Cancel </a> </button>
             <input type="submit" value="Update">
-            <input type="hidden" name="updated" value="updated">
+            
             
         </form>
             <%

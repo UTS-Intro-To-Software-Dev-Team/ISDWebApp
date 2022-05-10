@@ -37,7 +37,9 @@
                             <p><b>Register</b></p>
                         <% } %>
                     </td>
+                    
                 <% } else { %>
+                    <td><a title="Edit" href="edit.jsp">Edit</a></td>
                     <td><a title="Logout" href="logout.jsp">Logout</a></td>
                 <% } %>
             </tr>
