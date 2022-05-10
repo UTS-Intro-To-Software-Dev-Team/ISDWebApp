@@ -19,7 +19,7 @@
             String updated = (String)session.getAttribute("Updated");
         %>
         
-        <h1 class="align-center">Edit User Details <span><%= (updated !=null ? updated : "")%></span></h1>
+        <h1 class="align-center">Edit User Details <span><%= (updated != null ? "Update was successful" : "")%></span></h1>
         <form class="align-center" action="DBServlet" method="POST">
 
             <label for="email">Email:</label>
@@ -90,7 +90,6 @@
                 String city = request.getParameter("city");
                 String state = request.getParameter("state");
                 String postcode = request.getParameter("postcode");
-                
                 
                 customer = new Customer(email, password, firstName, lastName,  dob, street, city, state, postcode);
                 session.setAttribute("customer", customer);

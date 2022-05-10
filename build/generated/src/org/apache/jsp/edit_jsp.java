@@ -63,10 +63,8 @@ public final class edit_jsp extends org.apache.jasper.runtime.HttpJspBase
         
       out.write("\r\n");
       out.write("        \r\n");
-      out.write("        \r\n");
-      out.write("        \r\n");
       out.write("        <h1 class=\"align-center\">Edit User Details <span>");
-      out.print( (updated !=null ? updated : ""));
+      out.print( (updated != null ? "Update was successful" : ""));
       out.write("</span></h1>\r\n");
       out.write("        <form class=\"align-center\" action=\"DBServlet\" method=\"POST\">\r\n");
       out.write("\r\n");
