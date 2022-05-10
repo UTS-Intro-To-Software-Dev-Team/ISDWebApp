@@ -1,6 +1,7 @@
 package uts.isd.model.dao;
 
 import uts.isd.model.Customer;
+import uts.isd.model.Shipment;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -13,6 +14,18 @@ public class DBManager {
 
     public DBManager(Connection conn) throws SQLException {
         st = conn.createStatement();
+    }
+
+    public Shipment findMethod()
+        throws SQLException
+    {
+        String fetch = "select * from Shipment";
+        ResultSet rs = st.executeQuery(fetch);
+        while (rs.next()){
+            String method = rs.getString(columnIndex:1);
+        }
+
+        return new Shipment(method);
     }
 
     public Customer findCustomer(String email, String password)

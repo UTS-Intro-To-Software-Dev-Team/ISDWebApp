@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import uts.isd.model.Customer;
+import uts.isd.model.Shipment;
 import uts.isd.model.dao.DBManager;
 
 public class DBServlet extends HttpServlet {
@@ -29,6 +30,7 @@ public class DBServlet extends HttpServlet {
         switch((String)session.getAttribute("pageName")) {
             case "register.jsp" -> RegisterServlet(request, response);
             case "login.jsp" -> LoginServlet(request, response);
+            case "shipmentPage.jsp" -> ShipmentServlet(request, response);
             default -> System.out.println("Unknown page: " + session.getAttribute("pageName"));
         }
         
@@ -94,6 +96,18 @@ public class DBServlet extends HttpServlet {
     private boolean dataCheck(boolean hasFailed, boolean valid, String attribute, String message) {
         session.setAttribute(attribute, valid ? null : message);
         return hasFailed || !valid;
+    }
+    private void ShipmentServlet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException
+    {
+        String method = request.getParameter("method");
+
+        try{
+            Shipment shipment = manager.findMethod();
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void LoginServlet(HttpServletRequest request, HttpServletResponse response)
