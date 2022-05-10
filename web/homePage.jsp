@@ -1,4 +1,4 @@
-<%@page import="uts.isd.model.Customer" %>
+<%@page import="uts.isd.model.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -7,35 +7,25 @@
         <title>Home Page</title>
     </head>
 
-    <%
-        Customer customer = (Customer)session.getAttribute("customer");
-        if (customer == null && request.getParameter("register") != null) {
-            customer = new Customer(
-                request.getParameter("firstname"),
-                request.getParameter("lastname"),
-                request.getParameter("email"),
-                request.getParameter("username"),
-                request.getParameter("password")
-            );
-            session.setAttribute("customer", customer);
-        }
-    %>
+    <jsp:include page="PageComponents/JSPHeader.jsp"/>
 
     <body>
-        <jsp:include page="PageComponents/JSPHeader.jsp"/>
-
+        <%
+            Customer customer = (Customer)session.getAttribute("customer");
+        %>
+        <h1>Welcome!</h1>
         <% if (customer != null) { %>
-            <h1>Welcome <%= customer.getUsername() %>!</h1>
-        <% } else { %>
-            <h1>Welcome!</h1>
-        <% } %>
-
-        <% if (request.getParameter("register") != null) { %>
-            <p>Hello newly registered customer!</p>
-        <% } %>
-
-        <% if (request.getParameter("login") != null) { %>
-            <p>Welcome back registered customer!</p>
+            <p>Email: <%= customer.getEmail() %></p>
+            <p>Password: <%= customer.getPassword() %></p>
+            <p>First name: <%= customer.getFirstName() %></p>
+            <p>Last name: <%= customer.getLastName() %></p>
+            <p>DOB: <%= customer.getDob() %></p>
+            <p>Street: <%= customer.getStreet() %></p>
+            <p>City: <%= customer.getCity() %></p>
+            <p>State: <%= customer.getState() %></p>
+            <p>Postcode: <%= customer.getPostcode() %></p>
         <% } %>
     </body>
+
+    <jsp:include page="PageComponents/JSPFooter.jsp"/>
 </html>
