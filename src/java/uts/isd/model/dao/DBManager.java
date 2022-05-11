@@ -22,10 +22,10 @@ public class DBManager {
         String fetch = "select * from Shipment";
         ResultSet rs = st.executeQuery(fetch);
         while (rs.next()){
-            String method = rs.getString(columnIndex:1);
+            String method = rs.getString(1);
+            return new Shipment(method);
         }
-
-        return new Shipment(method);
+        return null;
     }
 
     public Customer findCustomer(String email, String password)

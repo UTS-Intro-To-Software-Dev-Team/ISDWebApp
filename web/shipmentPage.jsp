@@ -12,10 +12,12 @@
     <body>
         <%
             Customer customer = (Customer)session.getAttribute("customer");
+            Shipment method = (Shipment)session.getAttribute("method");
         %>
         <h1>Shipment Methods</h1>
         <% if (customer != null) { %>
             <%-- add logic to get the methods list --%>
+            <p><%= method.findMethod() %>/p>
         <% } %>
     </body>
 
