@@ -44,27 +44,25 @@
             <table>
                 <thead>
                     <tr>
-                        <th><b>Payment Id</b></th>
+                        <th><b>Payment ID</b></th>
                         <th><b>Date Paid</b></th>
-                        <th><b>Payment Method</b></th>
                         <th><b>Card Number</b></th>
                         <th><b>CVV</b></th>
-                        <th><b>Name On Card</b></th>
+                        <th><b>Full Name</b></th>
                         <th><b>Expiry Date</b></th>
                     </tr>
                 </thead>
-                <%--
+               
                 <tbody> 
                     <tr>
-                        <td><p><%=searchPayment.getDatePaid()%></p></td>
-                        <td><p><%=searchPayment.getPaymentMethod()%></p></td>
+                        <td><p><%=searchPayment.getPaymentDate()%></p></td>
                         <td><p><%=searchPayment.getCardNumber()%></p></td>
                         <td><p><%=searchPayment.getCvv()%></p></td>
-                        <td><p><%=searchPayment.getNameOnCard()%></p></td>
+                        <td><p><%=searchPayment.getFullName()%></p></td>
                         <td><p><%=searchPayment.getExpiryDate()%></p></td>
                     </tr> 
                 </tbody>
-                --%>
+               
                 
             </table> 
                 
