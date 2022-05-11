@@ -80,7 +80,6 @@
             
             <input type="submit" value="Update">
             
-            
         </form>
             <%
                 String email = request.getParameter("email");

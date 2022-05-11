@@ -38,6 +38,14 @@
                         <% } %>
                     </td>
                     
+                    <td>
+                        <% if (!pageName.equals("edit.jsp")) { %>
+                            <a title="Main" href="homePage.jsp">Main</a>
+                        <% } else { %>
+                            <p><b>Main</b></p>
+                        <% } %>
+                    </td>
+                    
                 <% } else { %>
                     <td><a title="Edit" href="edit.jsp">Edit</a></td>
                     <td><a title="Logout" href="logout.jsp">Logout</a></td>
