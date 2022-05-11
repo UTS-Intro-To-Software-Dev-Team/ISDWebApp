@@ -133,17 +133,9 @@ public class DBServlet extends HttpServlet {
         String state = request.getParameter("state");
         String postcode = request.getParameter("postcode");
         
-        Customer customer = null;
-        redirect = "edit";
         try {
-            customer = manager.findCustomer(email, password);
-            if (customer != null) {
-                manager.updateCustomerDetails(email, password, firstName, lastName, dob, street, city, state, postcode);
-                customer = manager.findCustomer(email, password);
-                session.setAttribute("customer", customer);
-            } else {
-                session.setAttribute("existErr", "Customer does not exist in the Database!");
-            }
+            manager.updateCustomerDetails(email, password, firstName, lastName, dob, street, city, state, postcode);
+            session.setAttribute("customer", manager.findCustomer(email, password));
         } catch (SQLException ex) {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -29,6 +29,7 @@
             String state = request.getParameter("state");
             String postcode = request.getParameter("postcode");
         %>
+        
         <h1 class="align-center spaced-letters blue">CREATE ACCOUNT</h1>
         <form action="DBServlet" method="POST">
             <table class="align-center form-table">
