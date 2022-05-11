@@ -96,7 +96,11 @@ public class DBManager {
             String postcode = rs.getString(9);
             temp.add(new Customer(email, password, firstName, lastName, dob, street, city, state, postcode));
         }
-
+        
+        for (Customer cus : temp) {
+            System.out.println(cus.getFirstName());
+        }
+        
         return temp;
     }
 
