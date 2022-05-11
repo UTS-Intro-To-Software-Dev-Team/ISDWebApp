@@ -11,8 +11,10 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <jsp:include page="PageComponents/CommonMeta.jsp"/>
+        
         <title>Edit Page</title>
     </head>
+    <jsp:include page="PageComponents/JSPHeader.jsp"/>
     <body>
         <%
             Customer customer = (Customer)session.getAttribute("Customer");
@@ -24,7 +26,7 @@
 
             <label for="email">Email:</label>
             <br>
-            <input type="text" name="email" value="${customer.email}">
+            <input type="email" name="email" value="${customer.email}">
             <br>
             <br>
             
@@ -36,13 +38,13 @@
             
             <label for="firstName">First Name:</label>
             <br>
-            <input type="text" name="First Name" value="${customer.firstName}">
+            <input type="text" name="firstName" value="${customer.firstName}">
             <br>
             <br>
             
             <label  for="lastName">Last Name:</label>
             <br>
-            <input type="text" name="Last Name" value="${customer.lastName}">
+            <input type="text" name="lastName" value="${customer.lastName}">
             <br>
             <br>
             

@@ -29,6 +29,7 @@ public class DBServlet extends HttpServlet {
         switch((String)session.getAttribute("pageName")) {
             case "register.jsp" -> RegisterServlet(request, response);
             case "login.jsp" -> LoginServlet(request, response);
+            case "edit.jsp" -> EditServlet(request, response);
             default -> System.out.println("Unknown page: " + session.getAttribute("pageName"));
         }
         
@@ -124,15 +125,24 @@ public class DBServlet extends HttpServlet {
     {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String dob = request.getParameter("dob");
+        String street = request.getParameter("street");
+        String city = request.getParameter("city");
+        String state = request.getParameter("state");
+        String postcode = request.getParameter("postcode");
+        
         Customer customer = null;
+        redirect = "edit";
         try {
             customer = manager.findCustomer(email, password);
             if (customer != null) {
+                manager.updateCustomerDetails(email, password, firstName, lastName, dob, street, city, state, postcode);
+                customer = manager.findCustomer(email, password);
                 session.setAttribute("customer", customer);
-                request.getRequestDispatcher("edit.jsp").include(request, response);
             } else {
                 session.setAttribute("existErr", "Customer does not exist in the Database!");
-                request.getRequestDispatcher("edit.jsp").include(request, response);
             }
         } catch (SQLException ex) {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);

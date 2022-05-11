@@ -71,7 +71,7 @@ public class DBManager {
         command = appendParamterToString(command, city, "city");
         command = appendParamterToString(command, state, "state");
         command = appendParamterToString(command, postcode, "postcode");
-        command += "' WHERE EMAIL = '" + email + "'";
+        command += "' WHERE EMAIL = '" + email + "' and PASSWORD = '" + password + "'";
         st.executeUpdate(command);
     }
 
