@@ -3,10 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/zelno/Downloads/Stuff/Coding%20Stuff/WebApp/ISDWebApp/web/homePage.jsp</file>
-            <file>file:/C:/Users/zelno/Downloads/Stuff/Coding%20Stuff/WebApp/ISDWebApp/web/logout.jsp</file>
-            <file>file:/C:/Users/zelno/Downloads/Stuff/Coding%20Stuff/WebApp/ISDWebApp/web/login.jsp</file>
-            <file>file:/C:/Users/zelno/Downloads/Stuff/Coding%20Stuff/WebApp/ISDWebApp/web/register.jsp</file>
+            <file>file:/Users/christopheraverkos/Documents/GitHub/ISDWebApp/build.xml</file>
+            <file>file:/Users/christopheraverkos/Documents/GitHub/ISDWebApp/src/java/uts/isd/controller/DBServlet.java</file>
+            <file>file:/Users/christopheraverkos/Documents/GitHub/ISDWebApp/src/java/uts/isd/model/Customer.java</file>
+            <file>file:/Users/christopheraverkos/Documents/GitHub/ISDWebApp/web/shipmentPage.jsp</file>
+            <file>file:/Users/christopheraverkos/Documents/GitHub/ISDWebApp/web/login.jsp</file>
+            <file>file:/Users/christopheraverkos/Documents/GitHub/ISDWebApp/web/homePage.jsp</file>
+            <file>file:/Users/christopheraverkos/Documents/GitHub/ISDWebApp/web/logout.jsp</file>
+            <file>file:/Users/christopheraverkos/Documents/GitHub/ISDWebApp/src/java/uts/isd/controller/ConnServlet.java</file>
+            <file>file:/Users/christopheraverkos/Documents/GitHub/ISDWebApp/src/java/uts/isd/model/dao/DBConnector.java</file>
+            <file>file:/Users/christopheraverkos/Documents/GitHub/ISDWebApp/src/java/uts/isd/model/dao/DBManager.java</file>
+            <file>file:/Users/christopheraverkos/Documents/GitHub/ISDWebApp/src/java/uts/isd/model/Shipment.java</file>
+            <file>file:/Users/christopheraverkos/Documents/GitHub/ISDWebApp/web/register.jsp</file>
         </group>
     </open-files>
 </project-private>

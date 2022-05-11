@@ -16,16 +16,31 @@ public class DBManager {
         st = conn.createStatement();
     }
 
-    public Shipment findMethod()
+    public Shipment findMethod(String selectedMethod)
         throws SQLException
     {
-        String fetch = "select * from Shipment";
+        String fetch = "select * from Shipment_Methods WHERE shipmentMethodName = '" + selectedMethod + "'";
         ResultSet rs = st.executeQuery(fetch);
         while (rs.next()){
             String method = rs.getString(1);
             return new Shipment(method);
         }
         return null;
+    }
+    
+    public ArrayList<Shipment> fetchMethods() throws SQLException
+    {
+        String fetch = "select * from Shipment_Methods";
+        ResultSet rs = st.executeQuery(fetch);
+        ArrayList<Shipment> temp = new ArrayList<>();
+
+        while (rs.next()) {
+            String method = rs.getString(1);
+           
+            temp.add(new Shipment(method));
+        }
+
+        return temp;
     }
 
     public Customer findCustomer(String email, String password)

@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -103,8 +104,11 @@ public class DBServlet extends HttpServlet {
         String method = request.getParameter("method");
 
         try{
-            Shipment shipment = manager.findMethod();
+            Shipment shipment = manager.findMethod(method);
             session.setAttribute("method", shipment);
+            
+            ArrayList<Shipment> methods = manager.fetchMethods();
+            session.setAttribute("methodsList", methods);
         }
         catch (SQLException ex) {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
