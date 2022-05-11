@@ -18,13 +18,13 @@
     
     <body>
         <h1>Search Payment Records</h1>
-        <h4>Search specific payment records based on  Payment ID and date paid.</h4>
+        <h4>Search specific payment records based on  payment ID and date paid.</h4>
         
         <%              
             Payment searchPayment = (Payment) session.getAttribute("searchPayment");           
         %>
         
-         <form action="Payment_SearchServlet" method="post">
+         <form action="homePage.jsp" method="post">
             
         <%-- <p>#${paymentId} </p>--%>
         
@@ -36,7 +36,7 @@
                 <tr> <td><label for name="search_datePaid" class="subtitle">Date Paid </label></td>
                     <td><input type ="date" id="searchDatePaid" name="search_datePaid" placeholder= "Search by Date Paid" required ></td>
                 </tr>
-                <tr><td><button type="submit" value="PaymentDetails"><b>Submit</b></button></td></tr>
+                <tr><td><button type="submit" value="PaymentSearch"><b>Submit</b></button></td></tr>
         </table>
         </form>
         <% if(searchPayment != null){ %>
