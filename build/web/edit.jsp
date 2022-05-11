@@ -22,20 +22,7 @@
         %>
         
         <h1 class="align-center">Edit User Details <span><%= (updated != null ? "Update was successful" : "")%></span></h1>
-        <form class="align-center" action="DBServlet" method="POST">
-
-            <label for="email">Email:</label>
-            <br>
-            <input type="email" name="email" value="${customer.email}">
-            <br>
-            <br>
-            
-            <label for="password">Password:</label>
-            <br>
-            <input type="password" name="password" value="${customer.password}">
-            <br>
-            <br>
-            
+        <form class="align-center" action="DBServlet" method="POST">            
             <label for="firstName">First Name:</label>
             <br>
             <input type="text" name="firstName" value="${customer.firstName}">
@@ -81,19 +68,6 @@
             <input type="submit" value="Update">
             
         </form>
-            <%
-                String email = request.getParameter("email");
-                String password = request.getParameter("password");
-                String firstName = request.getParameter("firstName");
-                String lastName = request.getParameter("lastName");
-                String dob = request.getParameter("dob");
-                String street = request.getParameter("street");
-                String city = request.getParameter("city");
-                String state = request.getParameter("state");
-                String postcode = request.getParameter("postcode");
-                
-                customer = new Customer(email, password, firstName, lastName,  dob, street, city, state, postcode);
-                session.setAttribute("customer", customer);
-            %>
+            
     </body>
 </html>
