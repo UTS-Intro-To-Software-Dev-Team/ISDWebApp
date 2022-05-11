@@ -11,8 +11,10 @@
         <jsp:include page="PageComponents/CommonMeta.jsp"/>
         <title>Payment Details</title>
     </head>
+    
+    <jsp:include page="PageComponents/JSPHeader.jsp"/>
+    
     <body>
-        <jsp:include page="PageComponents/JSPHeader.jsp"/>
         
         <%
             String fullName = request.getParameter("fullName");
@@ -58,6 +60,7 @@
                 <% } %>
 
                 <tr><td><button type="submit" value="PaymentDetails"><b>Submit</b></button></td></tr>
+                <tr><td><a class= "button" style="center" href="homePage.jsp">Cancel</a></td></tr>
             </table>
         </form>
     </body>
