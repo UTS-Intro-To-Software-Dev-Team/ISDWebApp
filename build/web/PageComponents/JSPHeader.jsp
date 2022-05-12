@@ -36,8 +36,16 @@
                         <% } else { %>
                             <p><b>Register</b></p>
                         <% } %>
-                    </td>
+                    </td>                
+                  
                 <% } else { %>
+                  <td>
+                      <% if(!pageName.equals("shipmentPage.jsp")) { %>
+                         <a title="Shipment" href="shipmentPage.jsp">Shipment Details</a> 
+                       <% } else { %>
+                        <p><b>Shipment</b></p>
+                       <% } %>
+                   </td>
                     <td><a title="Logout" href="logout.jsp">Logout</a></td>
                 <% } %>
             </tr>

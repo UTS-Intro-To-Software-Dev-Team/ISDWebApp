@@ -1,7 +1,7 @@
-Thu May 12 06:56:28 AEST 2022 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
+Fri May 13 04:10:15 AEST 2022 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Thu May 12 06:56:28 AEST 2022:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0180-b4e8-aa71-ffff9d0f4abe 
+Fri May 13 04:10:15 AEST 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0180-b976-d905-ffff9d0f4abe 
 on database directory /Users/christopheraverkos/Documents/GitHub/ISDWebApp/databases/customerdb with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@531d72ca 
 Loaded from file:/Users/christopheraverkos/Documents/GitHub/ISDWebApp/External%20Libraries/db-derby-10.14.2.0-bin/lib/derby.jar
 java.vendor=Oracle Corporation
@@ -12,9 +12,46 @@ os.arch=aarch64
 os.version=12.3.1
 derby.system.home=/Users/christopheraverkos/Documents/GitHub/ISDWebApp/databases
 Database Class Loader started - derby.database.classpath=''
+Fri May 13 04:12:29 AEST 2022 Thread[DRDAConnThread_2,5,main] (XID = 1280), (SESSIONID = 1), (DATABASE = customerdb), (DRDAID = ��������.����-4182716501541332488{1}), Cleanup action starting
+Fri May 13 04:12:29 AEST 2022 Thread[DRDAConnThread_2,5,main] (XID = 1280), (SESSIONID = 1), (DATABASE = customerdb), (DRDAID = ��������.����-4182716501541332488{1}), Failed Statement is: select * from isduser.shipment
+java.lang.NullPointerException: Cannot invoke "String.length()" because "s" is null
+	at java.base/java.io.StringReader.<init>(StringReader.java:51)
+	at org.apache.derby.impl.services.uuid.BasicUUID.<init>(Unknown Source)
+	at org.apache.derby.impl.services.uuid.BasicUUIDFactory.recreateUUID(Unknown Source)
+	at org.apache.derby.impl.sql.catalog.SYSTABLESRowFactory.buildDescriptorBody(Unknown Source)
+	at org.apache.derby.impl.sql.catalog.SYSTABLESRowFactory.buildDescriptor(Unknown Source)
+	at org.apache.derby.impl.sql.catalog.DataDictionaryImpl.getDescriptorViaIndexMinion(Unknown Source)
+	at org.apache.derby.impl.sql.catalog.DataDictionaryImpl.getDescriptorViaIndex(Unknown Source)
+	at org.apache.derby.impl.sql.catalog.DataDictionaryImpl.getTableDescriptorIndex1Scan(Unknown Source)
+	at org.apache.derby.impl.sql.catalog.DataDictionaryImpl.getUncachedTableDescriptor(Unknown Source)
+	at org.apache.derby.impl.sql.catalog.NameTDCacheable.setIdentity(Unknown Source)
+	at org.apache.derby.impl.services.cache.ConcurrentCache.find(Unknown Source)
+	at org.apache.derby.impl.sql.catalog.DataDictionaryImpl.getTableDescriptor(Unknown Source)
+	at org.apache.derby.impl.sql.compile.QueryTreeNode.getTableDescriptor(Unknown Source)
+	at org.apache.derby.impl.sql.compile.FromBaseTable.bindTableDescriptor(Unknown Source)
+	at org.apache.derby.impl.sql.compile.FromBaseTable.bindNonVTITables(Unknown Source)
+	at org.apache.derby.impl.sql.compile.FromList.bindTables(Unknown Source)
+	at org.apache.derby.impl.sql.compile.SelectNode.bindNonVTITables(Unknown Source)
+	at org.apache.derby.impl.sql.compile.DMLStatementNode.bindTables(Unknown Source)
+	at org.apache.derby.impl.sql.compile.DMLStatementNode.bind(Unknown Source)
+	at org.apache.derby.impl.sql.compile.CursorNode.bindStatement(Unknown Source)
+	at org.apache.derby.impl.sql.GenericStatement.prepMinion(Unknown Source)
+	at org.apache.derby.impl.sql.GenericStatement.prepare(Unknown Source)
+	at org.apache.derby.impl.sql.conn.GenericLanguageConnectionContext.prepareInternalStatement(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedPreparedStatement.<init>(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedPreparedStatement42.<init>(Unknown Source)
+	at org.apache.derby.jdbc.Driver42.newEmbedPreparedStatement(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.prepareStatement(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.prepareStatement(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAStatement.prepare(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAStatement.explicitPrepare(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.parsePRPSQLSTT(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.processCommands(Unknown Source)
+	at org.apache.derby.impl.drda.DRDAConnThread.run(Unknown Source)
+Cleanup action completed
 ----------------------------------------------------------------
-Thu May 12 09:11:32 AEST 2022: Shutting down Derby engine
+Fri May 13 05:12:29 AEST 2022: Shutting down Derby engine
 ----------------------------------------------------------------
-Thu May 12 09:11:32 AEST 2022:
-Shutting down instance a816c00e-0180-b4e8-aa71-ffff9d0f4abe on database directory /Users/christopheraverkos/Documents/GitHub/ISDWebApp/databases/customerdb with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@531d72ca 
+Fri May 13 05:12:29 AEST 2022:
+Shutting down instance a816c00e-0180-b976-d905-ffff9d0f4abe on database directory /Users/christopheraverkos/Documents/GitHub/ISDWebApp/databases/customerdb with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@531d72ca 
 ----------------------------------------------------------------
