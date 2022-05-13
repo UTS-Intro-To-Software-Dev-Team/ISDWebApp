@@ -26,7 +26,7 @@
                 <% } %>
 
                 <tr><td><label for="password"><b>Password:</b></label></td></tr>
-                <tr><td><input type="password" name="password" placeholder="Enter password" required minlength="8"></td></tr>
+                <tr><td><input type="password" name="password" placeholder="Enter password" required></td></tr>
                 <% if (passErr != null) { %>
                     <tr><td><b><%= passErr %></b></td></tr>
                 <% } %>
@@ -35,4 +35,5 @@
             </table>
         </form>
     </body>
+    <jsp:include page="PageComponents/JSPFooter.jsp"/>
 </html>

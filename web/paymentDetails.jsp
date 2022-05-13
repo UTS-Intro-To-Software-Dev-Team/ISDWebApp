@@ -1,9 +1,3 @@
-<%-- 
-    Document   : paymentDetails
-    Created on : 4 May 2022, 11:07:10 am
-    Author     : nexusbaquir
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -64,4 +58,5 @@
             </table>
         </form>
     </body>
+    <jsp:include page="PageComponents/JSPFooter.jsp"/>
 </html>

@@ -4,7 +4,7 @@
 </head>
 
 <div id="header">
-    <jsp:include page="/ConnServlet" flush="true" />
+    <jsp:include page="/ConnServlet" flush="true"/>
     <%
         String uri = request.getRequestURI();
         String pageName = uri.substring(uri.lastIndexOf("/") + 1);
@@ -16,6 +16,7 @@
             {"login.jsp", "Login"},
 
         } : new String[][] { //If logged in
+            {"edit.jsp", "Edit Account Details"},
             {"orderHistory.jsp", "Order History"},
             {"shipmentPage.jsp", "Shipment Details"},
             {"logout.jsp", "Logout"},

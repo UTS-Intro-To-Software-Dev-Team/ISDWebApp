@@ -6,18 +6,20 @@ public class Customer {
     private String firstName;
     private String lastName;
     private String dob;
-
+    private String phone;
+    
     private String street;
     private String city;
     private String state;
     private String postcode;
 
-    public Customer(String email, String password, String firstName, String lastName, String dob, String street, String city, String state, String postcode) {
+    public Customer(String email, String password, String firstName, String lastName, String dob, String phone, String street, String city, String state, String postcode) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dob = dob;
+        this.phone = phone;
         this.street = street;
         this.city = city;
         this.state = state;
@@ -62,6 +64,14 @@ public class Customer {
 
     public void setDob(String dob) {
         this.dob = dob;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getStreet() {

@@ -54,4 +54,5 @@
             <button type="submit">Delete</button> 
         </form>
     </body>
+    <jsp:include page="PageComponents/JSPFooter.jsp"/>
 </html>

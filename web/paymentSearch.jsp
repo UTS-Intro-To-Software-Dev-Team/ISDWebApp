@@ -1,9 +1,3 @@
-<%-- 
-    Document   : paymentSearch
-    Created on : 11 May 2022, 11:04:38 am
-    Author     : nexusbaquir
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="uts.isd.model.Payment"%>
 
@@ -71,5 +65,6 @@
         <% } %>
             
     </body>
+    <jsp:include page="PageComponents/JSPFooter.jsp"/>
 </html>
 

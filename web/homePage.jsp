@@ -20,10 +20,12 @@
             <p>First name: <%= customer.getFirstName() %></p>
             <p>Last name: <%= customer.getLastName() %></p>
             <p>DOB: <%= customer.getDob() %></p>
+            <p>Phone: <%= customer.getPhone() %></p>
             <p>Street: <%= customer.getStreet() %></p>
             <p>City: <%= customer.getCity() %></p>
             <p>State: <%= customer.getState() %></p>
             <p>Postcode: <%= customer.getPostcode() %></p>
         <% } %>
     </body>
+    <jsp:include page="PageComponents/JSPFooter.jsp"/>
 </html>

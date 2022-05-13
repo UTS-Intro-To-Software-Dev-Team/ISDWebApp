@@ -114,62 +114,63 @@ public class DBManager {
     public Customer findCustomer(String email, String password)
         throws SQLException
     {
-        String fetch = "select * from Customers where EMAIL = '" + email + "' and PASSWORD = '" + password + "'";
+        String fetch = "select * from Customers where EMAIL = '" + email + "'";
         ResultSet rs = st.executeQuery(fetch);
 
         while (rs.next()) {
-            if (email.equals(rs.getString(1)) && password.equals(rs.getString(2))) {
-                String firstName = rs.getString(3);
-                String lastName = rs.getString(4);
-                String dob = rs.getString(5);
-                String street = rs.getString(6);
-                String city = rs.getString(7);
-                String state = rs.getString(8);
-                String postcode = rs.getString(9);
-                return new Customer(email, password, firstName, lastName, dob, street, city, state, postcode);
+            if (email.equals(rs.getString(2)) && password.equals(rs.getString(3))) {
+                String firstName = rs.getString(4);
+                String lastName = rs.getString(5);
+                String dob = rs.getString(6);
+                String phone = rs.getString(7);
+                String street = rs.getString(8);
+                String city = rs.getString(9);
+                String state = rs.getString(10);
+                String postcode = rs.getString(11);
+                return new Customer(email, password, firstName, lastName, dob, phone, street, city, state, postcode);
             }
         }
         return null;
     }
 
-
-
     private String appendParamterToString(String string, String parameter) {
         return string + "', '" + parameter;
     }
 
-    public void addCustomer(String email, String password, String firstName, String lastName, String dob, String street, String city, String state, String postcode)
+    public void addCustomer(Customer customer)
         throws SQLException
     {
-        String command = "INSERT INTO ISDUSER.Customers VALUES ('" + email;
-        command = appendParamterToString(command, password);
-        command = appendParamterToString(command, firstName);
-        command = appendParamterToString(command, lastName);
-        command = appendParamterToString(command, dob);
-        command = appendParamterToString(command, street);
-        command = appendParamterToString(command, city);
-        command = appendParamterToString(command, state);
-        command = appendParamterToString(command, postcode);
+        String command = "INSERT INTO Customers (email, password, firstName, lastName, dob, phone, street, city, state, postcode) VALUES ('" + customer.getEmail();
+        command = appendParamterToString(command, customer.getPassword());
+        command = appendParamterToString(command, customer.getFirstName());
+        command = appendParamterToString(command, customer.getLastName());
+        command = appendParamterToString(command, customer.getDob());
+        command = appendParamterToString(command, customer.getPhone());
+        command = appendParamterToString(command, customer.getStreet());
+        command = appendParamterToString(command, customer.getCity());
+        command = appendParamterToString(command, customer.getState());
+        command = appendParamterToString(command, customer.getPostcode());
         command += "')";
         System.out.println(command);
         st.executeUpdate(command);
     }
 
-    private String appendParamterToString(String string, String parameter, String specificParameter) {
+    private String appendParamToString(String string, String parameter, String specificParameter) {
         return string + "', "+ specificParameter + " = '" + parameter;
     }
 
-    public void updateCustomerDetails(String email, String password, String firstName, String lastName, String dob, String street, String city, String state, String postcode)
+    public void updateCustomerDetails(String email, String firstName, String lastName, String dob, String phone, String street, String city, String state, String postcode)
         throws SQLException
     {
-        String command = "UPDATE ISDUSER.Customers SET FirstName = '" + firstName;
-        command = appendParamterToString(command, lastName, "LastName");
-        command = appendParamterToString(command, dob, "DOB");
-        command = appendParamterToString(command, street, "Street");
-        command = appendParamterToString(command, city, "city");
-        command = appendParamterToString(command, state, "state");
-        command = appendParamterToString(command, postcode, "postcode");
-        command += "' WHERE EMAIL = '" + email + "' and PASSWORD = '" + password + "'";
+        String command = "UPDATE Customers SET FirstName = '" + firstName;
+        command = appendParamToString(command, lastName, "LastName");
+        command = appendParamToString(command, dob, "DOB");
+        command = appendParamToString(command, phone, "Phone");
+        command = appendParamToString(command, street, "Street");
+        command = appendParamToString(command, city, "City");
+        command = appendParamToString(command, state, "State");
+        command = appendParamToString(command, postcode, "Postcode");
+        command += "' WHERE EMAIL = '" + email + "'";
         st.executeUpdate(command);
     }
 
@@ -192,7 +193,7 @@ public class DBManager {
             String city = rs.getString(7);
             String state = rs.getString(8);
             String postcode = rs.getString(9);
-            temp.add(new Customer(email, password, firstName, lastName, dob, street, city, state, postcode));
+            //temp.add(new Customer(email, password, firstName, lastName, dob, street, city, state, postcode));
         }
 
         for (Customer cus : temp) {
@@ -202,14 +203,14 @@ public class DBManager {
         return temp;
     }
 
-    public boolean checkCustomer(String email, String password)
+    public boolean checkCustomer(String email)
         throws SQLException
     {
-        String fetch = "select * from Students where EMAIL = '" + email + "' and password = '" + password + "'";
+        String fetch = "select * from customers where EMAIL = '" + email + "'";
         ResultSet rs = st.executeQuery(fetch);
 
         while (rs.next()) {
-            if (email.equals(rs.getString(2)) && password.equals(rs.getString(3))) {
+            if (email.equals(rs.getString(2))) {
                 return true;
             }
         }
