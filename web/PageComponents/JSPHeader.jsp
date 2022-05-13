@@ -17,7 +17,7 @@
 
         } : new String[][] { //If logged in
             {"orderHistory.jsp", "Order History"},
-            {"orderHistory.jsp", "Order History"},
+            {"shipmentPage.jsp", "Shipment Details"},
             {"logout.jsp", "Logout"},
         };
     %>

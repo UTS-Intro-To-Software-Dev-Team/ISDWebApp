@@ -7,11 +7,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import uts.isd.model.Customer;
 import uts.isd.model.Item;
+import uts.isd.model.Shipment;
 import uts.isd.model.dao.DBManager;
 
 public class DBServlet extends HttpServlet {
@@ -35,6 +37,7 @@ public class DBServlet extends HttpServlet {
             case "edit.jsp" -> EditServlet(request, response);
             case "userManagement.jsp" -> userManagementServlet(request, response);
             case "shopping.jsp" -> ShoppingServlet(request, response);
+            case "shipmentPage.jsp" -> ShipmentServlet(request, response);
             default -> System.out.println("Unknown page: " + session.getAttribute("pageName"));
         }
 
@@ -119,6 +122,49 @@ public class DBServlet extends HttpServlet {
         session.setAttribute(attribute, valid ? null : message);
         return hasFailed || !valid;
     }
+    private void ShipmentServlet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException
+    {
+        String method = request.getParameter("method");
+        String shipmentId = request.getParameter("shipmentId");
+        String orderId = request.getParameter("orderId");
+
+        try{
+            Shipment shipmentMethod = manager.findMethod(method);
+            session.setAttribute("method", shipmentMethod);
+
+            Shipment shipment = manager.findShipment(shipmentId, orderId);
+            session.setAttribute("shipment", shipment);
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    /*
+    private void CreateShipmentServlet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException
+    {
+
+        String shipmentId = request.getParameter("shipmentId");
+        String shipmentDate = request.getParameter("date");
+        String street = request.getParameter("street");
+        String city = request.getParameter("city");
+        String state = request.getParameter("state");
+        String postcode = request.getParameter("postcode");
+        String method = request.getParameter("method");
+        String orderId = request.getParameter("orderId");
+
+        redirect = "createShipment";
+        try {
+            if (!invalidDataCheck(email, password, firstName, lastName, dob, postcode)) {
+                manager.addCustomer(email, password, firstName, lastName, dob, street, city, state, postcode);
+                session.setAttribute("customer", new Customer(email, password, firstName, lastName, dob, street, city, state, postcode));
+                redirect = "homePage";
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }*/
 
     private void LoginServlet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
