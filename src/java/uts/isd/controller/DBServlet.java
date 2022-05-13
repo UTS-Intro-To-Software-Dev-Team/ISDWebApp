@@ -28,7 +28,7 @@ public class DBServlet extends HttpServlet {
         manager = (DBManager)session.getAttribute("manager");
         validator = new Validator(session);
 
-        redirect = "homePage";
+        redirect = "homePage.jsp";
         switch((String)session.getAttribute("pageName")) {
             case "register.jsp" -> RegisterServlet(request, response);
             case "login.jsp" -> LoginServlet(request, response);
@@ -38,14 +38,14 @@ public class DBServlet extends HttpServlet {
             default -> System.out.println("Unknown page: " + session.getAttribute("pageName"));
         }
 
-        request.getRequestDispatcher(redirect + ".jsp").forward(request, response);
+        request.getRequestDispatcher(redirect).forward(request, response);
     }
 
     private void ShoppingServlet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
         String item_name = request.getParameter("item");
-        String price = request.getParameter("price");
+        float price = Float.parseFloat(request.getParameter("price"));
         // by default display all the items in the database
 
         try{
@@ -73,12 +73,12 @@ public class DBServlet extends HttpServlet {
         String state = request.getParameter("state");
         String postcode = request.getParameter("postcode");
 
-        redirect = "register";
+        redirect = "register.jsp";
         try {
             if (!invalidDataCheck(email, password, firstName, lastName, dob, postcode)) {
                 manager.addCustomer(email, password, firstName, lastName, dob, street, city, state, postcode);
                 session.setAttribute("customer", new Customer(email, password, firstName, lastName, dob, street, city, state, postcode));
-                redirect = "homePage";
+                redirect = "homePage.jsp";
             }
         } catch (SQLException ex) {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -126,12 +126,12 @@ public class DBServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        redirect = "login";
+        redirect = "login.jsp";
         try {
             Customer customer = manager.findCustomer(email, password);
             if (customer != null) {
                 session.setAttribute("customer", customer);
-                redirect = "homePage";
+                redirect = "homePage.jsp";
             } else {
                 session.setAttribute("emailErr", validator.validateEmail(email) ? null : "Email does not exist.");
                 session.setAttribute("passErr", validator.validatePassword(password) ? null : "Password is incorrect.");
@@ -166,7 +166,7 @@ public class DBServlet extends HttpServlet {
             throws ServletException, IOException
     {
         String email = request.getParameter("customerEmail");
-        redirect = "userManagement";
+        redirect = "userManagement.jsp";
         try {
            if (email != null){
                 manager.deleteCustomer(email);

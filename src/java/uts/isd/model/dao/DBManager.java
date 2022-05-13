@@ -16,7 +16,7 @@ public class DBManager {
         st = conn.createStatement();
     }
 
-    public Item findItem(String item, Float price)
+    public Item findItem(String item, float price)
         throws SQLException
     {
         String fetch = "select * from Items where ITEM = '" + item +"'";
