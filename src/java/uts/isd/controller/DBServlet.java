@@ -29,6 +29,7 @@ public class DBServlet extends HttpServlet {
         switch((String)session.getAttribute("pageName")) {
             case "register.jsp" -> RegisterServlet(request, response);
             case "login.jsp" -> LoginServlet(request, response);
+            case "userManagement.jsp" -> userManagementServlet(request, response);
             default -> System.out.println("Unknown page: " + session.getAttribute("pageName"));
         }
         
@@ -114,6 +115,20 @@ public class DBServlet extends HttpServlet {
                 session.setAttribute("emailErr", validator.validateEmail(email) ? null : "Email does not exist.");
                 session.setAttribute("passErr", validator.validatePassword(password) ? null : "Password is incorrect.");
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void userManagementServlet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
+    {
+        String email = request.getParameter("customerEmail");
+        redirect = "userManagement";
+        try {
+           if (email != null){
+                manager.deleteCustomer(email);
+            } 
         } catch (SQLException ex) {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
