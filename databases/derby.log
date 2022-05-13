@@ -1,7 +1,7 @@
-Fri May 13 05:35:46 AEST 2022 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
+Fri May 13 22:20:20 AEST 2022 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Fri May 13 05:37:02 AEST 2022:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0180-b9c5-2587-ffff9d0f4abe 
+Fri May 13 22:20:31 AEST 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0180-bd5c-d865-ffff9d0f4abe 
 on database directory /Users/christopheraverkos/Documents/GitHub/ISDWebApp/databases/customerdb with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@531d72ca 
 Loaded from file:/Users/christopheraverkos/Documents/GitHub/ISDWebApp/External%20Libraries/db-derby-10.14.2.0-bin/lib/derby.jar
 java.vendor=Oracle Corporation
@@ -13,8 +13,8 @@ os.version=12.3.1
 derby.system.home=/Users/christopheraverkos/Documents/GitHub/ISDWebApp/databases
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Fri May 13 21:47:01 AEST 2022: Shutting down Derby engine
+Fri May 13 22:24:35 AEST 2022: Shutting down Derby engine
 ----------------------------------------------------------------
-Fri May 13 21:47:01 AEST 2022:
-Shutting down instance a816c00e-0180-b9c5-2587-ffff9d0f4abe on database directory /Users/christopheraverkos/Documents/GitHub/ISDWebApp/databases/customerdb with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@531d72ca 
+Fri May 13 22:24:35 AEST 2022:
+Shutting down instance a816c00e-0180-bd5c-d865-ffff9d0f4abe on database directory /Users/christopheraverkos/Documents/GitHub/ISDWebApp/databases/customerdb with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@531d72ca 
 ----------------------------------------------------------------
