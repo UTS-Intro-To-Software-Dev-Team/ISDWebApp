@@ -102,18 +102,45 @@ public class DBServlet extends HttpServlet {
         throws ServletException, IOException
     {
         String method = request.getParameter("method");
+        String shipmentId = request.getParameter("shipmentId");
+        String orderId = request.getParameter("orderId");
 
         try{
-            Shipment shipment = manager.findMethod(method);
-            session.setAttribute("method", shipment);
+            Shipment shipmentMethod = manager.findMethod(method);
+            session.setAttribute("method", shipmentMethod);
             
-            ArrayList<Shipment> methods = manager.fetchMethods();
-            session.setAttribute("methodsList", methods);
+            Shipment shipment = manager.findShipment(shipmentId, orderId);
+            session.setAttribute("shipment", shipment);
         }
         catch (SQLException ex) {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    /*
+    private void CreateShipmentServlet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException
+    {
+        
+        String shipmentId = request.getParameter("shipmentId");
+        String shipmentDate = request.getParameter("date");
+        String street = request.getParameter("street");
+        String city = request.getParameter("city");
+        String state = request.getParameter("state");
+        String postcode = request.getParameter("postcode");
+        String method = request.getParameter("method");
+        String orderId = request.getParameter("orderId");
+
+        redirect = "createShipment";
+        try {
+            if (!invalidDataCheck(email, password, firstName, lastName, dob, postcode)) {
+                manager.addCustomer(email, password, firstName, lastName, dob, street, city, state, postcode);
+                session.setAttribute("customer", new Customer(email, password, firstName, lastName, dob, street, city, state, postcode));
+                redirect = "homePage";
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }*/
 
     private void LoginServlet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
