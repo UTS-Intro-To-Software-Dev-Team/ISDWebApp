@@ -96,7 +96,7 @@ public class DBManager {
         st.executeUpdate(command);
    }
 
-    public Item findItem(String email, String password)
+    public Item findItem(String item, float price)
         throws SQLException
     {
         String fetch = "select * from Items where ITEM = '" + item +"'";
