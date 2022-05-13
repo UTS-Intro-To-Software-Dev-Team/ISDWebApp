@@ -1,6 +1,7 @@
 package uts.isd.model.dao;
 
 import uts.isd.model.Customer;
+import uts.isd.model.Item;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -15,9 +16,24 @@ public class DBManager {
         st = conn.createStatement();
     }
 
-    public Customer findCustomer(String email, String password)
+    public Item findItem(String item, Float price)
         throws SQLException
     {
+        String fetch = "select * from Items where ITEM = '" + item +"'";
+        ResultSet rs = st.executeQuery(fetch);
+
+        while (rs.next()) {
+            if (item.equals(rs.getString(1))) {
+                price = rs.getFloat(2);
+                return new Item(item, price);
+            }
+        }
+        return null;
+    }
+
+    public Customer findCustomer(String email, String password)
+        throws SQLException
+    {   
         String fetch = "select * from Customers where EMAIL = '" + email + "' and PASSWORD = '" + password + "'";
         ResultSet rs = st.executeQuery(fetch);
 

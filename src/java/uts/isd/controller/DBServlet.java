@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import uts.isd.model.Customer;
+import uts.isd.model.Item;
 import uts.isd.model.dao.DBManager;
 
 public class DBServlet extends HttpServlet {
@@ -33,10 +34,30 @@ public class DBServlet extends HttpServlet {
             case "login.jsp" -> LoginServlet(request, response);
             case "edit.jsp" -> EditServlet(request, response);
             case "userManagement.jsp" -> userManagementServlet(request, response);
+            case "shopping.jsp" -> ShoppingServlet(request, response);
             default -> System.out.println("Unknown page: " + session.getAttribute("pageName"));
         }
 
         request.getRequestDispatcher(redirect + ".jsp").forward(request, response);
+    }
+
+    private void ShoppingServlet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException
+    {
+        String item_name = request.getParameter("item");
+        String price = request.getParameter("price");
+        // by default display all the items in the database
+
+        try{
+             Item item = manager.findItem(item_name, price);
+             if(item != null){
+                session.setAttribute("item", item);
+                //save these item values and send to the JSP page
+             }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     private void RegisterServlet(HttpServletRequest request, HttpServletResponse response)
@@ -140,7 +161,7 @@ public class DBServlet extends HttpServlet {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void userManagementServlet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
