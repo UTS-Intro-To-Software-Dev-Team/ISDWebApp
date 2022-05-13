@@ -29,7 +29,7 @@
                             <p><b>Login</b></p>
                         <% } %>
                     </td>
-
+                    
                     <td>
                         <% if (!pageName.equals("register.jsp")) { %>
                             <a title="Register" href="register.jsp">Register</a>
@@ -37,7 +37,17 @@
                             <p><b>Register</b></p>
                         <% } %>
                     </td>
+                    
+                    <td>
+                        <% if (!pageName.equals("edit.jsp")) { %>
+                            <a title="Main" href="homePage.jsp">Main</a>
+                        <% } else { %>
+                            <p><b>Main</b></p>
+                        <% } %>
+                    </td>
+                    
                 <% } else { %>
+                    <td><a title="Edit" href="edit.jsp">Edit</a></td>
                     <td><a title="Logout" href="logout.jsp">Logout</a></td>
                 <% } %>
             </tr>

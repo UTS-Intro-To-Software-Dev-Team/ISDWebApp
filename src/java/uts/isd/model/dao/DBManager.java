@@ -64,14 +64,14 @@ public class DBManager {
     public void updateCustomerDetails(String email, String password, String firstName, String lastName, String dob, String street, String city, String state, String postcode)
         throws SQLException
     {
-        String command = "UPDATE ISDUSER.Customers SET FirstName = " + firstName;
+        String command = "UPDATE ISDUSER.Customers SET FirstName = '" + firstName;
         command = appendParamterToString(command, lastName, "LastName");
         command = appendParamterToString(command, dob, "DOB");
         command = appendParamterToString(command, street, "Street");
         command = appendParamterToString(command, city, "city");
         command = appendParamterToString(command, state, "state");
         command = appendParamterToString(command, postcode, "postcode");
-        command += "' WHERE EMAIL = '" + email + "'";
+        command += "' WHERE EMAIL = '" + email + "' and PASSWORD = '" + password + "'";
         st.executeUpdate(command);
     }
 

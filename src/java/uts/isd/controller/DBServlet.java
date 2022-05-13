@@ -29,6 +29,7 @@ public class DBServlet extends HttpServlet {
         switch((String)session.getAttribute("pageName")) {
             case "register.jsp" -> RegisterServlet(request, response);
             case "login.jsp" -> LoginServlet(request, response);
+            case "edit.jsp" -> EditServlet(request, response);
             default -> System.out.println("Unknown page: " + session.getAttribute("pageName"));
         }
         
@@ -114,6 +115,27 @@ public class DBServlet extends HttpServlet {
                 session.setAttribute("emailErr", validator.validateEmail(email) ? null : "Email does not exist.");
                 session.setAttribute("passErr", validator.validatePassword(password) ? null : "Password is incorrect.");
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void EditServlet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException
+    {
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String dob = request.getParameter("dob");
+        String street = request.getParameter("street");
+        String city = request.getParameter("city");
+        String state = request.getParameter("state");
+        String postcode = request.getParameter("postcode");
+        
+        try {
+            manager.updateCustomerDetails(email, password, firstName, lastName, dob, street, city, state, postcode);
+            session.setAttribute("customer", manager.findCustomer(email, password));
         } catch (SQLException ex) {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
