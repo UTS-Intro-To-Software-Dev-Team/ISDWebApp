@@ -16,8 +16,6 @@
         %>
 
         <form action="DBServlet" method="POST">
-            <input type="hidden" name="login" value="true">
-
             <table class="align-center form-table">
                 <tr><td><label for="email"><b>Email:</b></label></td></tr>
                 <tr><td><input type="email" name="email" placeholder="Enter username" required value="<%= email != null ? email : "" %>"></td></tr>
