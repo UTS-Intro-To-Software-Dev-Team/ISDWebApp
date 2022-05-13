@@ -17,6 +17,7 @@ public class DBServlet extends HttpServlet {
     private HttpSession session;
     private DBManager manager;
     private String redirect;
+    private Validator validator;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -24,6 +25,7 @@ public class DBServlet extends HttpServlet {
     {
         session = request.getSession();
         manager = (DBManager)session.getAttribute("manager");
+        validator = new Validator(session);
 
         redirect = "homePage";
         switch((String)session.getAttribute("pageName")) {
@@ -31,7 +33,7 @@ public class DBServlet extends HttpServlet {
             case "login.jsp" -> LoginServlet(request, response);
             default -> System.out.println("Unknown page: " + session.getAttribute("pageName"));
         }
-        
+
         request.getRequestDispatcher(redirect + ".jsp").forward(request, response);
     }
 
@@ -61,7 +63,6 @@ public class DBServlet extends HttpServlet {
     }
 
     private boolean invalidDataCheck(String email, String password, String firstName, String lastName, String dob, String postcode) throws SQLException {
-        Validator validator = new Validator(session);
 
         boolean hasFailed = false;
         String message = "Email format is incorrect. An example: JohnSmith@Mail.com";
@@ -101,8 +102,6 @@ public class DBServlet extends HttpServlet {
     {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-
-        Validator validator = new Validator(session);
 
         redirect = "login";
         try {

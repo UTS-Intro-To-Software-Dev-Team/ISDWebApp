@@ -26,6 +26,4 @@
             <p>Postcode: <%= customer.getPostcode() %></p>
         <% } %>
     </body>
-
-    <jsp:include page="PageComponents/JSPFooter.jsp"/>
 </html>

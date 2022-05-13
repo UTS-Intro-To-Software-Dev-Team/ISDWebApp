@@ -9,6 +9,16 @@
         String uri = request.getRequestURI();
         String pageName = uri.substring(uri.lastIndexOf("/") + 1);
         session.setAttribute("pageName", pageName);
+
+        String[][] links = session.getAttribute("customer") == null || pageName.equals("logout.jsp") ?
+        new String[][] { //If logged out
+            {"register.jsp", "Register"},
+            {"login.jsp", "Login"},
+
+        } : new String[][] { //If logged in
+            {"orderHistory.jsp", "Order History"},
+            {"logout.jsp", "Logout"},
+        };
     %>
     <div>
         <% if (!pageName.equals("homePage.jsp")) { %>
@@ -21,24 +31,14 @@
     <div id="header-links">
         <table>
             <tr>
-                <% if (session.getAttribute("customer") == null || pageName.equals("logout.jsp")) { %>
+                <% for (String[] link : links) { %>
                     <td>
-                        <% if (!pageName.equals("login.jsp")) { %>
-                            <a title="Login" href="login.jsp">Login</a>
+                        <% if (!pageName.equals(link[0])) { %>
+                            <a href="<%= link[0] %>"><%= link[1] %></a>
                         <% } else { %>
-                            <p><b>Login</b></p>
+                            <p><b><%= link[1] %></b></p>
                         <% } %>
                     </td>
-
-                    <td>
-                        <% if (!pageName.equals("register.jsp")) { %>
-                            <a title="Register" href="register.jsp">Register</a>
-                        <% } else { %>
-                            <p><b>Register</b></p>
-                        <% } %>
-                    </td>
-                <% } else { %>
-                    <td><a title="Logout" href="logout.jsp">Logout</a></td>
                 <% } %>
             </tr>
         </table>
