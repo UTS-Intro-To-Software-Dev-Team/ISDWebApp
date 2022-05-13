@@ -41,12 +41,13 @@ public class DBServlet extends HttpServlet {
         throws ServletException, IOException
     {
         String item_name = request.getParameter("item");
-        Float price = request.getParameter("price");
+        String price = request.getParameter("price");
         // by default display all the items in the database
 
         try{
              Item item = manager.findItem(item_name, price);
              if(item != null){
+                session.setAttribute("item", item);
                 //save these item values and send to the JSP page
              }
         } catch (SQLException ex) {
