@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import uts.isd.model.Customer;
+import uts.isd.model.Item;
 import uts.isd.model.dao.DBManager;
 
 public class DBServlet extends HttpServlet {
@@ -29,10 +30,29 @@ public class DBServlet extends HttpServlet {
         switch((String)session.getAttribute("pageName")) {
             case "register.jsp" -> RegisterServlet(request, response);
             case "login.jsp" -> LoginServlet(request, response);
+            case "shopping.jsp" -> ShoppingServlet(request, response);
             default -> System.out.println("Unknown page: " + session.getAttribute("pageName"));
         }
         
         request.getRequestDispatcher(redirect + ".jsp").include(request, response);
+    }
+
+    private void ShoppingServlet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException
+    {
+        String item_name = request.getParameter("item");
+        Float price = request.getParameter("price");
+        // by default display all the items in the database
+
+        try{
+             Item item = manager.findItem(item_name, price);
+             if(item != null){
+                //save these item values and send to the JSP page
+             }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     private void RegisterServlet(HttpServletRequest request, HttpServletResponse response)
