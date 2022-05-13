@@ -30,9 +30,10 @@ public class DBServlet extends HttpServlet {
             case "register.jsp" -> RegisterServlet(request, response);
             case "login.jsp" -> LoginServlet(request, response);
             case "edit.jsp" -> EditServlet(request, response);
+            case "userManagement.jsp" -> userManagementServlet(request, response);
             default -> System.out.println("Unknown page: " + session.getAttribute("pageName"));
         }
-        
+
         request.getRequestDispatcher(redirect + ".jsp").forward(request, response);
     }
 
@@ -119,7 +120,7 @@ public class DBServlet extends HttpServlet {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void EditServlet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
@@ -132,10 +133,24 @@ public class DBServlet extends HttpServlet {
         String city = request.getParameter("city");
         String state = request.getParameter("state");
         String postcode = request.getParameter("postcode");
-        
+
         try {
             manager.updateCustomerDetails(email, password, firstName, lastName, dob, street, city, state, postcode);
             session.setAttribute("customer", manager.findCustomer(email, password));
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void userManagementServlet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
+    {
+        String email = request.getParameter("customerEmail");
+        redirect = "userManagement";
+        try {
+           if (email != null){
+                manager.deleteCustomer(email);
+            }
         } catch (SQLException ex) {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

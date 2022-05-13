@@ -66,22 +66,24 @@ public final class userManagement_jsp extends org.apache.jasper.runtime.HttpJspB
             DBManager manager = (DBManager)session.getAttribute("manager");
         
       out.write("\r\n");
-      out.write("        <table class=\"align-center form-table\">\r\n");
-      out.write("            <tr>\r\n");
-      out.write("                <th>First Name</th>\r\n");
-      out.write("                <th>Last Name</th>\r\n");
-      out.write("                <th>Email</th>\r\n");
-      out.write("                <th>Password</th>\r\n");
-      out.write("                <th>Date of Birth</th>\r\n");
-      out.write("                \r\n");
-      out.write("                <th>Street</th>\r\n");
-      out.write("                <th>City</th>\r\n");
-      out.write("                <th>State</th>\r\n");
-      out.write("                <th>Postcode</th>\r\n");
-      out.write("                \r\n");
-      out.write("                <th>Select</th>\r\n");
-      out.write("            </tr>\r\n");
-      out.write("            ");
+      out.write("        <form method=\"POST\" action=\"DBServlet\">\r\n");
+      out.write("            <table class=\"align-center form-table\">\r\n");
+      out.write("                <tr>\r\n");
+      out.write("                    <th>First Name</th>\r\n");
+      out.write("                    <th>Last Name</th>\r\n");
+      out.write("                    <th>Email</th>\r\n");
+      out.write("                    <th>Password</th>\r\n");
+      out.write("                    <th>Date of Birth</th>\r\n");
+      out.write("\r\n");
+      out.write("                    <th>Street</th>\r\n");
+      out.write("                    <th>City</th>\r\n");
+      out.write("                    <th>State</th>\r\n");
+      out.write("                    <th>Postcode</th>\r\n");
+      out.write("\r\n");
+      out.write("                    <th>Select</th>\r\n");
+      out.write("                </tr>\r\n");
+      out.write("\r\n");
+      out.write("                ");
  for (Customer customer : manager.fetchCustomers()) {
       out.write("\r\n");
       out.write("                <tr>\r\n");
@@ -113,16 +115,19 @@ public final class userManagement_jsp extends org.apache.jasper.runtime.HttpJspB
       out.write("                    <td>");
       out.print( customer.getPostcode() );
       out.write("</td>\r\n");
-      out.write("                    <td> <input type=\"radio\" name=\"radioButton\" value=\"");
-      out.print( customer.getEmail());
+      out.write("                    \r\n");
+      out.write("                    \r\n");
+      out.write("                    <td> <input type=\"radio\" name=\"customerEmail\" value=\"");
+      out.print(customer.getEmail());
       out.write("\"> </td>\r\n");
       out.write("                </tr>\r\n");
-      out.write("            ");
+      out.write("                ");
  } 
       out.write("\r\n");
-      out.write("        </table>\r\n");
-      out.write("        <button>Edit</button>\r\n");
-      out.write("        <a class=\"checkbox\">Delete</a>\r\n");
+      out.write("            </table>\r\n");
+      out.write("            <button>Edit</button>\r\n");
+      out.write("            <button type=\"submit\">Delete</button> \r\n");
+      out.write("        </form>\r\n");
       out.write("    </body>\r\n");
       out.write("</html>\r\n");
     } catch (Throwable t) {
