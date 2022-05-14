@@ -1,14 +1,20 @@
-Sat May 14 15:29:31 AEST 2022 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
+Sat May 14 19:12:10 AEST 2022 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Sat May 14 15:29:32 AEST 2022:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0180-c10b-194a-000050335416 
-on database directory C:\Users\rajku\OneDrive\Documents\GitHub\ISDWebApp\databases\customerdb with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@73d16e93 
-Loaded from file:/C:/Users/rajku/OneDrive/Documents/GitHub/ISDWebApp/External%20Libraries/db-derby-10.14.2.0-bin/lib/derby.jar
+Sat May 14 19:12:10 AEST 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0180-c1d6-eef3-00006449ffa6 
+on database directory C:\Users\zelno\Downloads\Stuff\Coding Stuff\WebApp\ISDWebApp\databases\customerdb with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@73d16e93 
+Loaded from file:/C:/Users/zelno/Downloads/Stuff/Coding%20Stuff/WebApp/ISDWebApp/External%20Libraries/db-derby-10.14.2.0-bin/lib/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=17.0.2+8-LTS-86
-user.dir=C:\Users\rajku\OneDrive\Documents\GitHub\ISDWebApp\External Libraries\db-derby-10.14.2.0-bin
+user.dir=C:\Users\zelno\Downloads\Stuff\Coding Stuff\WebApp\ISDWebApp\External Libraries\db-derby-10.14.2.0-bin
 os.name=Windows 10
 os.arch=amd64
 os.version=10.0
-derby.system.home=C:\Users\rajku\OneDrive\Documents\GitHub\ISDWebApp\databases
+derby.system.home=C:\Users\zelno\Downloads\Stuff\Coding Stuff\WebApp\ISDWebApp\databases
 Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Sat May 14 19:59:15 AEST 2022: Shutting down Derby engine
+----------------------------------------------------------------
+Sat May 14 19:59:15 AEST 2022:
+Shutting down instance a816c00e-0180-c1d6-eef3-00006449ffa6 on database directory C:\Users\zelno\Downloads\Stuff\Coding Stuff\WebApp\ISDWebApp\databases\customerdb with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@73d16e93 
+----------------------------------------------------------------

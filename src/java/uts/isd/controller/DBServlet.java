@@ -36,7 +36,7 @@ public class DBServlet extends HttpServlet {
             case "login.jsp" -> LoginServlet(request, response);
             case "edit.jsp" -> EditServlet(request, response);
             case "userManagement.jsp" -> UserManagementServlet(request, response);
-            case "shopping.jsp" -> ShoppingServlet(request, response);
+            case "shoppingPage.jsp" -> ShoppingServlet(request, response);
             case "shipmentPage.jsp" -> ShipmentServlet(request, response);
             case "createShipment.jsp" -> CreateShipmentServlet(request, response);
             default -> System.out.println("Unknown page: " + session.getAttribute("pageName"));
@@ -124,20 +124,18 @@ public class DBServlet extends HttpServlet {
     private void ShoppingServlet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
-        String item_name = request.getParameter("item");
-        float price = Float.parseFloat(request.getParameter("price"));
-        // by default display all the items in the database
+        switch(request.getParameter("button")) {
+            case "sortType" -> {
+                session.setAttribute("sort", "TYPE ASC");
+                System.out.println("Test Here?");
+            }
 
-        try{
-             Item item = manager.findItem(item_name, price);
-             if(item != null){
-                session.setAttribute("item", item);
-                //save these item values and send to the JSP page
-             }
-        } catch (SQLException ex) {
-            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
+            case "sortName" -> {
+                session.setAttribute("sort", "ITEM ASC");
+            }
+
+            case "order" -> {}
         }
-
     }
 
     private boolean invalidDataCheck(String email, String password, String firstName, String lastName, String dob, String phone, String postcode)

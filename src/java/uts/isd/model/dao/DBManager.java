@@ -97,33 +97,36 @@ public class DBManager {
         st.executeUpdate(command);
    }
 
-    public Item findItem(String item, float price, String type, int stock)
+    public Item findItem(String item)
         throws SQLException
     {
         String fetch = "select * from SHOPPING where ITEM = '" + item +"'";
         ResultSet rs = st.executeQuery(fetch);
 
         while (rs.next()) {
-            if (item.equals(rs.getString(1))) {
-                price = rs.getFloat(2);              
-                type = rs.getString(3);
-                stock = rs.getInt(4);
+            if (item.equals(rs.getString(3))) {
+                float price = rs.getFloat(2);              
+                String type = rs.getString(4);
+                int stock = rs.getInt(5);
                 return new Item(item, price, type, stock);
             }
         }
         return null;
     }
 
-    public ArrayList<Item>  fetchItems() throws SQLException {
+    public ArrayList<Item>  fetchItems(String sort) throws SQLException {
         String fetch = "select * from SHOPPING";
+        fetch += sort == null ? "" : " ORDER BY " + sort;
+        System.out.println(fetch);
+        
         ResultSet rs = st.executeQuery(fetch);
         ArrayList<Item> temp = new ArrayList<>();
 
         while(rs.next()) {
-            float price = rs.getFloat(1);
-            String item = rs.getString(2);
-            String type = rs.getString(3);
-            int stock = rs.getInt(4);
+            float price = rs.getFloat(2);
+            String item = rs.getString(3);
+            String type = rs.getString(4);
+            int stock = rs.getInt(5);
             
             temp.add(new Item(item, price, type, stock));
         }
