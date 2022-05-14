@@ -156,13 +156,13 @@ public class DBServlet extends HttpServlet {
         hasFailed = dataCheck(hasFailed, validator.validatePattern("password", password), "passErr", message);
 
         hasFailed = hasFailed || invalidDataCheck(firstName, lastName, dob, phone, postcode);
-        
+
         message = "Customer already exists.";
         hasFailed = dataCheck(hasFailed, !manager.checkCustomer(email), "existErr", message);
 
         return hasFailed;
     }
-    
+
     private boolean invalidDataCheck(String firstName, String lastName, String dob, String phone, String postcode)
             throws SQLException
     {
@@ -206,11 +206,11 @@ public class DBServlet extends HttpServlet {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void CreateShipmentServlet(HttpServletRequest request, HttpServletResponse response) 
+
+    private void CreateShipmentServlet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
-        
+
         String shipmentId = request.getParameter("shipmentId");
         String shipmentDate = request.getParameter("date");
         String street = request.getParameter("street");
@@ -236,13 +236,19 @@ public class DBServlet extends HttpServlet {
             throws ServletException, IOException
     {
         String email = request.getParameter("customerEmail");
-        redirect = "userManagement.jsp";
-        try {
-           if (email != null){
-                manager.deleteCustomer(email);
+
+        switch (request.getParameter("button")){
+            case "edit" -> redirect = "edit";
+
+            case "delete" -> {
+                try {
+                    if (email != null){
+                        manager.deleteCustomer(email);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
