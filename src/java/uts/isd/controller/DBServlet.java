@@ -38,6 +38,7 @@ public class DBServlet extends HttpServlet {
             case "userManagement.jsp" -> UserManagementServlet(request, response);
             case "shopping.jsp" -> ShoppingServlet(request, response);
             case "shipmentPage.jsp" -> ShipmentServlet(request, response);
+            case "createShipment.jsp" -> CreateShipmentServlet(request, response);
             default -> System.out.println("Unknown page: " + session.getAttribute("pageName"));
         }
 
@@ -205,11 +206,11 @@ public class DBServlet extends HttpServlet {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    /*
-    private void CreateShipmentServlet(HttpServletRequest request, HttpServletResponse response)
+    
+    private void CreateShipmentServlet(HttpServletRequest request, HttpServletResponse response) 
         throws ServletException, IOException
     {
-
+        
         String shipmentId = request.getParameter("shipmentId");
         String shipmentDate = request.getParameter("date");
         String street = request.getParameter("street");
@@ -221,15 +222,15 @@ public class DBServlet extends HttpServlet {
 
         redirect = "createShipment";
         try {
-            if (!invalidDataCheck(email, password, firstName, lastName, dob, postcode)) {
-                manager.addCustomer(email, password, firstName, lastName, dob, street, city, state, postcode);
-                session.setAttribute("customer", new Customer(email, password, firstName, lastName, dob, street, city, state, postcode));
-                redirect = "homePage";
-            }
+            //if (!invalidDataCheck(email, password, firstName, lastName, dob, postcode)) {
+                manager.addShipment(shipmentId, shipmentDate, street, city, state, postcode, method, orderId);
+                session.setAttribute("shipment", new Shipment(shipmentId, shipmentDate, street, city, state, postcode, method, orderId));
+                redirect = "shipmentPage";
+            //}
         } catch (SQLException ex) {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }*/
+    }
 
     private void UserManagementServlet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
