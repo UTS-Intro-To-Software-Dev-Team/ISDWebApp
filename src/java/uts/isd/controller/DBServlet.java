@@ -146,13 +146,20 @@ public class DBServlet extends HttpServlet {
             throws ServletException, IOException
     {
         String email = request.getParameter("customerEmail");
-        redirect = "userManagement";
-        try {
-           if (email != null){
-                manager.deleteCustomer(email);
+        
+        switch (request.getParameter("button")){
+            case "edit" -> redirect = "edit";
+                
+            case "delete" -> {
+                redirect = "userManagement";
+                try {
+                    if (email != null){
+                        manager.deleteCustomer(email);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

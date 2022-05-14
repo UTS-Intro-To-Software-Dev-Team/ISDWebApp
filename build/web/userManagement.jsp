@@ -45,13 +45,12 @@
                     <td><%= customer.getState() %></td>
                     <td><%= customer.getPostcode() %></td>
                     
-                    
                     <td> <input type="radio" name="customerEmail" value="<%=customer.getEmail()%>"> </td>
                 </tr>
                 <% } %>
             </table>
-            <button>Edit</button>
-            <button type="submit">Delete</button> 
+            <button name="button" value="edit" type="submit">Edit</button>
+            <button name="button" value="delete" type="submit">Delete</button> 
         </form>
     </body>
 </html>

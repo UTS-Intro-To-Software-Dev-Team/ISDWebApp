@@ -125,8 +125,8 @@ public final class userManagement_jsp extends org.apache.jasper.runtime.HttpJspB
  } 
       out.write("\r\n");
       out.write("            </table>\r\n");
-      out.write("            <button>Edit</button>\r\n");
-      out.write("            <button type=\"submit\">Delete</button> \r\n");
+      out.write("            <button name=\"button\" value=\"edit\" type=\"submit\">Edit</button>\r\n");
+      out.write("            <button name=\"button\" value=\"delete\" type=\"submit\">Delete</button> \r\n");
       out.write("        </form>\r\n");
       out.write("    </body>\r\n");
       out.write("</html>\r\n");
