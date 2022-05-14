@@ -20,6 +20,7 @@ public class DBServlet extends HttpServlet {
     private DBManager manager;
     private String redirect;
     private Validator validator;
+    private String forceForward;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -30,20 +31,22 @@ public class DBServlet extends HttpServlet {
         validator = new Validator(session);
 
         redirect = null;
+        forceForward = null;
         String pageName = (String)session.getAttribute("pageName");
         switch(pageName) {
             case "register.jsp" -> RegisterServlet(request, response);
             case "login.jsp" -> LoginServlet(request, response);
             case "edit.jsp" -> EditServlet(request, response);
-            case "userManagement.jsp" -> UserManagementServlet(request, response);
+            case "userManagement.jsp" -> AdminServlet(request, response);
+            case "adminEdit.jsp" -> AdminServlet(request, response);
             case "shopping.jsp" -> ShoppingServlet(request, response);
             case "shipmentPage.jsp" -> ShipmentServlet(request, response);
             case "createShipment.jsp" -> CreateShipmentServlet(request, response);
             default -> System.out.println("Unknown page: " + session.getAttribute("pageName"));
         }
 
-        if (redirect == null) {
-            request.getRequestDispatcher(pageName).forward(request, response);
+        if (redirect == null || forceForward != null) {
+            request.getRequestDispatcher(forceForward == null ? pageName : forceForward).forward(request, response);
         } else {
             response.sendRedirect(redirect);
         }
@@ -232,23 +235,44 @@ public class DBServlet extends HttpServlet {
         }
     }
 
-    private void UserManagementServlet(HttpServletRequest request, HttpServletResponse response)
+    private void AdminServlet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        String email = request.getParameter("customerEmail");
+        String email = request.getParameter("email");
+        
+        try {
+            Customer customer = manager.findCusByEmail(email);
+            String firstName = customer.getFirstName();
+            String lastName = customer.getLastName();
+            String dob = customer.getDob();
+            String phone = customer.getPhone();
+            String street = customer.getStreet();
+            String city = customer.getCity();
+            String state = customer.getState();
+            String postcode = customer.getPostcode();
+            session.setAttribute("customer2", manager.findCusByEmail(email));
+            switch (request.getParameter("button")){
+                case "edit" -> {
+                    forceForward = "adminEdit.jsp";
+                }
 
-        switch (request.getParameter("button")){
-            case "edit" -> redirect = "edit";
-
-            case "delete" -> {
-                try {
-                    if (email != null){
-                        manager.deleteCustomer(email);
+                case "delete" -> {
+                    try {
+                        if (email != null){
+                            manager.deleteCustomer(email);
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } catch (SQLException ex) {
-                    Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                case "adminEdit" -> {
+                    manager.updateCustomerDetails(email, firstName, lastName, dob, phone, street, city, state, postcode);
+                    redirect = "userManagement.jsp";
                 }
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

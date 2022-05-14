@@ -45,7 +45,7 @@
                     <td><%= customer.getState() %></td>
                     <td><%= customer.getPostcode() %></td>
                     
-                    <td> <input type="radio" name="customerEmail" value="<%=customer.getEmail()%>"> </td>
+                    <td> <input type="radio" name="email" value="<%=customer.getEmail()%>"> </td>
                 </tr>
                 <% } %>
             </table>

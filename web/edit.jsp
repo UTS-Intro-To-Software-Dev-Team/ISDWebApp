@@ -19,7 +19,8 @@
             String dateErr = (String) session.getAttribute("dateErr");
             String phoneErr = (String) session.getAttribute("phoneErr");
             String postcodeErr = (String) session.getAttribute("postcodeErr");
-            Customer customer = (Customer)session.getAttribute("Customer");
+            
+            Customer customer = (Customer) session.getAttribute("Customer");
         %>
 
         <h1 class="align-center">Edit User Details</h1>

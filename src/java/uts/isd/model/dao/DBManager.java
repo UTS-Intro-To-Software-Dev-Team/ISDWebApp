@@ -132,6 +132,29 @@ public class DBManager {
         }
         return null;
     }
+    
+    public Customer findCusByEmail(String email)
+        throws SQLException
+    {
+        String fetch = "select * from Customers where EMAIL = '" + email + "'";
+        ResultSet rs = st.executeQuery(fetch);
+        
+        while (rs.next()){
+            if (email.equals(rs.getString(2))){
+                String password = rs.getString(3);
+                String firstName = rs.getString(4);
+                String lastName = rs.getString(5);
+                String dob = rs.getString(6);
+                String phone = rs.getString(7);
+                String street = rs.getString(8);
+                String city = rs.getString(9);
+                String state = rs.getString(10);
+                String postcode = rs.getString(11);
+                return new Customer(email, password, firstName, lastName, dob, phone, street, city, state, postcode);
+            }
+        }
+        return null;
+    }
 
     private String appendParamterToString(String string, String parameter) {
         return string + "', '" + parameter;
@@ -184,16 +207,17 @@ public class DBManager {
         ArrayList<Customer> temp = new ArrayList<>();
 
         while (rs.next()) {
-            String email = rs.getString(1);
-            String password = rs.getString(2);
-            String firstName = rs.getString(3);
-            String lastName = rs.getString(4);
-            String dob = rs.getString(5);
-            String street = rs.getString(6);
-            String city = rs.getString(7);
-            String state = rs.getString(8);
-            String postcode = rs.getString(9);
-            //temp.add(new Customer(email, password, firstName, lastName, dob, street, city, state, postcode));
+            String email = rs.getString(2);
+            String password = rs.getString(3);
+            String firstName = rs.getString(4);
+            String lastName = rs.getString(5);
+            String dob = rs.getString(6);
+            String phoneNum = rs.getString(7);
+            String street = rs.getString(8);
+            String city = rs.getString(9);
+            String state = rs.getString(10);
+            String postcode = rs.getString(11);
+            temp.add(new Customer(email, password, firstName, lastName, dob, phoneNum, street, city, state, postcode));
         }
 
         for (Customer cus : temp) {
