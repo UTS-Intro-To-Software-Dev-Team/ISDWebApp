@@ -54,9 +54,10 @@ public class DBManager {
         ArrayList<Shipment> temp = new ArrayList<>();
 
         while (rs.next()) {
+            String shipmentId = rs.getString(1);
             String method = rs.getString(2);
             System.out.println(method);
-            temp.add(new Shipment(method));
+            temp.add(new Shipment(shipmentId, method));
         }
 
         return temp;
@@ -96,62 +97,78 @@ public class DBManager {
         st.executeUpdate(command);
    }
 
-    public Item findItem(String item, float price)
+    public Item findItem(String item)
         throws SQLException
     {
-        String fetch = "select * from Items where ITEM = '" + item +"'";
+        String fetch = "select * from SHOPPING where ITEM = '" + item +"'";
         ResultSet rs = st.executeQuery(fetch);
 
         while (rs.next()) {
-            if (item.equals(rs.getString(1))) {
-                price = rs.getFloat(2);
-                return new Item(item, price);
+            if (item.equals(rs.getString(3))) {
+                float price = rs.getFloat(2);              
+                String type = rs.getString(4);
+                int stock = rs.getInt(5);
+                return new Item(item, price, type, stock);
             }
         }
         return null;
+    }
+
+    public ArrayList<Item>  fetchItems(String sort) throws SQLException {
+        String fetch = "select * from SHOPPING";
+        fetch += sort == null ? "" : " ORDER BY " + sort;
+        
+        ResultSet rs = st.executeQuery(fetch);
+        ArrayList<Item> temp = new ArrayList<>();
+
+        while(rs.next()) {
+            float price = rs.getFloat(2);
+            String item = rs.getString(3);
+            String type = rs.getString(4);
+            int stock = rs.getInt(5);
+            
+            temp.add(new Item(item, price, type, stock));
+        }
+        return temp;
     }
 
     public Customer findCustomer(String email, String password)
         throws SQLException
     {
-        String fetch = "select * from Customers where EMAIL = '" + email + "'";
+        String fetch = "select * from Customers where EMAIL = '" + email + "' and PASSWORD = '" + password + "'";
         ResultSet rs = st.executeQuery(fetch);
 
         while (rs.next()) {
-            if (email.equals(rs.getString(2)) && password.equals(rs.getString(3))) {
-                String firstName = rs.getString(4);
-                String lastName = rs.getString(5);
-                String dob = rs.getString(6);
-                String phone = rs.getString(7);
-                String street = rs.getString(8);
-                String city = rs.getString(9);
-                String state = rs.getString(10);
-                String postcode = rs.getString(11);
-                return new Customer(email, password, firstName, lastName, dob, phone, street, city, state, postcode);
-            }
+            String firstName = rs.getString(4);
+            String lastName = rs.getString(5);
+            String dob = rs.getString(6);
+            String phone = rs.getString(7);
+            String street = rs.getString(8);
+            String city = rs.getString(9);
+            String state = rs.getString(10);
+            String postcode = rs.getString(11);
+            return new Customer(email, password, firstName, lastName, dob, phone, street, city, state, postcode);
         }
         return null;
     }
     
-    public Customer findCusByEmail(String email)
+    public Customer findCustomer(String email)
         throws SQLException
     {
         String fetch = "select * from Customers where EMAIL = '" + email + "'";
         ResultSet rs = st.executeQuery(fetch);
-        
-        while (rs.next()){
-            if (email.equals(rs.getString(2))){
-                String password = rs.getString(3);
-                String firstName = rs.getString(4);
-                String lastName = rs.getString(5);
-                String dob = rs.getString(6);
-                String phone = rs.getString(7);
-                String street = rs.getString(8);
-                String city = rs.getString(9);
-                String state = rs.getString(10);
-                String postcode = rs.getString(11);
-                return new Customer(email, password, firstName, lastName, dob, phone, street, city, state, postcode);
-            }
+
+        while (rs.next()) {
+            String password = rs.getString(3);
+            String firstName = rs.getString(4);
+            String lastName = rs.getString(5);
+            String dob = rs.getString(6);
+            String phone = rs.getString(7);
+            String street = rs.getString(8);
+            String city = rs.getString(9);
+            String state = rs.getString(10);
+            String postcode = rs.getString(11);
+            return new Customer(email, password, firstName, lastName, dob, phone, street, city, state, postcode);
         }
         return null;
     }
@@ -174,7 +191,6 @@ public class DBManager {
         command = appendParamterToString(command, customer.getState());
         command = appendParamterToString(command, customer.getPostcode());
         command += "')";
-        System.out.println(command);
         st.executeUpdate(command);
     }
 
@@ -212,16 +228,12 @@ public class DBManager {
             String firstName = rs.getString(4);
             String lastName = rs.getString(5);
             String dob = rs.getString(6);
-            String phoneNum = rs.getString(7);
+            String phone = rs.getString(7);
             String street = rs.getString(8);
             String city = rs.getString(9);
             String state = rs.getString(10);
             String postcode = rs.getString(11);
-            temp.add(new Customer(email, password, firstName, lastName, dob, phoneNum, street, city, state, postcode));
-        }
-
-        for (Customer cus : temp) {
-            System.out.println(cus.getFirstName());
+            temp.add(new Customer(email, password, firstName, lastName, dob, phone, street, city, state, postcode));
         }
 
         return temp;

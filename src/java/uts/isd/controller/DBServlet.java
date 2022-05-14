@@ -19,9 +19,9 @@ public class DBServlet extends HttpServlet {
     private HttpSession session;
     private DBManager manager;
     private String redirect;
+    private String forward;
     private Validator validator;
-    private String forceForward;
-
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
@@ -31,22 +31,21 @@ public class DBServlet extends HttpServlet {
         validator = new Validator(session);
 
         redirect = null;
-        forceForward = null;
-        String pageName = (String)session.getAttribute("pageName");
-        switch(pageName) {
+        forward = (String)session.getAttribute("pageName");
+        switch(forward) {
             case "register.jsp" -> RegisterServlet(request, response);
             case "login.jsp" -> LoginServlet(request, response);
             case "edit.jsp" -> EditServlet(request, response);
-            case "userManagement.jsp" -> AdminServlet(request, response);
-            case "adminEdit.jsp" -> AdminServlet(request, response);
-            case "shopping.jsp" -> ShoppingServlet(request, response);
+            case "adminEdit.jsp" -> AdminEditServlet(request, response);
+            case "userManagement.jsp" -> UserManagementServlet(request, response);
+            case "shoppingPage.jsp" -> ShoppingServlet(request, response);
             case "shipmentPage.jsp" -> ShipmentServlet(request, response);
             case "createShipment.jsp" -> CreateShipmentServlet(request, response);
             default -> System.out.println("Unknown page: " + session.getAttribute("pageName"));
         }
 
-        if (redirect == null || forceForward != null) {
-            request.getRequestDispatcher(forceForward == null ? pageName : forceForward).forward(request, response);
+        if (redirect == null) {
+            request.getRequestDispatcher(forward).forward(request, response);
         } else {
             response.sendRedirect(redirect);
         }
@@ -127,20 +126,17 @@ public class DBServlet extends HttpServlet {
     private void ShoppingServlet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
-        String item_name = request.getParameter("item");
-        float price = Float.parseFloat(request.getParameter("price"));
-        // by default display all the items in the database
+        switch(request.getParameter("button")) {
+            case "sortType" -> {
+                session.setAttribute("sort", "TYPE ASC");
+            }
 
-        try{
-             Item item = manager.findItem(item_name, price);
-             if(item != null){
-                session.setAttribute("item", item);
-                //save these item values and send to the JSP page
-             }
-        } catch (SQLException ex) {
-            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
+            case "sortName" -> {
+                session.setAttribute("sort", "ITEM ASC");
+            }
+
+            case "order" -> {}
         }
-
     }
 
     private boolean invalidDataCheck(String email, String password, String firstName, String lastName, String dob, String phone, String postcode)
@@ -202,8 +198,8 @@ public class DBServlet extends HttpServlet {
             Shipment shipmentMethod = manager.findMethod(method);
             session.setAttribute("method", shipmentMethod);
 
-            Shipment shipment = manager.findShipment(shipmentId, orderId);
-            session.setAttribute("shipment", shipment);
+            //Shipment shipment = manager.findShipment(shipmentId, orderId);
+            //session.setAttribute("shipment", shipment);
         }
         catch (SQLException ex) {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -235,44 +231,53 @@ public class DBServlet extends HttpServlet {
         }
     }
 
-    private void AdminServlet(HttpServletRequest request, HttpServletResponse response)
+    private void UserManagementServlet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        String email = request.getParameter("email");
+        String email = request.getParameter("customerEmail");
         
         try {
-            Customer customer = manager.findCusByEmail(email);
-            String firstName = customer.getFirstName();
-            String lastName = customer.getLastName();
-            String dob = customer.getDob();
-            String phone = customer.getPhone();
-            String street = customer.getStreet();
-            String city = customer.getCity();
-            String state = customer.getState();
-            String postcode = customer.getPostcode();
-            session.setAttribute("customer2", manager.findCusByEmail(email));
             switch (request.getParameter("button")){
                 case "edit" -> {
-                    forceForward = "adminEdit.jsp";
+                    session.setAttribute("customer2", manager.findCustomer(email));
+                    redirect = "adminEdit.jsp";
                 }
 
                 case "delete" -> {
-                    try {
                         if (email != null){
                             manager.deleteCustomer(email);
                         }
-                    } catch (SQLException ex) {
-                        Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-
-                case "adminEdit" -> {
-                    manager.updateCustomerDetails(email, firstName, lastName, dob, phone, street, city, state, postcode);
-                    redirect = "userManagement.jsp";
                 }
             }
         } catch (SQLException ex) {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    private void AdminEditServlet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
+    {
+        Customer customer = (Customer)session.getAttribute("customer2");
+        String email = customer.getEmail();
+        String password = customer.getPassword();
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String dob = request.getParameter("dob");
+        String phone = request.getParameter("phone");
+        String street = request.getParameter("street");
+        String city = request.getParameter("city");
+        String state = request.getParameter("state");
+        String postcode = request.getParameter("postcode");
+
+        try {
+            if (!invalidDataCheck(firstName, lastName, dob, phone, postcode)) {
+                manager.updateCustomerDetails(email, firstName, lastName, dob, phone, street, city, state, postcode);
+                session.setAttribute("customer2", null);
+                redirect = "userManagement.jsp";
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 }

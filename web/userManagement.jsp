@@ -33,20 +33,20 @@
                 </tr>
 
                 <% for (Customer customer : manager.fetchCustomers()) {%>
-                <tr>
-                    <td><%= customer.getFirstName() %></td>  
-                    <td><%= customer.getLastName() %></td>
-                    <td><%= customer.getEmail() %></td>
-                    <td><%= customer.getPassword() %></td>
-                    <td><%= customer.getDob() %></td>
+                    <tr>
+                        <td><%= customer.getFirstName() %></td>  
+                        <td><%= customer.getLastName() %></td>
+                        <td><%= customer.getEmail() %></td>
+                        <td><%= customer.getPassword() %></td>
+                        <td><%= customer.getDob() %></td>
 
-                    <td><%= customer.getStreet() %></td>
-                    <td><%= customer.getCity() %></td>
-                    <td><%= customer.getState() %></td>
-                    <td><%= customer.getPostcode() %></td>
-                    
-                    <td> <input type="radio" name="email" value="<%=customer.getEmail()%>"> </td>
-                </tr>
+                        <td><%= customer.getStreet() %></td>
+                        <td><%= customer.getCity() %></td>
+                        <td><%= customer.getState() %></td>
+                        <td><%= customer.getPostcode() %></td>
+
+                        <td> <input type="radio" name="customerEmail" value="<%=customer.getEmail()%>"> </td>
+                    </tr>
                 <% } %>
             </table>
             <button name="button" value="edit" type="submit">Edit</button>

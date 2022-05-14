@@ -13,14 +13,23 @@
     <jsp:include page="PageComponents/JSPHeader.jsp"/>
 
     <body>
+        
+        <%--<%
+
+            
+                        
+        
+        %>--%>
+        
         <%
+            
             String shippingMethod = request.getParameter("method");
             String shippingDate = request.getParameter("date");
             String shippingStreet = request.getParameter("street");
             String shippingCcity = request.getParameter("city");
             String shippingState = request.getParameter("state");
-            String shippingPostcode = request.getParameter("postcode");        
-                        
+            String shippingPostcode = request.getParameter("postcode");      
+           
             Customer customer = (Customer)session.getAttribute("customer");
             Shipment method = (Shipment)session.getAttribute("method");
             
@@ -37,7 +46,17 @@
         <form action="DBServlet">
             <table class="align-center form-table">
                 <tr><td><label for="method">Shipping Method</label></td></tr>
-                <tr><td><input type="text" name="method" placeholder="Enter Shipping Method"/></td></tr>
+                <tr><td>
+                        <select name="method" required> 
+                     <% if(methods != null) { %>
+                         <% for(Shipment item : methods) { %>
+                            <option value="${item.getShipmentId()}"><%=item.getMethod()%></option>
+                         <% } %>
+                     <% } else { %>
+                        <option disabled value="">No methods</option> 
+                     <% } %>
+                  </select>
+                </td></tr>
                 <tr><td><label for="date">Shipping Date</label></td></tr>
                 <tr><td><input type="date" name="method""/></td></tr>
                  <tr><td><label for="street">Street</label></td></tr>
