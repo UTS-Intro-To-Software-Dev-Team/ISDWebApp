@@ -97,19 +97,37 @@ public class DBManager {
         st.executeUpdate(command);
    }
 
-    public Item findItem(String item, float price)
+    public Item findItem(String item, float price, String type, int stock)
         throws SQLException
     {
-        String fetch = "select * from Items where ITEM = '" + item +"'";
+        String fetch = "select * from SHOPPING where ITEM = '" + item +"'";
         ResultSet rs = st.executeQuery(fetch);
 
         while (rs.next()) {
             if (item.equals(rs.getString(1))) {
-                price = rs.getFloat(2);
-                return new Item(item, price);
+                price = rs.getFloat(2);              
+                type = rs.getString(3);
+                stock = rs.getInt(4);
+                return new Item(item, price, type, stock);
             }
         }
         return null;
+    }
+
+    public ArrayList<Item>  fetchItems() throws SQLException {
+        String fetch = "select * from SHOPPING";
+        ResultSet rs = st.executeQuery(fetch);
+        ArrayList<Item> temp = new ArrayList<>();
+
+        while(rs.next()) {
+            float price = rs.getFloat(1);
+            String item = rs.getString(2);
+            String type = rs.getString(3);
+            int stock = rs.getInt(4);
+            
+            temp.add(new Item(item, price, type, stock));
+        }
+        return temp;
     }
 
     public Customer findCustomer(String email, String password)
