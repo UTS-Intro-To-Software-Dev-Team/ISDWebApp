@@ -1,4 +1,5 @@
 <%@page import="uts.isd.model.*" %>
+<%@page import="uts.isd.model.dao.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -11,14 +12,26 @@
 
     <body>
         <%
-            Item item = (Item)session.getAttribute("item");
-            Customer customer = (Customer)session.getAttribute("customer");
+            DBManager manager = (DBManager)session.getAttribute("manager");
         %>
         <h1>Welcome!</h1>
-        <% if (item != null) { %>
-            <p>List of items: <%= item.getItem() %></p>
-            
-        <% } %>
+        <table class="align-center form-table">
+                <tr>
+                    <th>Item Name</th>
+                    <th>Price</th>                  
+                    <th>Type</th>
+                    <th>Stock</th>
+                </tr>
+
+                <% for (Item item : manager.fetchItems()) {%>
+                <tr>
+                    <td><%= item.getItem() %></td>  
+                    <td><%= item.getPrice() %></td>
+                    <td><%= item.getType() %></td>
+                    <td><%= item.getStock() %></td>
+                </tr>
+                <% } %>
+            </table>
     </body>
 
     <jsp:include page="PageComponents/JSPFooter.jsp"/>
