@@ -232,6 +232,29 @@ public class DBServlet extends HttpServlet {
         }
     }
 
+    private void LoginServlet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException
+    {
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+
+        Validator validator = new Validator(session);
+
+        redirect = "login";
+        try {
+            Customer customer = manager.findCustomer(email, password);
+            if (customer != null) {
+                session.setAttribute("customer", customer);
+                redirect = "homePage";
+            } else {
+                session.setAttribute("emailErr", validator.validateEmail(email) ? null : "Email does not exist.");
+                session.setAttribute("passErr", validator.validatePassword(password) ? null : "Password is incorrect.");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     private void UserManagementServlet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
