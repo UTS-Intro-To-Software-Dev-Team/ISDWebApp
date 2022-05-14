@@ -134,7 +134,9 @@ public class DBServlet extends HttpServlet {
                 session.setAttribute("sort", "ITEM ASC");
             }
 
-            case "order" -> {}
+            case "order" -> {
+                redirect = "orderItem.jsp";
+            }
         }
     }
 

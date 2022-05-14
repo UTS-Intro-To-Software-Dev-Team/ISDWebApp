@@ -3,12 +3,17 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <jsp:include page="PageComponents/CommonMeta.jsp"/>
-
         <title>Edit Page</title>
     </head>
+
+    <%
+        if (session.getAttribute("customer") == null) {
+            response.sendRedirect("login.jsp");
+        }
+    %>
     <jsp:include page="PageComponents/JSPHeader.jsp"/>
+
     <body>
         <%
             String emailErr = (String) session.getAttribute("emailErr");

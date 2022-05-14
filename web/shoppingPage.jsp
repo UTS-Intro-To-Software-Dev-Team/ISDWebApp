@@ -15,7 +15,6 @@
             DBManager manager = (DBManager)session.getAttribute("manager");
             String sort = (String)session.getAttribute("sort");
         %>
-        <h1>Welcome!</h1>
         <form method="POST" action="DBServlet">            
             <table class="align-center form-table">
                 <tr>

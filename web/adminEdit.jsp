@@ -8,7 +8,14 @@
 
         <title>Edit Page</title>
     </head>
+    
+    <%
+        if (session.getAttribute("customer") == null) {
+            response.sendRedirect("login.jsp");
+        }
+    %>
     <jsp:include page="PageComponents/JSPHeader.jsp"/>
+    
     <body>
         <%
             String emailErr = (String) session.getAttribute("emailErr");

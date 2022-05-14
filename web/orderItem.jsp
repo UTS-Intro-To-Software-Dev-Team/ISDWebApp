@@ -3,7 +3,7 @@
 <html>
     <head>
         <jsp:include page="PageComponents/CommonMeta.jsp"/>
-        <title>Order History</title>
+        <title>Shipment Page</title>
     </head>
     
     <%
@@ -12,9 +12,10 @@
         }
     %>
     <jsp:include page="PageComponents/JSPHeader.jsp"/>
-
+    
     <body>
         <h1>Hello World!</h1>
     </body>
+    
     <jsp:include page="PageComponents/JSPFooter.jsp"/>
 </html>

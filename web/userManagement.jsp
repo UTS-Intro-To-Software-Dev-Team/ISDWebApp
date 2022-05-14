@@ -8,8 +8,13 @@
         <title>User Management Page</title>
     </head>
     
+    <%
+        if (session.getAttribute("customer") == null) {
+            response.sendRedirect("login.jsp");
+        }
+    %>
     <jsp:include page="PageComponents/JSPHeader.jsp"/>
-    
+
     <body>
         <h1>User Management</h1>
         <%
