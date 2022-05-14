@@ -2,16 +2,16 @@ package uts.isd.model;
 
 public class Item {
     private String item;
-    private Float price;
+    private String price;
 
-    public Item(String item, Float price){
+    public Item(String item, String price){
         this.item = item;
         this.price = price;
     }
-    public getItem(){
+    public String getItem(){
         return item;
     }
-    public getPrice(){
+    public String getPrice(){
         return price;
     }
 }

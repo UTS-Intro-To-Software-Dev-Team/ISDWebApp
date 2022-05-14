@@ -1,0 +1,22 @@
+SMAP
+shipmentPage_jsp.java
+JSP
+*S JSP
+*F
++ 0 shipmentPage.jsp
+shipmentPage.jsp
+*L
+1,5:45
+6:50,3
+7,3:53
+10:56,3
+11,3:59
+14,3:63
+16,2:66
+18:68,3
+19:71,2
+20,2:73,3
+22,2:79
+24:81,3
+25,2:84
+*E

@@ -3,10 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/zelno/Downloads/Stuff/Coding%20Stuff/WebApp/ISDWebApp/web/homePage.jsp</file>
-            <file>file:/C:/Users/zelno/Downloads/Stuff/Coding%20Stuff/WebApp/ISDWebApp/web/logout.jsp</file>
-            <file>file:/C:/Users/zelno/Downloads/Stuff/Coding%20Stuff/WebApp/ISDWebApp/web/login.jsp</file>
-            <file>file:/C:/Users/zelno/Downloads/Stuff/Coding%20Stuff/WebApp/ISDWebApp/web/register.jsp</file>
+            <file>file:/C:/Users/rajku/OneDrive/Documents/NetBeansProjects/ISD%20repo/ISDWebApp/web/shoppingPage.jsp</file>
+            <file>file:/C:/Users/rajku/OneDrive/Documents/NetBeansProjects/ISD%20repo/ISDWebApp/.gitignore</file>
+            <file>file:/C:/Users/rajku/OneDrive/Documents/NetBeansProjects/ISD%20repo/ISDWebApp/src/java/uts/isd/model/dao/DBManager.java</file>
+            <file>file:/C:/Users/rajku/OneDrive/Documents/NetBeansProjects/ISD%20repo/ISDWebApp/src/java/uts/isd/model/Item.java</file>
+            <file>file:/C:/Users/rajku/OneDrive/Documents/NetBeansProjects/ISD%20repo/ISDWebApp/src/java/uts/isd/model/Customer.java</file>
+            <file>file:/C:/Users/rajku/OneDrive/Documents/NetBeansProjects/ISD%20repo/ISDWebApp/web/homePage.jsp</file>
         </group>
     </open-files>
 </project-private>
