@@ -13,6 +13,7 @@
         <%
             Customer customer = (Customer)session.getAttribute("customer");
         %>
+        <a href="shoppingPage.jsp"><button type="submit"><b>Shopping</b></button></a>
         <h1>Welcome!</h1>
         <% if (customer != null) { %>
             <p>Email: <%= customer.getEmail() %></p>

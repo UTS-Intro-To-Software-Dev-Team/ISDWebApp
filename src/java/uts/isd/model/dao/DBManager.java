@@ -104,7 +104,7 @@ public class DBManager {
 
         while (rs.next()) {
             if (item.equals(rs.getString(1))) {
-                price = rs.getFloat(2);
+                price = rs.getString(2);
                 return new Item(item, price);
             }
         }
