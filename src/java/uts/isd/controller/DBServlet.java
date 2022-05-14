@@ -11,7 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import uts.isd.model.Customer;
-import uts.isd.model.Item;
 import uts.isd.model.Shipment;
 import uts.isd.model.dao.DBManager;
 
@@ -259,7 +258,6 @@ public class DBServlet extends HttpServlet {
     {
         Customer customer = (Customer)session.getAttribute("customer2");
         String email = customer.getEmail();
-        String password = customer.getPassword();
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String dob = request.getParameter("dob");

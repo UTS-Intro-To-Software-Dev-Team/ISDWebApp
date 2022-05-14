@@ -172,6 +172,19 @@ public class DBManager {
         }
         return null;
     }
+    
+    public boolean isCustomerStaff(String email)
+        throws SQLException
+    {
+        String fetch = "select * from Customers where EMAIL = '" + email + "'";
+        ResultSet rs = st.executeQuery(fetch);
+
+        while (rs.next()) {
+            return rs.getBoolean(12);
+        
+        }
+        return false;
+    }
 
     private String appendParamterToString(String string, String parameter) {
         return string + "', '" + parameter;
@@ -223,6 +236,10 @@ public class DBManager {
         ArrayList<Customer> temp = new ArrayList<>();
 
         while (rs.next()) {
+            if (rs.getBoolean(12)) {
+                continue;
+            }
+            
             String email = rs.getString(2);
             String password = rs.getString(3);
             String firstName = rs.getString(4);

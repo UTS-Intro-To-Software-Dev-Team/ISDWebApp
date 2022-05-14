@@ -23,7 +23,7 @@
                     <th>Email</th>
                     <th>Password</th>
                     <th>Date of Birth</th>
-
+                    <th>Phone</th>
                     <th>Street</th>
                     <th>City</th>
                     <th>State</th>
@@ -39,7 +39,7 @@
                         <td><%= customer.getEmail() %></td>
                         <td><%= customer.getPassword() %></td>
                         <td><%= customer.getDob() %></td>
-
+                        <td><%= customer.getPhone() %></td>
                         <td><%= customer.getStreet() %></td>
                         <td><%= customer.getCity() %></td>
                         <td><%= customer.getState() %></td>
