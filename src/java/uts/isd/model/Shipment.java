@@ -15,6 +15,13 @@ public class Shipment {
         
         this.method = method;
     }
+
+    public Shipment(String shipmentId, String method) {
+        this.shipmentId = shipmentId;
+        this.method = method;
+    }
+    
+    
     
     public Shipment(String shipmentId, String shipmentDate, String street, String city, String state, String postCode, String method, String orderId) {
         this.shipmentId = shipmentId;

@@ -54,9 +54,10 @@ public class DBManager {
         ArrayList<Shipment> temp = new ArrayList<>();
 
         while (rs.next()) {
+            String shipmentId = rs.getString(1);
             String method = rs.getString(2);
             System.out.println(method);
-            temp.add(new Shipment(method));
+            temp.add(new Shipment(shipmentId, method));
         }
 
         return temp;

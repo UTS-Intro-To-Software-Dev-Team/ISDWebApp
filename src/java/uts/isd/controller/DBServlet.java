@@ -199,8 +199,8 @@ public class DBServlet extends HttpServlet {
             Shipment shipmentMethod = manager.findMethod(method);
             session.setAttribute("method", shipmentMethod);
 
-            Shipment shipment = manager.findShipment(shipmentId, orderId);
-            session.setAttribute("shipment", shipment);
+            //Shipment shipment = manager.findShipment(shipmentId, orderId);
+            //session.setAttribute("shipment", shipment);
         }
         catch (SQLException ex) {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);

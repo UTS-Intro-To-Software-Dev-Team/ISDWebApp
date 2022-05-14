@@ -13,28 +13,24 @@
     <jsp:include page="PageComponents/JSPHeader.jsp"/>
 
     <body>
-        <!-- <%
-            String shippingMethod = request.getParameter("method");
-            String shippingDate = request.getParameter("date");
-            String shippingStreet = request.getParameter("street");
-            String shippingCcity = request.getParameter("city");
-            String shippingState = request.getParameter("state");
-            String shippingPostcode = request.getParameter("postcode");
-            String orderId = request.getParameter('orderId');
-
+        
+         <%
+             
+          
             Customer customer = (Customer)session.getAttribute("customer");
             Shipment method = (Shipment)session.getAttribute("method");
 
             DBManager manager = (DBManager)session.getAttribute("manager");
 
-            ArrayList<Shipment> shipmentList = manager.fetchShipment(orderId);
-        %> -->
+            ArrayList<Shipment> methods = manager.fetchMethods();
+            
+        %>
 
         <h1>Shipment</h1>
 
         <ul>
             <li><a href="createShipmentPage.jsp">Add Shipment Details</a></li>
-            <li><a>Update Shipment Details</a></li>
+            <li><a href="updateShipment.jsp">Update Shipment Details</a></li>
             <li><a href="searchShipment.jsp">Search Shipment Details</a></li>
         </ul>
 
@@ -51,10 +47,11 @@
             <% } %>
 
             <%--print out the shipping methods using a loop--%>
-            <%if(shipmentList != null) { %>
-                <% for(Shipment item : shipmentList) { %>
+            <%if(methods != null) { %>
+                <% for(Shipment item : methods) { %>
              <tr>
-                 <td><%=item.getShipmentDate()%></td>
+                
+                 
                  <td><%=item.getMethod()%></td>
              </tr>
                 <%  } %>
