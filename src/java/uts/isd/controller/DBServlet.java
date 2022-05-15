@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import uts.isd.model.Customer;
+import uts.isd.model.Item;
 import uts.isd.model.Shipment;
 import uts.isd.model.dao.DBManager;
 
@@ -36,6 +37,9 @@ public class DBServlet extends HttpServlet {
             case "login.jsp" -> LoginServlet(request, response);
             case "edit.jsp" -> EditServlet(request, response);
             case "adminEdit.jsp" -> AdminEditServlet(request, response);
+            case "itemEdit.jsp" -> ItemEditServlet(request, response);
+
+            case "itemManagement.jsp" -> ItemManagementServlet(request, response);
             case "userManagement.jsp" -> UserManagementServlet(request, response);
             case "shoppingPage.jsp" -> ShoppingServlet(request, response);
             case "shipmentPage.jsp" -> ShipmentServlet(request, response);
@@ -249,6 +253,28 @@ public class DBServlet extends HttpServlet {
         }
     }
 
+    private void ItemManagementServlet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException
+    {
+        String item_name = request.getParameter("itemName");
+        try {
+            switch (request.getParameter("button")){
+                case "edit" -> {
+                    session.setAttribute("item1", manager.findItem(item_name));                    
+                    redirect = "itemEdit.jsp";
+                }
+
+                case "delete" -> {
+                    if(item_name != null){
+                        manager.deleteItem(item_name);
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     private void UserManagementServlet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
@@ -267,6 +293,26 @@ public class DBServlet extends HttpServlet {
                         }
                 }
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void ItemEditServlet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
+
+    {
+        String item_name = request.getParameter("itemName");
+        float price = Float.parseFloat(request.getParameter("itemPrice"));
+        String type = request.getParameter("itemType");
+        
+        int stock = Integer.parseInt(request.getParameter("itemStock"));
+
+        try {
+            manager.updateItemDetails(item_name, type, price, stock);
+            session.setAttribute("item1", null);
+            redirect = "itemManagement.jsp";
+            
         } catch (SQLException ex) {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
