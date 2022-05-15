@@ -1,4 +1,5 @@
 <%@page import="uts.isd.model.Customer"%>
+<%@page import="uts.isd.model.dao.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

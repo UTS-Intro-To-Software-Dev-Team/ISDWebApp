@@ -224,6 +224,10 @@ public class DBManager {
         st.executeUpdate(command);
     }
 
+    public void deleteItem(String item_name) throws SQLException {
+        st.executeUpdate("DELETE FROM SHOPPING WHERE ITEM = '" + item_name +"'");
+    }
+
     public void deleteCustomer(String email) throws SQLException {
         st.executeUpdate("DELETE FROM Customers WHERE EMAIL = '" + email + "'");
     }
