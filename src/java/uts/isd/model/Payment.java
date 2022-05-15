@@ -11,14 +11,16 @@ public class Payment {
     private String cvv;
     private String fullName;
     private String expiryDate;
+    private String method;
     
-    public Payment(String paymentID, String paymentDate, String cardNumber, String cvv, String fullName, String expiryDate) {
+    public Payment(String paymentID, String paymentDate, String cardNumber, String cvv, String fullName, String expiryDate, String method) {
         this.paymentID = paymentID;
         this.paymentDate = paymentDate;
         this.cardNumber = cardNumber;
         this.cvv = cvv;
         this.fullName = fullName;
         this.expiryDate = expiryDate;
+        this.method = method;
     }
 
     public String getPaymentID() {
@@ -65,8 +67,16 @@ public class Payment {
         return expiryDate;
     }
 
-    public void expiryDate(String expiryDate) {
+    public void setExpiryDate(String expiryDate) {
         this.expiryDate = expiryDate;
+    }
+    
+    public String getMethod() {
+        return expiryDate;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
     }
 
 }

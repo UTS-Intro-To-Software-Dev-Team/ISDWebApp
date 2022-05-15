@@ -20,7 +20,7 @@
         
          <form action="homePage.jsp" method="post">
             
-        <%-- <p>#${paymentId} </p>--%>
+        <%-- <p>#${paymentID} </p>--%>
         
         <table class="align-center form-table">
             <tr> <td><label for name="search_paymentId" class="subtitle">Payment ID </label></td>
@@ -40,24 +40,24 @@
                     <tr>
                         <th><b>Payment ID</b></th>
                         <th><b>Date Paid</b></th>
+                        <th><b>Full Name</b></th>
                         <th><b>Card Number</b></th>
                         <th><b>CVV</b></th>
-                        <th><b>Full Name</b></th>
                         <th><b>Expiry Date</b></th>
+                        <th><b>Method</b></th>
                     </tr>
                 </thead>
                
                 <tbody> 
                     <tr>
                         <td><p><%=searchPayment.getPaymentDate()%></p></td>
+                        <td><p><%=searchPayment.getFullName()%></p></td>
                         <td><p><%=searchPayment.getCardNumber()%></p></td>
                         <td><p><%=searchPayment.getCvv()%></p></td>
-                        <td><p><%=searchPayment.getFullName()%></p></td>
                         <td><p><%=searchPayment.getExpiryDate()%></p></td>
+                        <td><p><%=searchPayment.getMethod()%></p></td>
                     </tr> 
-                </tbody>
-               
-                
+                </tbody>  
             </table> 
                 
         <%  } else { %>

@@ -15,6 +15,7 @@
             String cardNumber = request.getParameter("cardNumber");
             String cvv = request.getParameter("cvv");
             String expiryDate = request.getParameter("expiryDate");
+            String method = request.getParameter("method");
      
             String fullNameErr = (String) session.getAttribute("firstNameErr");
             String cardNumberErr = (String) session.getAttribute("cardNumberErr");
@@ -52,6 +53,14 @@
                 <% if (cvvErr != null) { %>
                     <tr><td><b><%= cvvErr %></b></td></tr>
                 <% } %>
+                
+                <tr><td><label for="Payment Method"><b>Payment Method:</b></label></td></tr>
+                <tr><td>
+                    <select name="method" required selected value="<%= method != null ? method : "" %>">
+                        <option value="Credit Card">Credit Card</option>
+                        <option value="Debit Card">Debit Card</option>
+                    </select>
+                </td></tr>
 
                 <tr><td><button type="submit" value="PaymentDetails"><b>Submit</b></button></td></tr>
                 <tr><td><a class= "button" style="center" href="homePage.jsp">Cancel</a></td></tr>
