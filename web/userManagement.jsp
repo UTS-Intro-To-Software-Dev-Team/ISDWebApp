@@ -9,17 +9,17 @@
     </head>
     
     <%
-        if (session.getAttribute("customer") == null) {
-            response.sendRedirect("login.jsp");
+        Customer cust = (Customer)session.getAttribute("customer");
+        DBManager manager = (DBManager)session.getAttribute("manager");
+        if (cust == null || manager == null || !manager.isCustomerStaff(cust.getEmail())) {
+            response.sendRedirect("homePage.jsp");
+            return;
         }
     %>
     <jsp:include page="PageComponents/JSPHeader.jsp"/>
 
     <body>
         <h1>User Management</h1>
-        <%
-            DBManager manager = (DBManager)session.getAttribute("manager");
-        %>
         <form method="POST" action="DBServlet">
             <table class="align-center form-table">
                 <tr>

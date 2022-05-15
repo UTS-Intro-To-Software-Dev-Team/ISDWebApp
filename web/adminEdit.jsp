@@ -10,8 +10,11 @@
     </head>
     
     <%
-        if (session.getAttribute("customer") == null) {
-            response.sendRedirect("login.jsp");
+        Customer customer = (Customer)session.getAttribute("customer");
+        DBManager manager = (DBManager)session.getAttribute("manager");
+        if (customer == null || manager == null || !manager.isCustomerStaff(customer.getEmail())) {
+            response.sendRedirect("homePage.jsp");
+            return;
         }
     %>
     <jsp:include page="PageComponents/JSPHeader.jsp"/>
@@ -26,8 +29,7 @@
             String dateErr = (String) session.getAttribute("dateErr");
             String phoneErr = (String) session.getAttribute("phoneErr");
             String postcodeErr = (String) session.getAttribute("postcodeErr");
-            Customer customer = (Customer)session.getAttribute("customer2");
-            System.out.println(customer.getDob());
+            customer = (Customer)session.getAttribute("customer2");
         %>
 
         <h1 class="align-center">Edit User Details - Admin</h1>

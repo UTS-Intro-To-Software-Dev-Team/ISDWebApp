@@ -8,8 +8,10 @@
     </head>
 
     <%
-        if (session.getAttribute("customer") == null) {
+        Customer customer = (Customer)session.getAttribute("customer");
+        if (customer == null) {
             response.sendRedirect("login.jsp");
+            return;
         }
     %>
     <jsp:include page="PageComponents/JSPHeader.jsp"/>
@@ -24,7 +26,6 @@
             String dateErr = (String) session.getAttribute("dateErr");
             String phoneErr = (String) session.getAttribute("phoneErr");
             String postcodeErr = (String) session.getAttribute("postcodeErr");
-            Customer customer = (Customer)session.getAttribute("Customer");
         %>
 
         <h1 class="align-center">Edit User Details</h1>

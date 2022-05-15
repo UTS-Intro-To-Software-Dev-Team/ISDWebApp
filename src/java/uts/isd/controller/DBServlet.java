@@ -125,17 +125,34 @@ public class DBServlet extends HttpServlet {
     private void ShoppingServlet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
+        String sort = (String)session.getAttribute("sort");
+        
         switch(request.getParameter("button")) {
             case "sortType" -> {
-                session.setAttribute("sort", "TYPE ASC");
+                if (sort == null || !sort.equals("TYPE ASC")) {
+                    session.setAttribute("sort", "TYPE ASC");
+                } else {
+                    session.setAttribute("sort", "TYPE DESC");
+                }
             }
 
             case "sortName" -> {
-                session.setAttribute("sort", "ITEM ASC");
+                if (sort == null || !sort.equals("ITEM ASC")) {
+                    session.setAttribute("sort", "ITEM ASC");
+                } else {
+                    session.setAttribute("sort", "ITEM DESC");
+                }
             }
 
             case "order" -> {
-                redirect = "orderItem.jsp";
+                session.setAttribute("itemName", request.getParameter("itemName"));
+                Customer customer = (Customer)session.getAttribute("customer");
+                if (customer == null) {
+                    redirect = "login.jsp";
+                }
+                if (session.getAttribute("itemName") != null) {
+                    redirect = "orderItem.jsp";
+                }
             }
         }
     }

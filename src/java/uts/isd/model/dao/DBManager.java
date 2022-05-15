@@ -104,12 +104,10 @@ public class DBManager {
         ResultSet rs = st.executeQuery(fetch);
 
         while (rs.next()) {
-            if (item.equals(rs.getString(3))) {
-                float price = rs.getFloat(2);              
-                String type = rs.getString(4);
-                int stock = rs.getInt(5);
-                return new Item(item, price, type, stock);
-            }
+            float price = rs.getFloat(2);              
+            String type = rs.getString(4);
+            int stock = rs.getInt(5);
+            return new Item(item, price, type, stock);
         }
         return null;
     }

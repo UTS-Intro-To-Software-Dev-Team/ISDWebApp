@@ -5,22 +5,22 @@
 <html>
     <head>
         <jsp:include page="PageComponents/CommonMeta.jsp"/>
-        <title>Order History</title>
+        <title>Shopping Page</title>
     </head>
-    
+
     <%
         Customer customer = (Customer)session.getAttribute("customer");
-        if (customer == null) {
-            response.sendRedirect("login.jsp");
+        DBManager manager = (DBManager)session.getAttribute("manager");
+        if (customer == null || manager == null || !manager.isCustomerStaff(customer.getEmail())) {
+            response.sendRedirect("homePage.jsp");
             return;
         }
     %>
     <jsp:include page="PageComponents/JSPHeader.jsp"/>
-
+    
     <body>
         <h1>Hello World!</h1>
     </body>
     
-
     <jsp:include page="PageComponents/JSPFooter.jsp"/>
 </html>

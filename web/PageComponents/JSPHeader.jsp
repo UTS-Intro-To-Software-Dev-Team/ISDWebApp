@@ -23,10 +23,11 @@
         } else { //Logged in
             if (manager.isCustomerStaff(customer.getEmail())) {
                 links.add(new String[] {"userManagement.jsp", "Customer Management"});
+                links.add(new String[] {"addItem.jsp", "Add Items"});
             }
+            
             links.add(new String[] {"edit.jsp", "Edit Account Details"});
             links.add(new String[] {"orderHistory.jsp", "Order History"});
-            links.add(new String[] {"shipmentPage.jsp", "Shipment Details"});
             links.add(new String[] {"logout.jsp", "Logout"});
         }
     %>
