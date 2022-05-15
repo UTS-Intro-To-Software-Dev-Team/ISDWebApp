@@ -29,35 +29,33 @@
     <body>
         <form method="POST" action="DBServlet">
             <h1 style="text-align: center"><%= item.getItem() %></h1>
-            <table class="align-center form-table">
+            <table class="form-table align-center">
                 <tr>
                     <td>Unit price:</td>
                     <td>$<%= item.getPrice() %></td>
-                    <td style="width: 30%;"></td>
-                    <td>Quantity:</td>
-                    <td>Input field here</td>
                 </tr>
-                
+
                 <tr>
                     <td>Stock:</td>
                     <td><%= item.getStock() %></td>
-                    <td></td>
+                </tr>
+                
+                <tr>
+                    <td>Quantity:</td>
+                    <td><input type="number" name="quantity" placeholder="1 - <%= item.getStock() %>" value="1" required min="1" max="<%= item.getStock() %>"></td>
+                </tr>
+
+                <tr>
                     <td><label for="street"><b>Street:</b></label></td>
                     <td><input type="text" name="street" placeholder="Enter street" value="${customer.street}" required></td>
                 </tr>
 
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
                     <td><label for="city"><b>City:</b></label></td>
                     <td><input type="text" name="city" placeholder="Enter city" value="${customer.city}" required></td>
                 </tr>
-                
+
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
                     <td><label for="state"><b>State:</b></label></td>
                     <td>
                         <select name="state" required selected value="${customer.state}">
@@ -70,20 +68,15 @@
                         </select>
                     </td>
                 </tr>
-                
+
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
                     <td><label for="postcode"><b>Postcode:</b></label></td>
-                    <td><input type="text" name="postcode" placeholder="####" style="width: 40px; text-align: center;" value="${customer.postcode}" required pattern="^[0-9]{4}$" minlength="4" maxlength="4" title="Postcode must be a 4 digit number."></td>
+                    <td><input type="number" name="postcode" placeholder="####" style="width: 50px; text-align: center;" value="${customer.postcode}" required pattern="^[0-9]{4}$" minlength="4" maxlength="4" title="Postcode must be a 4 digit number."></td>
                 </tr>
                 <% if (postcodeErr != null) { %>
                     <tr><td><b><%= postcodeErr %></b></td></tr>
                 <% } %>
-                
             </table>
-            
         </form>
     </body>
     
