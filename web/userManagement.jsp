@@ -21,6 +21,10 @@
     <body>
         <h1>User Management</h1>
         <form method="POST" action="DBServlet">
+            <div style="display: flex; justify-content: center;">
+                <button name="button" value="edit" type="submit">Edit</button>
+                <button name="button" value="delete" type="submit">Delete</button> 
+            </div>
             <table class="align-center form-table">
                 <tr>
                     <th>First Name</th>
@@ -50,12 +54,10 @@
                         <td><%= customer.getState() %></td>
                         <td><%= customer.getPostcode() %></td>
 
-                        <td> <input type="radio" name="customerEmail" value="<%=customer.getEmail()%>"> </td>
+                        <td> <input type="radio" name="customerID" value="<%=customer.getCustomerID()%>"> </td>
                     </tr>
                 <% } %>
             </table>
-            <button name="button" value="edit" type="submit">Edit</button>
-            <button name="button" value="delete" type="submit">Delete</button> 
         </form>
     </body>
     <jsp:include page="PageComponents/JSPFooter.jsp"/>

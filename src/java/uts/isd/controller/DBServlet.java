@@ -11,8 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import uts.isd.model.Customer;
-import uts.isd.model.Item;
-import uts.isd.model.Shipment;
 import uts.isd.model.dao.DBManager;
 
 public class DBServlet extends HttpServlet {
@@ -42,8 +40,6 @@ public class DBServlet extends HttpServlet {
             case "itemManagement.jsp" -> ItemManagementServlet(request, response);
             case "userManagement.jsp" -> UserManagementServlet(request, response);
             case "shoppingPage.jsp" -> ShoppingServlet(request, response);
-            case "shipmentPage.jsp" -> ShipmentServlet(request, response);
-            case "createShipment.jsp" -> CreateShipmentServlet(request, response);
             default -> System.out.println("Unknown page: " + session.getAttribute("pageName"));
         }
 
@@ -71,8 +67,7 @@ public class DBServlet extends HttpServlet {
         try {
             if (!invalidDataCheck(email, password, firstName, lastName, dob, phone, postcode)) {
                 Customer customer = new Customer(email, password, firstName, lastName, dob, phone, street, city, state, postcode);
-                manager.addCustomer(customer);
-                session.setAttribute("customer", customer);
+                session.setAttribute("customer", manager.addCustomer(customer));
                 redirect = "homePage.jsp";
             }
         } catch (SQLException ex) {
@@ -166,7 +161,7 @@ public class DBServlet extends HttpServlet {
     {
         boolean hasFailed = false;
         String message = "Email format is incorrect. An example: JohnSmith@Mail.com";
-        hasFailed = dataCheck(hasFailed, validator.validatePattern("email", email), "emailErr", message);
+        hasFailed = DataCheck(hasFailed, validator.validatePattern("email", email), "emailErr", message);
 
         message = "Password must contain:";
         message += "<br>1. At least one digit [0-9].";
@@ -174,12 +169,12 @@ public class DBServlet extends HttpServlet {
         message += "<br>3. At least one uppercase Latin character [A-Z].";
         message += "<br>4. at least one special character like ! @ # & ( ).";
         message += "<br>5. A length of at least 8 characters.";
-        hasFailed = dataCheck(hasFailed, validator.validatePattern("password", password), "passErr", message);
+        hasFailed = DataCheck(hasFailed, validator.validatePattern("password", password), "passErr", message);
 
         hasFailed = hasFailed || invalidDataCheck(firstName, lastName, dob, phone, postcode);
 
         message = "Customer already exists.";
-        hasFailed = dataCheck(hasFailed, !manager.checkCustomer(email), "existErr", message);
+        hasFailed = DataCheck(hasFailed, !manager.checkCustomer(email), "existErr", message);
 
         return hasFailed;
     }
@@ -189,68 +184,24 @@ public class DBServlet extends HttpServlet {
     {
         boolean hasFailed = false;
         String message = "This should only contain letters and start with a capitalised letter.";
-        hasFailed = dataCheck(hasFailed, validator.validatePattern("name", firstName), "firstNameErr", message);
-        hasFailed = dataCheck(hasFailed, validator.validatePattern("name", lastName), "lastNameErr", message);
+        hasFailed = DataCheck(hasFailed, validator.validatePattern("name", firstName), "firstNameErr", message);
+        hasFailed = DataCheck(hasFailed, validator.validatePattern("name", lastName), "lastNameErr", message);
 
         message = "Minimum age is 13.";
-        hasFailed = dataCheck(hasFailed, validator.validatePattern("age", dob), "dateErr", message);
+        hasFailed = DataCheck(hasFailed, validator.validatePattern("age", dob), "dateErr", message);
 
         message = "Not a valid phone number.";
-        hasFailed = dataCheck(hasFailed, validator.validatePattern("phone", phone), "phoneErr", message);
+        hasFailed = DataCheck(hasFailed, validator.validatePattern("phone", phone), "phoneErr", message);
 
         message = "Postcode must be a 4 digit number.";
-        hasFailed = dataCheck(hasFailed, validator.validatePattern("postcode", postcode), "postcodeErr", message);
+        hasFailed = DataCheck(hasFailed, validator.validatePattern("postcode", postcode), "postcodeErr", message);
 
         return hasFailed;
     }
 
-    private boolean dataCheck(boolean hasFailed, boolean valid, String attribute, String message) {
+    private boolean DataCheck(boolean hasFailed, boolean valid, String attribute, String message) {
         session.setAttribute(attribute, valid ? null : message);
         return hasFailed || !valid;
-    }
-
-    private void ShipmentServlet(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException
-    {
-        String method = request.getParameter("method");
-        String shipmentId = request.getParameter("shipmentId");
-        String orderId = request.getParameter("orderId");
-
-        try{
-            Shipment shipmentMethod = manager.findMethod(method);
-            session.setAttribute("method", shipmentMethod);
-
-            //Shipment shipment = manager.findShipment(shipmentId, orderId);
-            //session.setAttribute("shipment", shipment);
-        }
-        catch (SQLException ex) {
-            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void CreateShipmentServlet(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException
-    {
-
-        String shipmentId = request.getParameter("shipmentId");
-        String shipmentDate = request.getParameter("date");
-        String street = request.getParameter("street");
-        String city = request.getParameter("city");
-        String state = request.getParameter("state");
-        String postcode = request.getParameter("postcode");
-        String method = request.getParameter("method");
-        String orderId = request.getParameter("orderId");
-
-        redirect = "createShipment";
-        try {
-            //if (!invalidDataCheck(email, password, firstName, lastName, dob, postcode)) {
-                manager.addShipment(shipmentId, shipmentDate, street, city, state, postcode, method, orderId);
-                session.setAttribute("shipment", new Shipment(shipmentId, shipmentDate, street, city, state, postcode, method, orderId));
-                redirect = "shipmentPage";
-            //}
-        } catch (SQLException ex) {
-            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     private void ItemManagementServlet(HttpServletRequest request, HttpServletResponse response)
@@ -260,7 +211,7 @@ public class DBServlet extends HttpServlet {
         try {
             switch (request.getParameter("button")){
                 case "edit" -> {
-                    session.setAttribute("item1", manager.findItem(item_name));                    
+                    session.setAttribute("item", manager.findItem(item_name));
                     redirect = "itemEdit.jsp";
                 }
 
@@ -269,6 +220,8 @@ public class DBServlet extends HttpServlet {
                         manager.deleteItem(item_name);
                     }
                 }
+                
+                case "add" -> redirect = "addItem.jsp";
             }
         } catch (SQLException ex) {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -278,20 +231,23 @@ public class DBServlet extends HttpServlet {
     private void UserManagementServlet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        String email = request.getParameter("customerEmail");
+        String ID = request.getParameter("customerID");
+        if (ID == null) {
+            return;
+        }
         
+        int customerID = Integer.parseInt(request.getParameter("customerID"));
         try {
             switch (request.getParameter("button")){
                 case "edit" -> {
-                    session.setAttribute("customer2", manager.findCustomer(email));
+                    session.setAttribute("customer2", manager.findCustomer(customerID));
                     redirect = "adminEdit.jsp";
                 }
 
                 case "delete" -> {
-                        if (email != null){
-                            manager.deleteCustomer(email);
-                        }
+                    manager.deleteCustomer(customerID);
                 }
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -305,7 +261,6 @@ public class DBServlet extends HttpServlet {
         String item_name = request.getParameter("itemName");
         float price = Float.parseFloat(request.getParameter("itemPrice"));
         String type = request.getParameter("itemType");
-        
         int stock = Integer.parseInt(request.getParameter("itemStock"));
 
         try {

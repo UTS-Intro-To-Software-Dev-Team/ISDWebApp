@@ -69,7 +69,7 @@
                 <% } %>
                 
                 <tr><td><label for="phone"><b>Phone Number:</b></label></td></tr>
-                <tr><td><input type="text" name="phone" placeholder="Enter phone number" value="<%= phone != null ? phone : "" %>" required pattern="^[0-9]{3,15}$" title="Not a valid phone number."></td></tr>
+                <tr><td><input type="number" name="phone" placeholder="Enter phone number" value="<%= phone != null ? phone : "" %>" required pattern="^[0-9]{3,15}$" title="Not a valid phone number."></td></tr>
                 <% if (phoneErr != null) { %>
                     <tr><td><b><%= phoneErr %></b></td></tr>
                 <% } %>
@@ -93,7 +93,7 @@
                 </td></tr>
 
                 <tr><td><label for="postcode"><b>Postcode:</b></label></td></tr>
-                <tr><td><input type="text" name="postcode" placeholder="####" style="width: 5%; text-align: center;" value="<%= postcode != null ? postcode : "" %>" required pattern="^[0-9]{4}$" minlength="4" maxlength="4" title="Postcode must be a 4 digit number."></td></tr>
+                <tr><td><input type="number" name="postcode" placeholder="####" style="width: 5%; text-align: center;" value="<%= postcode != null ? postcode : "" %>" required pattern="^[0-9]{4}$" minlength="4" maxlength="4" title="Postcode must be a 4 digit number."></td></tr>
                 <% if (postcodeErr != null) { %>
                     <tr><td><b><%= postcodeErr %></b></td></tr>
                 <% } %>

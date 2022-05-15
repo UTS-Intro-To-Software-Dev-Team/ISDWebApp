@@ -22,6 +22,12 @@
     <body>
         <h1>Item Management</h1>
         <form method="POST" action="DBServlet">
+            <div style="display: flex; justify-content: center;">
+                <button name="button" value="edit" type="submit">Edit</button>
+                <button name="button" value="delete" type="submit">Delete</button>
+                <button name="button" value="add" type="submit">Add new item</button>
+            </div>
+            
             <table class="align-center form-table">
                 <tr>
                     <th>Item</th>
@@ -43,8 +49,6 @@
                     </tr>
                 <% } %>
             </table>
-            <button name="button" value="edit" type="submit">Edit</button>
-            <button name="button" value="delete" type="submit">Delete</button> 
         </form>
     </body>
     <jsp:include page="PageComponents/JSPFooter.jsp"/>

@@ -2,7 +2,6 @@ package uts.isd.model.dao;
 
 import uts.isd.model.Customer;
 import uts.isd.model.Item;
-import uts.isd.model.Shipment;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -16,86 +15,6 @@ public class DBManager {
     public DBManager(Connection conn) throws SQLException {
         st = conn.createStatement();
     }
-
-    public Shipment findMethod(String selectedMethod)
-        throws SQLException
-    {
-        String fetch = "select * from Shipment_Methods WHERE shipmentMethodName = '" + selectedMethod + "'";
-        ResultSet rs = st.executeQuery(fetch);
-        while (rs.next()){
-            String method = rs.getString(1);
-            return new Shipment(method);
-        }
-        return null;
-    }
-
-    public Shipment findShipment(String selectedShipmentId, String selectedOrderId) throws SQLException
-    {
-        String fetch = "select * from Order_Shipment WHERE orderId = '" + selectedOrderId + "' and shipmentId='" + selectedShipmentId + "'";
-        ResultSet rs = st.executeQuery(fetch);
-        while (rs.next()){
-            String shippingId = rs.getString(1);
-            String shippingDate = rs.getString(2);
-            String method = rs.getString(3);
-            String street = rs.getString(4);
-            String city = rs.getString(5);
-            String state = rs.getString(6);
-            String postCode = rs.getString(7);
-            String orderId = rs.getString(8);
-            return new Shipment(shippingId, shippingDate, street, city, state, postCode, method, orderId);
-        }
-        return null;
-    }
-
-    public ArrayList<Shipment> fetchMethods() throws SQLException
-    {
-        String fetch = "select * from Shipment_Methods";
-        ResultSet rs = st.executeQuery(fetch);
-        ArrayList<Shipment> temp = new ArrayList<>();
-
-        while (rs.next()) {
-            String shipmentId = rs.getString(1);
-            String method = rs.getString(2);
-            System.out.println(method);
-            temp.add(new Shipment(shipmentId, method));
-        }
-
-        return temp;
-    }
-
-   public ArrayList<Shipment> fetchShipment(String selectedOrderId) throws SQLException
-   {
-        String fetch = "select * from Order_Shipment where orderId = '" + selectedOrderId + "'";
-        ResultSet rs = st.executeQuery(fetch);
-        ArrayList<Shipment> temp = new ArrayList<>();
-
-        while (rs.next()){
-            String shippingId = rs.getString(1);
-            String shippingDate = rs.getString(2);
-            String method = rs.getString(3);
-            String street = rs.getString(4);
-            String city = rs.getString(5);
-            String state = rs.getString(6);
-            String postCode = rs.getString(7);
-            String orderId = rs.getString(8);
-            temp.add(new Shipment(shippingId, shippingDate, street, city, state, postCode, method, orderId));
-        }
-        return temp;
-   }
-
-   public void addShipment(String shipmentId, String shipmentDate, String street, String city, String state, String postCode, String method, String orderId) throws SQLException
-   {
-        String command = "INSERT INTO ISDUSER.Order_Shipment VALUES ('" + shipmentId;
-        command = appendParamterToString(command, shipmentDate);
-        command = appendParamterToString(command, street);
-        command = appendParamterToString(command, city);
-        command = appendParamterToString(command, state);
-        command = appendParamterToString(command, postCode);
-        command = appendParamterToString(command, orderId);
-        command += "')";
-        System.out.println(command);
-        st.executeUpdate(command);
-   }
 
     public Item findItem(String item)
         throws SQLException
@@ -112,7 +31,7 @@ public class DBManager {
         return null;
     }
 
-    public ArrayList<Item>  fetchItems(String sort) throws SQLException {
+    public ArrayList<Item> fetchItems(String sort) throws SQLException {
         String fetch = "select * from SHOPPING";
         fetch += sort == null ? "" : " ORDER BY " + sort;
         
@@ -129,44 +48,45 @@ public class DBManager {
         }
         return temp;
     }
+    
+    private Customer customerFromResult(ResultSet rs)
+        throws SQLException
+    {
+        int customerID = rs.getInt("customerID");
+        String email = rs.getString("email");
+        String password = rs.getString("password");
+        String firstName = rs.getString("firstName");
+        String lastName = rs.getString("lastName");
+        String dob = rs.getString("dob");
+        String phone = rs.getString("phone");
+        String street = rs.getString("street");
+        String city = rs.getString("city");
+        String state = rs.getString("state");
+        String postcode = rs.getString("postcode");
+        boolean isStaff = rs.getBoolean("isStaff");
+        boolean isActive = rs.getBoolean("isActive");
+        return new Customer(customerID, email, password, firstName, lastName, dob, phone, street, city, state, postcode, isStaff, isActive);
+    }
 
     public Customer findCustomer(String email, String password)
         throws SQLException
     {
-        String fetch = "select * from Customers where EMAIL = '" + email + "' and PASSWORD = '" + password + "'";
-        ResultSet rs = st.executeQuery(fetch);
-
-        while (rs.next()) {
-            String firstName = rs.getString(4);
-            String lastName = rs.getString(5);
-            String dob = rs.getString(6);
-            String phone = rs.getString(7);
-            String street = rs.getString(8);
-            String city = rs.getString(9);
-            String state = rs.getString(10);
-            String postcode = rs.getString(11);
-            return new Customer(email, password, firstName, lastName, dob, phone, street, city, state, postcode);
-        }
-        return null;
+        return findCustomer("select * from Customers where EMAIL = '" + email + "' and PASSWORD = '" + password + "'");
     }
     
-    public Customer findCustomer(String email)
+    public Customer findCustomer(int ID)
         throws SQLException
     {
-        String fetch = "select * from Customers where EMAIL = '" + email + "'";
+        return findCustomer("select * from Customers where CustomerID = " + ID);
+    }
+    
+    private Customer findCustomer(String fetch)
+        throws SQLException
+    {
         ResultSet rs = st.executeQuery(fetch);
 
         while (rs.next()) {
-            String password = rs.getString(3);
-            String firstName = rs.getString(4);
-            String lastName = rs.getString(5);
-            String dob = rs.getString(6);
-            String phone = rs.getString(7);
-            String street = rs.getString(8);
-            String city = rs.getString(9);
-            String state = rs.getString(10);
-            String postcode = rs.getString(11);
-            return new Customer(email, password, firstName, lastName, dob, phone, street, city, state, postcode);
+            return customerFromResult(rs);
         }
         return null;
     }
@@ -185,13 +105,13 @@ public class DBManager {
     }
 
     private String appendParamterToString(String string, String parameter) {
-        return string + "', '" + parameter;
+        return string + ", '" + parameter + "'";
     }
 
-    public void addCustomer(Customer customer)
+    public Customer addCustomer(Customer customer)
         throws SQLException
     {
-        String command = "INSERT INTO Customers (email, password, firstName, lastName, dob, phone, street, city, state, postcode) VALUES ('" + customer.getEmail();
+        String command = "INSERT INTO Customers (email, password, firstName, lastName, dob, phone, street, city, state, postcode) VALUES ('" + customer.getEmail() + "'";
         command = appendParamterToString(command, customer.getPassword());
         command = appendParamterToString(command, customer.getFirstName());
         command = appendParamterToString(command, customer.getLastName());
@@ -201,22 +121,22 @@ public class DBManager {
         command = appendParamterToString(command, customer.getCity());
         command = appendParamterToString(command, customer.getState());
         command = appendParamterToString(command, customer.getPostcode());
-        command += "')";
+        command += ")";
         st.executeUpdate(command);
+        
+        return findCustomer(customer.getEmail(), customer.getPassword());
     }
 
     private String appendParamToString(String string, String parameter, String specificParameter) {
-        return string + "', "+ specificParameter + " = '" + parameter;
+        return string + ", "+ specificParameter + " = '" + parameter + "'";
     }
 
     public void updateItemDetails(String name, String type, float price, int stock)
         throws SQLException
     {
-        String command = "UPDATE SHOPPING SET ITEM = '" + name;
+        String command = "UPDATE SHOPPING SET ITEM = '" + name  + "' ";
         command = appendParamToString(command, type, "Type");
-        command = appendParamToString(command, price + "", "Price");
-        command = appendParamToString(command, stock + "", "Stock");
-        command += "' WHERE ITEM = '" + name + "'";
+        command += ", Price=" + price + ", stock=" + stock + " WHERE ITEM = '" + name + "'";
         System.out.println(command);
         st.executeUpdate(command);
     }
@@ -224,7 +144,7 @@ public class DBManager {
     public void updateCustomerDetails(String email, String firstName, String lastName, String dob, String phone, String street, String city, String state, String postcode)
         throws SQLException
     {
-        String command = "UPDATE Customers SET FirstName = '" + firstName;
+        String command = "UPDATE Customers SET FirstName = '" + firstName + "' ";
         command = appendParamToString(command, lastName, "LastName");
         command = appendParamToString(command, dob, "DOB");
         command = appendParamToString(command, phone, "Phone");
@@ -232,7 +152,7 @@ public class DBManager {
         command = appendParamToString(command, city, "City");
         command = appendParamToString(command, state, "State");
         command = appendParamToString(command, postcode, "Postcode");
-        command += "' WHERE EMAIL = '" + email + "'";
+        command += "WHERE EMAIL = '" + email + "'";
         st.executeUpdate(command);
     }
 
@@ -240,8 +160,8 @@ public class DBManager {
         st.executeUpdate("DELETE FROM SHOPPING WHERE ITEM = '" + item_name +"'");
     }
 
-    public void deleteCustomer(String email) throws SQLException {
-        st.executeUpdate("DELETE FROM Customers WHERE EMAIL = '" + email + "'");
+    public void deleteCustomer(int ID) throws SQLException {
+        st.executeUpdate("DELETE FROM Customers where CustomerID = " + ID);
     }
 
     public ArrayList<Customer> fetchCustomers() throws SQLException {
@@ -250,21 +170,10 @@ public class DBManager {
         ArrayList<Customer> temp = new ArrayList<>();
 
         while (rs.next()) {
-            if (rs.getBoolean(12)) {
+            if (rs.getBoolean("isStaff")) {
                 continue;
             }
-            
-            String email = rs.getString(2);
-            String password = rs.getString(3);
-            String firstName = rs.getString(4);
-            String lastName = rs.getString(5);
-            String dob = rs.getString(6);
-            String phone = rs.getString(7);
-            String street = rs.getString(8);
-            String city = rs.getString(9);
-            String state = rs.getString(10);
-            String postcode = rs.getString(11);
-            temp.add(new Customer(email, password, firstName, lastName, dob, phone, street, city, state, postcode));
+            temp.add(customerFromResult(rs));
         }
 
         return temp;

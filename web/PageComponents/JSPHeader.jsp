@@ -23,7 +23,6 @@
         } else { //Logged in
             if (manager.isCustomerStaff(customer.getEmail())) {
                 links.add(new String[] {"userManagement.jsp", "Customer Management"});
-                links.add(new String[] {"addItem.jsp", "Add Items"});
                 links.add(new String[] {"itemManagement.jsp", "Item management"});
             }
             
