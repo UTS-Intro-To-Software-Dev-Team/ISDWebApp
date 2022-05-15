@@ -8,13 +8,18 @@
         <title>User Management Page</title>
     </head>
     
+    <%
+        Customer cust = (Customer)session.getAttribute("customer");
+        DBManager manager = (DBManager)session.getAttribute("manager");
+        if (cust == null || manager == null || !manager.isCustomerStaff(cust.getEmail())) {
+            response.sendRedirect("homePage.jsp");
+            return;
+        }
+    %>
     <jsp:include page="PageComponents/JSPHeader.jsp"/>
-    
+
     <body>
         <h1>User Management</h1>
-        <%
-            DBManager manager = (DBManager)session.getAttribute("manager");
-        %>
         <form method="POST" action="DBServlet">
             <table class="align-center form-table">
                 <tr>
@@ -23,7 +28,7 @@
                     <th>Email</th>
                     <th>Password</th>
                     <th>Date of Birth</th>
-
+                    <th>Phone</th>
                     <th>Street</th>
                     <th>City</th>
                     <th>State</th>
@@ -33,20 +38,20 @@
                 </tr>
 
                 <% for (Customer customer : manager.fetchCustomers()) {%>
-                <tr>
-                    <td><%= customer.getFirstName() %></td>  
-                    <td><%= customer.getLastName() %></td>
-                    <td><%= customer.getEmail() %></td>
-                    <td><%= customer.getPassword() %></td>
-                    <td><%= customer.getDob() %></td>
+                    <tr>
+                        <td><%= customer.getFirstName() %></td>  
+                        <td><%= customer.getLastName() %></td>
+                        <td><%= customer.getEmail() %></td>
+                        <td><%= customer.getPassword() %></td>
+                        <td><%= customer.getDob() %></td>
+                        <td><%= customer.getPhone() %></td>
+                        <td><%= customer.getStreet() %></td>
+                        <td><%= customer.getCity() %></td>
+                        <td><%= customer.getState() %></td>
+                        <td><%= customer.getPostcode() %></td>
 
-                    <td><%= customer.getStreet() %></td>
-                    <td><%= customer.getCity() %></td>
-                    <td><%= customer.getState() %></td>
-                    <td><%= customer.getPostcode() %></td>
-                    
-                    <td> <input type="radio" name="customerEmail" value="<%=customer.getEmail()%>"> </td>
-                </tr>
+                        <td> <input type="radio" name="customerEmail" value="<%=customer.getEmail()%>"> </td>
+                    </tr>
                 <% } %>
             </table>
             <button name="button" value="edit" type="submit">Edit</button>

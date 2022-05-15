@@ -15,8 +15,12 @@
             DBManager manager = (DBManager)session.getAttribute("manager");
             String sort = (String)session.getAttribute("sort");
         %>
-        <h1>Welcome!</h1>
-        <form method="POST" action="DBServlet">            
+        <form method="POST" action="DBServlet">
+            <div style="display: flex; justify-content: center;">
+                <button name="button" value="sortType" type="submit">Sort by type</button>
+                <button name="button" value="sortName" type="submit">Sort by name</button>
+                <button name="button" value="order" type="submit">Order</button>
+            </div>
             <table class="align-center form-table">
                 <tr>
                     <th>Item Name</th>
@@ -29,16 +33,13 @@
                 <% for (Item item : manager.fetchItems(sort)) {%>
                     <tr>
                         <td><%= item.getItem() %></td>  
-                        <td><%= item.getPrice() %></td>
+                        <td>$<%= item.getPrice() %></td>
                         <td><%= item.getType() %></td>
                         <td><%= item.getStock() %></td>
                         <td> <input type="radio" name="itemName" value="<%=item.getItem()%>"> </td>
                     </tr>
                 <% } %>
             </table>
-            <button name="button" value="sortType" type="submit">Sort by type</button>
-            <button name="button" value="sortName" type="submit">Sort by name</button>
-            <button name="button" value="order" type="submit">Order</button>
         </form>
     </body>
 

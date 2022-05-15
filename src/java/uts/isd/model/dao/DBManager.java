@@ -104,12 +104,10 @@ public class DBManager {
         ResultSet rs = st.executeQuery(fetch);
 
         while (rs.next()) {
-            if (item.equals(rs.getString(3))) {
-                float price = rs.getFloat(2);              
-                String type = rs.getString(4);
-                int stock = rs.getInt(5);
-                return new Item(item, price, type, stock);
-            }
+            float price = rs.getFloat(2);              
+            String type = rs.getString(4);
+            int stock = rs.getInt(5);
+            return new Item(item, price, type, stock);
         }
         return null;
     }
@@ -117,7 +115,6 @@ public class DBManager {
     public ArrayList<Item>  fetchItems(String sort) throws SQLException {
         String fetch = "select * from SHOPPING";
         fetch += sort == null ? "" : " ORDER BY " + sort;
-        System.out.println(fetch);
         
         ResultSet rs = st.executeQuery(fetch);
         ArrayList<Item> temp = new ArrayList<>();
@@ -136,23 +133,55 @@ public class DBManager {
     public Customer findCustomer(String email, String password)
         throws SQLException
     {
+        String fetch = "select * from Customers where EMAIL = '" + email + "' and PASSWORD = '" + password + "'";
+        ResultSet rs = st.executeQuery(fetch);
+
+        while (rs.next()) {
+            String firstName = rs.getString(4);
+            String lastName = rs.getString(5);
+            String dob = rs.getString(6);
+            String phone = rs.getString(7);
+            String street = rs.getString(8);
+            String city = rs.getString(9);
+            String state = rs.getString(10);
+            String postcode = rs.getString(11);
+            return new Customer(email, password, firstName, lastName, dob, phone, street, city, state, postcode);
+        }
+        return null;
+    }
+    
+    public Customer findCustomer(String email)
+        throws SQLException
+    {
         String fetch = "select * from Customers where EMAIL = '" + email + "'";
         ResultSet rs = st.executeQuery(fetch);
 
         while (rs.next()) {
-            if (email.equals(rs.getString(2)) && password.equals(rs.getString(3))) {
-                String firstName = rs.getString(4);
-                String lastName = rs.getString(5);
-                String dob = rs.getString(6);
-                String phone = rs.getString(7);
-                String street = rs.getString(8);
-                String city = rs.getString(9);
-                String state = rs.getString(10);
-                String postcode = rs.getString(11);
-                return new Customer(email, password, firstName, lastName, dob, phone, street, city, state, postcode);
-            }
+            String password = rs.getString(3);
+            String firstName = rs.getString(4);
+            String lastName = rs.getString(5);
+            String dob = rs.getString(6);
+            String phone = rs.getString(7);
+            String street = rs.getString(8);
+            String city = rs.getString(9);
+            String state = rs.getString(10);
+            String postcode = rs.getString(11);
+            return new Customer(email, password, firstName, lastName, dob, phone, street, city, state, postcode);
         }
         return null;
+    }
+    
+    public boolean isCustomerStaff(String email)
+        throws SQLException
+    {
+        String fetch = "select * from Customers where EMAIL = '" + email + "'";
+        ResultSet rs = st.executeQuery(fetch);
+
+        while (rs.next()) {
+            return rs.getBoolean(12);
+        
+        }
+        return false;
     }
 
     private String appendParamterToString(String string, String parameter) {
@@ -173,7 +202,6 @@ public class DBManager {
         command = appendParamterToString(command, customer.getState());
         command = appendParamterToString(command, customer.getPostcode());
         command += "')";
-        System.out.println(command);
         st.executeUpdate(command);
     }
 
@@ -206,20 +234,21 @@ public class DBManager {
         ArrayList<Customer> temp = new ArrayList<>();
 
         while (rs.next()) {
-            String email = rs.getString(1);
-            String password = rs.getString(2);
-            String firstName = rs.getString(3);
-            String lastName = rs.getString(4);
-            String dob = rs.getString(5);
-            String street = rs.getString(6);
-            String city = rs.getString(7);
-            String state = rs.getString(8);
-            String postcode = rs.getString(9);
-            //temp.add(new Customer(email, password, firstName, lastName, dob, street, city, state, postcode));
-        }
-
-        for (Customer cus : temp) {
-            System.out.println(cus.getFirstName());
+            if (rs.getBoolean(12)) {
+                continue;
+            }
+            
+            String email = rs.getString(2);
+            String password = rs.getString(3);
+            String firstName = rs.getString(4);
+            String lastName = rs.getString(5);
+            String dob = rs.getString(6);
+            String phone = rs.getString(7);
+            String street = rs.getString(8);
+            String city = rs.getString(9);
+            String state = rs.getString(10);
+            String postcode = rs.getString(11);
+            temp.add(new Customer(email, password, firstName, lastName, dob, phone, street, city, state, postcode));
         }
 
         return temp;
