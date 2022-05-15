@@ -33,10 +33,10 @@
                 <tr><td><input type="text" name="itemName" placeholder="Enter item name" value="<%= item.getItem() %>" required pattern="^[A-Z][a-z]*$" title="This should only contain letters and start with a capitalised letter."></td></tr>
 
                 <tr><td><label for="itemPrice"><b>Item Price:</b></label></td></tr>
-                <tr><td><input type="text" name="itemPrice" placeholder="Enter item price" value="<%= item.getPrice() required pattern="^[0-9]$" minlength="1" maxlength="3"%>"></td></tr>
+                <tr><td><input type="text" name="itemPrice" placeholder="Enter item price" value="<%= item.getPrice()%>" required></td></tr>
 
                 <tr><td><label for="itemType"><b>Item Type:</b></label></td></tr>
-                <tr><td><input type="text" name="itemType" placeholder="Enter item type" value="<%= item.getType() required pattern="^[A-Z][a-z]*$"%>"></td></tr>
+                <tr><td><input type="text" name="itemType" placeholder="Enter item type" value="<%= item.getType()%>" required pattern="^[A-Z][a-z]*$"%></td></tr>
 
                 <tr><td><label for="itemStock"><b>Item stock:</b></label></td></tr>
                 <tr><td><input type="text" name="itemStock" placeholder="Enter item stock" value="<%= item.getStock()%>"></td></tr>

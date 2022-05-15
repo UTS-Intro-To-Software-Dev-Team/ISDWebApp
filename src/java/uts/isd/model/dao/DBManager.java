@@ -209,6 +209,18 @@ public class DBManager {
         return string + "', "+ specificParameter + " = '" + parameter;
     }
 
+    public void updateItemDetails(String name, String type, float price, int stock)
+        throws SQLException
+    {
+        String command = "UPDATE SHOPPING SET ITEM = '" + name;
+        command = appendParamToString(command, type, "Type");
+        command = appendParamToString(command, price + "", "Price");
+        command = appendParamToString(command, stock + "", "Stock");
+        command += "' WHERE ITEM = '" + name + "'";
+        System.out.println(command);
+        st.executeUpdate(command);
+    }
+
     public void updateCustomerDetails(String email, String firstName, String lastName, String dob, String phone, String street, String city, String state, String postcode)
         throws SQLException
     {
