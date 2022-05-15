@@ -3,6 +3,8 @@ package uts.isd.model.dao;
 import uts.isd.model.Customer;
 import uts.isd.model.Item;
 import uts.isd.model.Shipment;
+import uts.isd.model.Payment;
+
 
 import java.sql.Connection;
 import java.sql.ResultSet;

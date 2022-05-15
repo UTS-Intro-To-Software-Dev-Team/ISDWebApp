@@ -1,7 +1,7 @@
-Sat May 14 14:17:52 AEST 2022 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
+Sun May 15 14:50:38 AEST 2022 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Sat May 14 14:17:52 AEST 2022:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0180-c0c9-7e5c-0000019024bf 
+Sun May 15 14:50:56 AEST 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0180-c60d-dbfa-0000019024bf 
 on database directory /Users/nexusbaquir/Documents/ISDWebApp/databases/customerdb with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@531d72ca 
 Loaded from file:/Users/nexusbaquir/Documents/ISDWebApp/External%20Libraries/db-derby-10.14.2.0-bin/lib/derby.jar
 java.vendor=Oracle Corporation
@@ -12,9 +12,3 @@ os.arch=x86_64
 os.version=12.3.1
 derby.system.home=/Users/nexusbaquir/Documents/ISDWebApp/databases
 Database Class Loader started - derby.database.classpath=''
-----------------------------------------------------------------
-Sun May 15 13:37:17 AEST 2022: Shutting down Derby engine
-----------------------------------------------------------------
-Sun May 15 13:37:17 AEST 2022:
-Shutting down instance a816c00e-0180-c0c9-7e5c-0000019024bf on database directory /Users/nexusbaquir/Documents/ISDWebApp/databases/customerdb with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@531d72ca 
-----------------------------------------------------------------
