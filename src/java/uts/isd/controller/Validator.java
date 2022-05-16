@@ -14,13 +14,25 @@ public class Validator implements Serializable {
     private final String itemPattern = "^[A-Z0-9][A-Za-z0-9]*( [A-Z0-9][A-Za-z0-9]+)*$";
     private final String phonePattern = "^[0-9]{3,15}$";
     private final String postcodePattern = "^[0-9]{4}$";
+    private final String cardNumberPattern = "^[0-9]{16}$";
+    private final String fullNamePattern = "^[A-Z][a-z]*( [A-Z][a-z]+)+";
+    private final String cvvPattern = "^[0-9]{3}$";
+    
     
     public Validator(HttpSession session) {
         for (String error : new String[] {
-            "emailErr", "passErr", "existErr",
+             "existErr",
+            
+            "emailErr", "passErr",
             "nameErr", "firstNameErr", "lastNameErr",
             "phoneErr", "dateErr", "postcodeErr",
+            
             "typeErr", "priceErr", "stockErr",
+            
+            "cardNumberErr", "cvvErr",
+            "fullNameErr", "expiryDateErr",
+            
+            "sort",
         }) {
             session.setAttribute(error, null);
         }
@@ -41,6 +53,10 @@ public class Validator implements Serializable {
             case "age" -> Period.between(LocalDate.parse(input), LocalDate.now()).getYears() > 13;
             case "phone" -> validate(phonePattern, input);
             case "postcode" -> validate(postcodePattern, input);
+            case "cardNumber" -> validate(cardNumberPattern, input);
+            case "fullName" -> validate(fullNamePattern, input);
+            case "expiryDate" -> Period.between(LocalDate.now(), LocalDate.parse(input)).getDays() > 0;
+            case "cvv" -> validate(cvvPattern, input);
             default -> false;
         };
     }

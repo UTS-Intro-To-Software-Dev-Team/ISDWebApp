@@ -1,72 +1,47 @@
 package uts.isd.model;
 
-/**
- *
- * @author nexusbaquir
- */
 public class Payment {
-    private String paymentID;
-    private String paymentDate;
+    private int paymentID;
+    private String paymentMethod;
     private String cardNumber;
-    private String cvv;
     private String fullName;
     private String expiryDate;
+    private String cvv;
     
-    public Payment(String paymentID, String paymentDate, String cardNumber, String cvv, String fullName, String expiryDate) {
+    public Payment(int paymentID, String method, String cardNumber, String fullName, String expiryDate, String cvv) {
+        this(method, cardNumber, fullName, expiryDate, cvv);
         this.paymentID = paymentID;
-        this.paymentDate = paymentDate;
+    }
+    
+    public Payment(String method, String cardNumber, String fullName, String expiryDate, String cvv) {
+        this.paymentMethod = method;
         this.cardNumber = cardNumber;
         this.cvv = cvv;
         this.fullName = fullName;
         this.expiryDate = expiryDate;
     }
 
-    public String getPaymentID() {
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public int getPaymentID() {
         return paymentID;
     }
 
-    public void setPaymentID(String email) {
-        this.paymentID = paymentID;
-    }
-
-    public String getPaymentDate() {
-        return paymentDate;
-    }
-
-    public void setPaymentDate(String password) {
-        this.paymentDate = paymentDate;
-    }
-    
     public String getCardNumber() {
         return cardNumber;
     }
 
-    public void setCardNumber(String cardNumber) {
-        this.cardNumber = cardNumber;
-    }
-    
-    public String getCvv() {
-        return cardNumber;
-    }
-
-    public void setCvv(String cvv) {
-        this.cvv = cvv;
-    }
-    
     public String getFullName() {
         return fullName;
     }
-    
-    public void setfullName(String fullName) {
-        this.fullName = fullName;
-    }
-    
+
     public String getExpiryDate() {
         return expiryDate;
     }
 
-    public void expiryDate(String expiryDate) {
-        this.expiryDate = expiryDate;
+    public String getCvv() {
+        return cvv;
     }
-
 }

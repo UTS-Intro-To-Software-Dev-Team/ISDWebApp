@@ -80,7 +80,7 @@
                     </select>
                 </td></tr>
 
-                <tr><td><label for="postcode"><b>Postcode: </b><input type="number" id="postcode" name="postcode" placeholder="####" style="width: 5%; text-align: center;" value="<%= customer.getPostcode() %>" required pattern="^[0-9]{4}$" minlength="4" maxlength="4" title="Postcode must be a 4 digit number."></td></tr>
+                <tr><td><label for="postcode"><b>Postcode: </b><input type="text" id="postcode" name="postcode" placeholder="####" style="width: 5%; text-align: center;" value="<%= customer.getPostcode() %>" required pattern="^[0-9]{4}$" minlength="4" maxlength="4" title="Postcode must be a 4 digit number."></td></tr>
                 <% if (postcodeErr != null) { %>
                     <tr><td><b><%= postcodeErr %></b></td></tr>
                 <% } %>

@@ -12,13 +12,15 @@
         <%
             String emailErr = (String) session.getAttribute("emailErr");
             String passErr = (String) session.getAttribute("passErr");
+            
             String email = request.getParameter("email");
+            email = email != null ? email : "";
         %>
 
         <form action="DBServlet" method="POST">
             <table class="align-center form-table">
                 <tr><td><label for="email"><b>Email:</b></label></td></tr>
-                <tr><td><input type="email" name="email" placeholder="Enter username" required value="<%= email != null ? email : "" %>"></td></tr>
+                <tr><td><input type="email" name="email" placeholder="Enter username" required value="<%= email %>"></td></tr>
                 <% if (emailErr != null) { %>
                     <tr><td><b><%= emailErr %></b></td></tr>
                 <% } %>

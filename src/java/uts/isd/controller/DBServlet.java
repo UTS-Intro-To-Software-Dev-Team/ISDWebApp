@@ -10,8 +10,7 @@ import jakarta.servlet.http.HttpSession;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import uts.isd.model.Customer;
-import uts.isd.model.Item;
+import uts.isd.model.*;
 import uts.isd.model.dao.DBManager;
 
 public class DBServlet extends HttpServlet {
@@ -34,11 +33,19 @@ public class DBServlet extends HttpServlet {
         switch(forward) {
             case "register.jsp" -> RegisterServlet(request, response);
             case "login.jsp" -> LoginServlet(request, response);
+            case "accountPage.jsp" -> AccountPageServlet(request, response);
+            
+            case "paymentMethods.jsp" -> PaymentMethodsServlet(request, response);
+            case "paymentAdd.jsp" -> PaymentAddServlet(request, response);
+            case "paymentEdit.jsp" -> PaymentEditServlet(request, response);
+            
             case "edit.jsp" -> EditServlet(request, response);
             case "adminEdit.jsp" -> AdminEditServlet(request, response);
+            
+            case "itemManagement.jsp" -> ItemManagementServlet(request, response);
             case "itemEdit.jsp" -> ItemEditServlet(request, response);
             case "addItem.jsp" -> AddItemServlet(request, response);
-            case "itemManagement.jsp" -> ItemManagementServlet(request, response);
+            
             case "userManagement.jsp" -> UserManagementServlet(request, response);
             case "shoppingPage.jsp" -> ShoppingServlet(request, response);
             default -> System.out.println("Unknown page: " + session.getAttribute("pageName"));
@@ -66,7 +73,7 @@ public class DBServlet extends HttpServlet {
         String postcode = request.getParameter("postcode");
 
         try {
-            if (!invalidDataCheck(email, password, firstName, lastName, dob, phone, postcode)) {
+            if (!invalidRegisterCheck(email, password, firstName, lastName, dob, phone, postcode)) {
                 Customer customer = new Customer(email, password, firstName, lastName, dob, phone, street, city, state, postcode);
                 session.setAttribute("customer", manager.addCustomer(customer));
                 redirect = "homePage.jsp";
@@ -99,6 +106,82 @@ public class DBServlet extends HttpServlet {
         }
     }
 
+    private void AccountPageServlet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException
+    {
+        switch(request.getParameter("button")) {
+            case "edit" -> redirect = "edit.jsp";
+            case "paymentMethods" -> redirect = "paymentMethods.jsp";
+            case "shipmentMethods" -> redirect = "shipmentMethods.jsp";
+            case "orderHistory" -> redirect = "orderHistory.jsp";
+        }
+    }
+    
+    
+    private void PaymentEditServlet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException
+    {
+        Payment payment = (Payment)session.getAttribute("payment");
+        String paymentMethod = request.getParameter("paymentMethod");
+        String cardNumber = request.getParameter("cardNumber");
+        String fullName = request.getParameter("fullName");
+        String expiryDate = request.getParameter("expiryDate");
+        String cvv = request.getParameter("cvv");
+        Payment temp = new Payment(paymentMethod, cardNumber, fullName, expiryDate, cvv);
+        try {
+            if (!invalidPaymentCheck(temp))
+            {
+                manager.updatePaymentDetails(payment.getPaymentID(), temp);
+                redirect = "paymentMethods.jsp";
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void PaymentAddServlet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException
+    {
+        Customer customer = (Customer)session.getAttribute("customer");
+        String paymentMethod = request.getParameter("paymentMethod");
+        String cardNumber = request.getParameter("cardNumber");
+        String fullName = request.getParameter("fullName");
+        String expiryDate = request.getParameter("expiryDate");
+        String cvv = request.getParameter("cvv");
+        Payment temp = new Payment(paymentMethod, cardNumber, fullName, expiryDate, cvv);
+        try {
+            if (!invalidPaymentCheck(temp))
+            {
+                manager.addPayment(temp, customer);
+                redirect = "paymentMethods.jsp";
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private boolean invalidPaymentCheck(Payment payment)
+        throws SQLException
+    {
+        boolean hasFailed = false;
+        String message = "Payment method already exists.";
+        hasFailed = DataCheck(hasFailed, !manager.checkPayment(payment.getPaymentMethod()), "existErr", message);
+        
+        message = "Card number should only contain a 16 digit number.";
+        hasFailed = DataCheck(hasFailed, validator.validatePattern("cardNumber", payment.getCardNumber()), "cardNumberErr", message);
+
+        message = "Not a proper full name. An example: John Titor";
+        hasFailed = DataCheck(hasFailed, validator.validatePattern("fullName", payment.getFullName()), "fullNameErr", message);
+        
+        message = "The date is already expired.";
+        hasFailed = DataCheck(hasFailed, validator.validatePattern("expiryDate", payment.getExpiryDate()), "expiryDateErr", message);
+        
+        message = "Cvv is 3 digits long.";
+        hasFailed = DataCheck(hasFailed, validator.validatePattern("cvv", payment.getCvv()), "cvvErr", message);
+        
+        return hasFailed;
+    }
+    
     private void EditServlet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
@@ -115,7 +198,7 @@ public class DBServlet extends HttpServlet {
         String postcode = request.getParameter("postcode");
 
         try {
-            if (!invalidDataCheck(firstName, lastName, dob, phone, postcode)) {
+            if (!invalidRegisterCheck(firstName, lastName, dob, phone, postcode)) {
                 manager.updateCustomerDetails(email, firstName, lastName, dob, phone, street, city, state, postcode, customer.isIsActive());
                 session.setAttribute("customer", manager.findCustomer(email, password));
                 redirect = "edit.jsp";
@@ -154,7 +237,7 @@ public class DBServlet extends HttpServlet {
         }
     }
 
-    private boolean invalidDataCheck(String email, String password, String firstName, String lastName, String dob, String phone, String postcode)
+    private boolean invalidRegisterCheck(String email, String password, String firstName, String lastName, String dob, String phone, String postcode)
             throws SQLException
     {
         boolean hasFailed = false;
@@ -169,7 +252,7 @@ public class DBServlet extends HttpServlet {
         message += "<br>5. A length of at least 8 characters.";
         hasFailed = DataCheck(hasFailed, validator.validatePattern("password", password), "passErr", message);
 
-        hasFailed = hasFailed || invalidDataCheck(firstName, lastName, dob, phone, postcode);
+        hasFailed = hasFailed || invalidRegisterCheck(firstName, lastName, dob, phone, postcode);
 
         message = "Customer already exists.";
         hasFailed = DataCheck(hasFailed, !manager.checkCustomer(email), "existErr", message);
@@ -177,7 +260,7 @@ public class DBServlet extends HttpServlet {
         return hasFailed;
     }
 
-    private boolean invalidDataCheck(String firstName, String lastName, String dob, String phone, String postcode)
+    private boolean invalidRegisterCheck(String firstName, String lastName, String dob, String phone, String postcode)
             throws SQLException
     {
         boolean hasFailed = false;
@@ -290,6 +373,31 @@ public class DBServlet extends HttpServlet {
         }
     }
     
+    private void PaymentMethodsServlet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
+    {
+        String ID = request.getParameter("paymentID");        
+        int paymentID = ID == null ? -1 : Integer.parseInt(ID);
+        String sort = (String)session.getAttribute("sort");
+        
+        try {
+            switch (request.getParameter("button")){
+                case "edit" -> {
+                    session.setAttribute("payment", manager.findPayment(paymentID));
+                    redirect = "paymentEdit.jsp";
+                }
+
+                case "delete" -> {
+                    manager.deletePayment(paymentID);
+                }
+                
+                case "add" -> redirect = "paymentAdd.jsp";
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     private void ItemEditServlet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
@@ -355,7 +463,7 @@ public class DBServlet extends HttpServlet {
         boolean isActive = request.getParameter("isActive") != null;
 
         try {
-            if (!invalidDataCheck(firstName, lastName, dob, phone, postcode)) {
+            if (!invalidRegisterCheck(firstName, lastName, dob, phone, postcode)) {
                 manager.updateCustomerDetails(email, firstName, lastName, dob, phone, street, city, state, postcode, isActive);
                 session.setAttribute("customer2", null);
                 redirect = "userManagement.jsp";

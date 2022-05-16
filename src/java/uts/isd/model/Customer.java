@@ -57,6 +57,10 @@ public class Customer {
     public String getLastName() {
         return lastName;
     }
+    
+    public String getFullName() {
+        return getFirstName() + " " + getLastName();
+    }
 
     public String getDob() {
         return dob;

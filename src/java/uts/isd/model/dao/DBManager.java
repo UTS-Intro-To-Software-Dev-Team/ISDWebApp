@@ -1,7 +1,6 @@
 package uts.isd.model.dao;
 
-import uts.isd.model.Customer;
-import uts.isd.model.Item;
+import uts.isd.model.*;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -97,23 +96,23 @@ public class DBManager {
         return rs.next() ? customerFromResult(rs) : null;
     }
 
-    private String appendParamterToString(String string, String parameter) {
-        return string + ", '" + parameter + "'";
+    private String appendParam(String parameter) {
+        return ", '" + parameter + "'";
     }
 
     public Customer addCustomer(Customer customer)
         throws SQLException
     {
         String command = "INSERT INTO Customers (email, password, firstName, lastName, dob, phone, street, city, state, postcode, isActive) VALUES ('" + customer.getEmail() + "'";
-        command = appendParamterToString(command, customer.getPassword());
-        command = appendParamterToString(command, customer.getFirstName());
-        command = appendParamterToString(command, customer.getLastName());
-        command = appendParamterToString(command, customer.getDob());
-        command = appendParamterToString(command, customer.getPhone());
-        command = appendParamterToString(command, customer.getStreet());
-        command = appendParamterToString(command, customer.getCity());
-        command = appendParamterToString(command, customer.getState());
-        command = appendParamterToString(command, customer.getPostcode());
+        command += appendParam(customer.getPassword());
+        command += appendParam(customer.getFirstName());
+        command += appendParam(customer.getLastName());
+        command += appendParam(customer.getDob());
+        command += appendParam(customer.getPhone());
+        command += appendParam(customer.getStreet());
+        command += appendParam(customer.getCity());
+        command += appendParam(customer.getState());
+        command += appendParam(customer.getPostcode());
         command += ", true)";
         System.out.println(command);
         st.executeUpdate(command);
@@ -128,17 +127,42 @@ public class DBManager {
         command += ", " + item.getPrice() + ", '" + item.getType() + "', " + item.getStock() + ")";
         st.executeUpdate(command);
     }
+    
+    public void addPayment(Payment payment, Customer customer)
+        throws SQLException
+    {
+        String command = "INSERT INTO Payment (customerID, paymentMethod, cardNumber, fullName, expiryDate, Cvv) values (" + customer.getCustomerID();
+        command += appendParam(payment.getPaymentMethod());
+        command += appendParam(payment.getCardNumber());
+        command += appendParam(payment.getFullName());
+        command += appendParam(payment.getExpiryDate());
+        command += appendParam(payment.getCvv());
+        command += ")";
+        st.executeUpdate(command);
+    }
 
-    private String appendParamToString(String string, String parameter, String specificParameter) {
-        return string + ", "+ specificParameter + " = '" + parameter + "'";
+    private String appendParam(String parameter, String specificParameter) {
+        return ", " + specificParameter + " = '" + parameter + "'";
     }
 
     public void updateItemDetails(int itemID, String name, String type, float price, int stock)
         throws SQLException
     {
         String command = "UPDATE SHOPPING SET ITEM = '" + name + "'";
-        command = appendParamToString(command, type, "Type");
+        command += appendParam(type, "Type");
         command += ", Price=" + price + ", stock=" + stock + " WHERE ITEMID = " + itemID;
+        st.executeUpdate(command);
+    }
+    
+    public void updatePaymentDetails(int paymentID, Payment payment)
+        throws SQLException
+    {
+        String command = "UPDATE Payment SET paymentMethod = '" + payment.getPaymentMethod() + "'";
+        command += appendParam(payment.getCardNumber(), "cardNumber");
+        command += appendParam(payment.getFullName(), "fullName");
+        command += appendParam(payment.getExpiryDate(), "expiryDate");
+        command += appendParam(payment.getCvv(), "cvv");
+        command += " WHERE PaymentID = " + paymentID;
         st.executeUpdate(command);
     }
 
@@ -146,23 +170,27 @@ public class DBManager {
         throws SQLException
     {
         String command = "UPDATE Customers SET FirstName = '" + firstName + "'";
-        command = appendParamToString(command, lastName, "LastName");
-        command = appendParamToString(command, dob, "DOB");
-        command = appendParamToString(command, phone, "Phone");
-        command = appendParamToString(command, street, "Street");
-        command = appendParamToString(command, city, "City");
-        command = appendParamToString(command, state, "State");
-        command = appendParamToString(command, postcode, "Postcode");
+        command += appendParam(lastName, "LastName");
+        command += appendParam(dob, "DOB");
+        command += appendParam(phone, "Phone");
+        command += appendParam(street, "Street");
+        command += appendParam(city, "City");
+        command += appendParam(state, "State");
+        command += appendParam(postcode, "Postcode");
         command += ", isActive = " + isActive + " WHERE EMAIL = '" + email + "'";
         st.executeUpdate(command);
     }
 
     public void deleteItem(int ID) throws SQLException {
-        st.executeUpdate("DELETE FROM SHOPPING WHERE ITEMID = " + ID);
+        st.executeUpdate("DELETE FROM Shopping WHERE itemID = " + ID);
     }
 
     public void deleteCustomer(int ID) throws SQLException {
-        st.executeUpdate("DELETE FROM Customers where CustomerID = " + ID);
+        st.executeUpdate("DELETE FROM Customers where customerID = " + ID);
+    }
+    
+    public void deletePayment(int ID) throws SQLException {
+        st.executeUpdate("DELETE FROM Payment where paymentID = " + ID);
     }
 
     public ArrayList<Customer> fetchCustomers(String sort) throws SQLException {
@@ -181,6 +209,54 @@ public class DBManager {
 
         return temp;
     }
+    
+    private Payment paymentFromResult(ResultSet rs)
+        throws SQLException
+    {
+        int paymentID = rs.getInt("paymentID");
+        String paymentMethod = rs.getString("paymentMethod");
+        String cardNumber = rs.getString("cardNumber");
+        String fullName = rs.getString("fullName");
+        String expiryDate = rs.getString("expiryDate");
+        String CVV = rs.getString("cvv");
+        return new Payment(paymentID, paymentMethod, cardNumber, fullName, expiryDate, CVV);
+    }
+    
+    public Payment findPayment(int id) throws SQLException {
+        String fetch = "select * from Payment WHERE paymentID = " + id;
+        ResultSet rs = st.executeQuery(fetch);
+        return rs.next() ? paymentFromResult(rs) : null;
+    }
+    
+    public ArrayList<Payment> fetchPaymentMethods(int id) throws SQLException {
+        String fetch = "select * from Payment WHERE customerid=" + id;
+        
+        ResultSet rs = st.executeQuery(fetch);
+        ArrayList<Payment> temp = new ArrayList<>();
+        while(rs.next()) {
+            temp.add(paymentFromResult(rs));
+        }
+        return temp;
+    }
+    
+    private Shipment shipmentFromResult(ResultSet rs)
+        throws SQLException
+    {
+        int shipmentID = rs.getInt("shipmentID");
+        String shipmentMethod = rs.getString("shipmentMethod");
+        return new Shipment(shipmentID, shipmentMethod);
+    }
+    
+    public ArrayList<Shipment> fetchShipmentMethods(int id) throws SQLException {
+        String fetch = "select * from Shipments WHERE customerid=" + id;
+        
+        ResultSet rs = st.executeQuery(fetch);
+        ArrayList<Shipment> temp = new ArrayList<>();
+        while(rs.next()) {
+            temp.add(shipmentFromResult(rs));
+        }
+        return temp;
+    }
 
     public boolean checkCustomer(String email)
         throws SQLException
@@ -188,5 +264,13 @@ public class DBManager {
         String fetch = "select * from customers where EMAIL = '" + email + "'";
         ResultSet rs = st.executeQuery(fetch);
         return rs.next() && email.equals(rs.getString(2));
+    }
+    
+    public boolean checkPayment(String paymentMethod)
+        throws SQLException
+    {
+        String fetch = "select * from payment where paymentMethod = '" + paymentMethod + "'";
+        ResultSet rs = st.executeQuery(fetch);
+        return rs.next() && paymentMethod.equals(rs.getString(3));
     }
 }

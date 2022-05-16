@@ -26,8 +26,7 @@
                 links.add(new String[] {"itemManagement.jsp", "Item Management"});
             }
             
-            links.add(new String[] {"edit.jsp", "Edit Account Details"});
-            links.add(new String[] {"orderHistory.jsp", "Order History"});
+            links.add(new String[] {"accountPage.jsp", "My Account"});
             links.add(new String[] {"logout.jsp", "Logout"});
         }
     %>

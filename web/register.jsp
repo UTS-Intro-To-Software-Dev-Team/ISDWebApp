@@ -83,6 +83,9 @@
                 <tr><td><label for="state"><b>State:</b></label></td></tr>
                 <tr><td>
                     <select name="state" required selected value="<%= state != null ? state : "" %>">
+                        <% if (state != null) { %>
+                            <option selected hidden><%= state %></option>
+                        <% } %>
                         <option value="NSW">New South Wales</option>
                         <option value="QLD">Queensland</option>
                         <option value="SA">South Australia</option>
@@ -92,8 +95,7 @@
                     </select>
                 </td></tr>
 
-                <tr><td><label for="postcode"><b>Postcode:</b></label></td></tr>
-                <tr><td><input type="number" name="postcode" placeholder="####" style="width: 5%; text-align: center;" value="<%= postcode != null ? postcode : "" %>" required pattern="^[0-9]{4}$" minlength="4" maxlength="4" title="Postcode must be a 4 digit number."></td></tr>
+                <tr><td><label for="postcode"><b>Postcode: </b></label><input type="text" id="postcode" name="postcode" placeholder="####" style="width: 5%; text-align: center;" value="<%= postcode != null ? postcode : "" %>" required pattern="^[0-9]{4}$" minlength="4" maxlength="4" title="Postcode must be a 4 digit number."></td></tr>
                 <% if (postcodeErr != null) { %>
                     <tr><td><b><%= postcodeErr %></b></td></tr>
                 <% } %>

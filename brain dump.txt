@@ -1,8 +1,0 @@
-1. Link home page to shopping page [DONE]
-
-2. Create database for shopping page [DONE]
-
-3. Display all items on shopping page by default 
-
-4. Display only items that have been searched for on shopping page
-

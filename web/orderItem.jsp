@@ -5,7 +5,7 @@
 <html>
     <head>
         <jsp:include page="PageComponents/CommonMeta.jsp"/>
-        <title>Shipment Page</title>
+        <title>Ordering Page</title>
     </head>
     
     <%
@@ -60,6 +60,7 @@
                     <td>
                         <select name="state" required>
                             <option selected hidden>${customer.state}</option>
+                            <option value="NSW">New South Wales</option>
                             <option value="QLD">Queensland</option>
                             <option value="SA">South Australia</option>
                             <option value="TAS">Tasmania</option>
@@ -77,6 +78,7 @@
                     <tr><td><b><%= postcodeErr %></b></td></tr>
                 <% } %>
             </table>
+            <button type="submit">Purchase</button>
         </form>
     </body>
     
