@@ -17,6 +17,7 @@ public class Validator implements Serializable {
     private final String cardNumberPattern = "^[0-9]{16}$";
     private final String fullNamePattern = "^[A-Z][a-z]*( [A-Z][a-z]+)+";
     private final String cvvPattern = "^[0-9]{3}$";
+    private final String spacedCamelPattern = "^[A-Z0-9][A-Za-z0-9]*( [A-Z0-9][A-Za-z0-9]+)*$";
     
     
     public Validator(HttpSession session) {
@@ -29,8 +30,10 @@ public class Validator implements Serializable {
             
             "typeErr", "priceErr", "stockErr",
             
-            "cardNumberErr", "cvvErr",
+            "cardNumberErr", "cvvErr", "paymentMethodErr",
             "fullNameErr", "expiryDateErr",
+            
+            "shipmentMethodErr",
             
             "sort",
         }) {
@@ -57,6 +60,7 @@ public class Validator implements Serializable {
             case "fullName" -> validate(fullNamePattern, input);
             case "expiryDate" -> Period.between(LocalDate.now(), LocalDate.parse(input)).getDays() > 0;
             case "cvv" -> validate(cvvPattern, input);
+            case "spacedCamel" -> validate(spacedCamelPattern, input);
             default -> false;
         };
     }

@@ -22,6 +22,7 @@
     <body>
         <%
             String existErr = (String) session.getAttribute("existErr");
+            String paymentMethodErr = (String) session.getAttribute("paymentMethodErr");
             String cardNumberErr = (String) session.getAttribute("cardNumberErr");
             String fullNameErr = (String) session.getAttribute("fullNameErr");
             String expiryDateErr = (String) session.getAttribute("expiryDateErr");
@@ -52,7 +53,10 @@
                 
                 <tr><td><label for="paymentMethod"><b>Payment Method:</b></label></td></tr>
                 <tr><td><input type="text" id="paymentMethod" name="paymentMethod" placeholder="Enter method name" value="<%= paymentMethod %>" required pattern="^[A-Z0-9][A-Za-z0-9]*( [A-Z0-9][A-Za-z0-9]+)*$" title="First letter of each word must be either a capital letter or a number."></td></tr>
-
+                <% if (paymentMethodErr != null) { %>
+                    <tr><td><b><%= paymentMethodErr %></b></td></tr>
+                <% } %>
+                
                 <tr><td><label for="cardNumber"><b>Card Number:</b></label></td></tr>
                 <tr><td><input type="text" id="cardNumber" name="cardNumber" placeholder="Enter card number" value="<%= cardNumber %>" required minLength="16" maxLength="16" pattern="[0-9]*{16}" title="Should contain a 16-digit number."></td></tr>
                 <% if (cardNumberErr != null) { %>
@@ -76,7 +80,7 @@
                     <tr><td><b><%= cvvErr %></b></td></tr>
                 <% } %>
                 
-                <tr><td><button type="submit"><b>Create Payment Method</b></button></td></tr>
+                <tr><td><button type="submit"><b>Update Method</b></button></td></tr>
             </table>
         </form>
     </body>

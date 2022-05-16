@@ -39,6 +39,10 @@ public class DBServlet extends HttpServlet {
             case "paymentAdd.jsp" -> PaymentAddServlet(request, response);
             case "paymentEdit.jsp" -> PaymentEditServlet(request, response);
             
+            case "shipmentMethods.jsp" -> ShipmentMethodsServlet(request, response);
+            case "shipmentAdd.jsp" -> ShipmentAddServlet(request, response);
+            case "shipmentEdit.jsp" -> ShipmentEditServlet(request, response);
+            
             case "edit.jsp" -> EditServlet(request, response);
             case "adminEdit.jsp" -> AdminEditServlet(request, response);
             
@@ -117,10 +121,10 @@ public class DBServlet extends HttpServlet {
         }
     }
     
-    
-    private void PaymentEditServlet(HttpServletRequest request, HttpServletResponse response)
+    private void PaymentAddEditServlet(HttpServletRequest request, HttpServletResponse response, boolean isEdit)
         throws ServletException, IOException
     {
+        Customer customer = (Customer)session.getAttribute("customer");
         Payment payment = (Payment)session.getAttribute("payment");
         String paymentMethod = request.getParameter("paymentMethod");
         String cardNumber = request.getParameter("cardNumber");
@@ -129,43 +133,43 @@ public class DBServlet extends HttpServlet {
         String cvv = request.getParameter("cvv");
         Payment temp = new Payment(paymentMethod, cardNumber, fullName, expiryDate, cvv);
         try {
-            if (!invalidPaymentCheck(temp))
+            if (!invalidPaymentCheck(customer, temp, !(isEdit && payment.getPaymentMethod().equals(paymentMethod))))
             {
-                manager.updatePaymentDetails(payment.getPaymentID(), temp);
+                if (isEdit) {
+                    manager.updatePaymentDetails(payment.getPaymentID(), temp);
+                } else {
+                    manager.addPayment(temp, customer);
+                }
                 redirect = "paymentMethods.jsp";
             }
         } catch (SQLException ex) {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private void PaymentEditServlet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException
+    {
+        PaymentAddEditServlet(request, response, true);
     }
     
     private void PaymentAddServlet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
-        Customer customer = (Customer)session.getAttribute("customer");
-        String paymentMethod = request.getParameter("paymentMethod");
-        String cardNumber = request.getParameter("cardNumber");
-        String fullName = request.getParameter("fullName");
-        String expiryDate = request.getParameter("expiryDate");
-        String cvv = request.getParameter("cvv");
-        Payment temp = new Payment(paymentMethod, cardNumber, fullName, expiryDate, cvv);
-        try {
-            if (!invalidPaymentCheck(temp))
-            {
-                manager.addPayment(temp, customer);
-                redirect = "paymentMethods.jsp";
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        PaymentAddEditServlet(request, response, false);
     }
     
-    private boolean invalidPaymentCheck(Payment payment)
+    private boolean invalidPaymentCheck(Customer customer, Payment payment, boolean checkExist)
         throws SQLException
     {
         boolean hasFailed = false;
         String message = "Payment method already exists.";
-        hasFailed = DataCheck(hasFailed, !manager.checkPayment(payment.getPaymentMethod()), "existErr", message);
+        if (checkExist) {
+            hasFailed = DataCheck(hasFailed, !manager.checkPayment(customer.getCustomerID(), payment.getPaymentMethod()), "existErr", message);
+        }
+        
+        message = "First letter of each word must be either a capital letter or a number.";
+        hasFailed = DataCheck(hasFailed, validator.validatePattern("spacedCamel", payment.getPaymentMethod()), "paymentMethodErr", message);
         
         message = "Card number should only contain a 16 digit number.";
         hasFailed = DataCheck(hasFailed, validator.validatePattern("cardNumber", payment.getCardNumber()), "cardNumberErr", message);
@@ -378,7 +382,6 @@ public class DBServlet extends HttpServlet {
     {
         String ID = request.getParameter("paymentID");        
         int paymentID = ID == null ? -1 : Integer.parseInt(ID);
-        String sort = (String)session.getAttribute("sort");
         
         try {
             switch (request.getParameter("button")){
@@ -396,6 +399,81 @@ public class DBServlet extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private void ShipmentMethodsServlet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException
+    {
+        String ID = request.getParameter("shipmentID");        
+        int shipmentID = ID == null ? -1 : Integer.parseInt(ID);
+        
+        try {
+            switch (request.getParameter("button")){
+                case "edit" -> {
+                    session.setAttribute("shipment", manager.findShipment(shipmentID));
+                    redirect = "shipmentEdit.jsp";
+                }
+
+                case "delete" -> {
+                    manager.deleteShipment(shipmentID);
+                }
+                
+                case "add" -> redirect = "shipmentAdd.jsp";
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void ShipmentAddEditServlet(HttpServletRequest request, HttpServletResponse response, boolean isEdit)
+        throws ServletException, IOException
+    {
+        Customer customer = (Customer)session.getAttribute("customer");
+        Shipment shipment = (Shipment)session.getAttribute("shipment");
+        String shipmentMethod = request.getParameter("shipmentMethod");
+        Shipment temp = new Shipment(shipmentMethod);
+        try {
+            if (!invalidShipmentCheck(customer, temp, !(isEdit && shipment.getShipmentMethod().equals(shipmentMethod))))
+            {
+                if (isEdit) {
+                    manager.updateShipmentDetails(shipment.getShipmentId(), temp);
+                } else {
+                    manager.addShipment(temp, customer);
+                }
+                redirect = "shipmentMethods.jsp";
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void ShipmentAddServlet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
+    {
+        System.out.println("Over here");
+        ShipmentAddEditServlet(request, response, false);
+    }
+    
+    private void ShipmentEditServlet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
+    {
+        ShipmentAddEditServlet(request, response, true);
+    }
+    
+    private boolean invalidShipmentCheck(Customer customer, Shipment shipment, boolean checkExist)
+        throws SQLException
+    {
+        boolean hasFailed = false;
+        
+        String message = "Shipment method already exists.";
+        if (checkExist) {
+            hasFailed = DataCheck(hasFailed, !manager.checkShipment(customer.getCustomerID(), shipment.getShipmentMethod()), "existErr", message);
+        }
+        
+        message = "First letter of each word must be either a capital letter or a number.";
+        hasFailed = DataCheck(hasFailed, validator.validatePattern("spacedCamel", shipment.getShipmentMethod()), "shipmentMethodErr", message);
+        
+        return hasFailed;
     }
     
     private void ItemEditServlet(HttpServletRequest request, HttpServletResponse response)

@@ -140,6 +140,15 @@ public class DBManager {
         command += ")";
         st.executeUpdate(command);
     }
+    
+    public void addShipment(Shipment shipment, Customer customer)
+        throws SQLException
+    {
+        String command = "INSERT INTO shipments (customerID, shipmentMethod) values (" + customer.getCustomerID();
+        command += appendParam(shipment.getShipmentMethod());
+        command += ")";
+        st.executeUpdate(command);
+    }
 
     private String appendParam(String parameter, String specificParameter) {
         return ", " + specificParameter + " = '" + parameter + "'";
@@ -163,6 +172,14 @@ public class DBManager {
         command += appendParam(payment.getExpiryDate(), "expiryDate");
         command += appendParam(payment.getCvv(), "cvv");
         command += " WHERE PaymentID = " + paymentID;
+        st.executeUpdate(command);
+    }
+    
+    public void updateShipmentDetails(int shipmentID, Shipment shipment)
+        throws SQLException
+    {
+        String command = "UPDATE Shipments SET shipmentMethod = '" + shipment.getShipmentMethod() + "'";
+        command += " WHERE shipmentID = " + shipmentID;
         st.executeUpdate(command);
     }
 
@@ -192,6 +209,10 @@ public class DBManager {
     public void deletePayment(int ID) throws SQLException {
         st.executeUpdate("DELETE FROM Payment where paymentID = " + ID);
     }
+    
+    public void deleteShipment(int ID) throws SQLException {
+        st.executeUpdate("DELETE FROM shipments where shipmentID = " + ID);
+    }
 
     public ArrayList<Customer> fetchCustomers(String sort) throws SQLException {
         String fetch = "select * from Customers";
@@ -208,6 +229,20 @@ public class DBManager {
         }
 
         return temp;
+    }
+    
+    private Shipment shipmentFromResult(ResultSet rs)
+        throws SQLException
+    {
+        int shipmentID = rs.getInt("shipmentID");
+        String shipmentMethod = rs.getString("shipmentMethod");
+        return new Shipment(shipmentID, shipmentMethod);
+    }
+    
+    public Shipment findShipment(int id) throws SQLException {
+        String fetch = "select * from Shipments WHERE shipmentID = " + id;
+        ResultSet rs = st.executeQuery(fetch);
+        return rs.next() ? shipmentFromResult(rs) : null;
     }
     
     private Payment paymentFromResult(ResultSet rs)
@@ -239,16 +274,8 @@ public class DBManager {
         return temp;
     }
     
-    private Shipment shipmentFromResult(ResultSet rs)
-        throws SQLException
-    {
-        int shipmentID = rs.getInt("shipmentID");
-        String shipmentMethod = rs.getString("shipmentMethod");
-        return new Shipment(shipmentID, shipmentMethod);
-    }
-    
-    public ArrayList<Shipment> fetchShipmentMethods(int id) throws SQLException {
-        String fetch = "select * from Shipments WHERE customerid=" + id;
+    public ArrayList<Shipment> fetchShipmentMethods(int customerId) throws SQLException {
+        String fetch = "select * from Shipments WHERE customerid=" + customerId;
         
         ResultSet rs = st.executeQuery(fetch);
         ArrayList<Shipment> temp = new ArrayList<>();
@@ -266,11 +293,20 @@ public class DBManager {
         return rs.next() && email.equals(rs.getString(2));
     }
     
-    public boolean checkPayment(String paymentMethod)
+    public boolean checkPayment(int customerId, String paymentMethod)
         throws SQLException
     {
-        String fetch = "select * from payment where paymentMethod = '" + paymentMethod + "'";
+        String fetch = "select * from payment where customerID = " + customerId + " and paymentMethod = '" + paymentMethod + "'";
         ResultSet rs = st.executeQuery(fetch);
         return rs.next() && paymentMethod.equals(rs.getString(3));
     }
+    
+    public boolean checkShipment(int customerId, String shipmentMethod)
+        throws SQLException
+    {
+        String fetch = "select * from shipments where customerID = " + customerId + " and shipmentMethod = '" + shipmentMethod + "'";
+        ResultSet rs = st.executeQuery(fetch);
+        return rs.next() && shipmentMethod.equals(rs.getString(3));
+    }
+    
 }
