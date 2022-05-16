@@ -34,6 +34,8 @@ public class Customer {
         this.city = city;
         this.state = state;
         this.postcode = postcode;
+        this.isStaff = false;
+        this.isActive = true;
     }
 
     public int getCustomerID() {

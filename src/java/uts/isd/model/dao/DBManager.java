@@ -16,19 +16,34 @@ public class DBManager {
         st = conn.createStatement();
     }
 
-    public Item findItem(String item)
+    private Item itemFromResult(ResultSet rs)
         throws SQLException
     {
-        String fetch = "select * from SHOPPING where ITEM = '" + item +"'";
-        ResultSet rs = st.executeQuery(fetch);
-
-        while (rs.next()) {
-            float price = rs.getFloat(2);              
-            String type = rs.getString(4);
-            int stock = rs.getInt(5);
-            return new Item(item, price, type, stock);
-        }
-        return null;
+        int id = rs.getInt("itemID");
+        float price = rs.getFloat("price");
+        String item = rs.getString("item");
+        String type = rs.getString("type");
+        int stock = rs.getInt("stock");
+        return new Item(id, item, price, type, stock);
+    }
+    
+    private Item itemFromResult(String fetch)
+        throws SQLException
+    {
+        ResultSet rs = st.executeQuery(fetch);        
+        return rs.next() ? itemFromResult(rs) : null;
+    }
+    
+    public Item findItem(int id)
+        throws SQLException
+    {
+        return itemFromResult("select * from SHOPPING where ITEMID = " + id);
+    }
+    
+    public Item findItem(String itemName)
+        throws SQLException
+    {
+        return itemFromResult("select * from SHOPPING where ITEM = '" + itemName + "'");
     }
 
     public ArrayList<Item> fetchItems(String sort) throws SQLException {
@@ -39,12 +54,7 @@ public class DBManager {
         ArrayList<Item> temp = new ArrayList<>();
 
         while(rs.next()) {
-            float price = rs.getFloat(2);
-            String item = rs.getString(3);
-            String type = rs.getString(4);
-            int stock = rs.getInt(5);
-            
-            temp.add(new Item(item, price, type, stock));
+            temp.add(itemFromResult(rs));
         }
         return temp;
     }
@@ -84,24 +94,7 @@ public class DBManager {
         throws SQLException
     {
         ResultSet rs = st.executeQuery(fetch);
-
-        while (rs.next()) {
-            return customerFromResult(rs);
-        }
-        return null;
-    }
-    
-    public boolean isCustomerStaff(String email)
-        throws SQLException
-    {
-        String fetch = "select * from Customers where EMAIL = '" + email + "'";
-        ResultSet rs = st.executeQuery(fetch);
-
-        while (rs.next()) {
-            return rs.getBoolean(12);
-        
-        }
-        return false;
+        return rs.next() ? customerFromResult(rs) : null;
     }
 
     private String appendParamterToString(String string, String parameter) {
@@ -111,7 +104,7 @@ public class DBManager {
     public Customer addCustomer(Customer customer)
         throws SQLException
     {
-        String command = "INSERT INTO Customers (email, password, firstName, lastName, dob, phone, street, city, state, postcode) VALUES ('" + customer.getEmail() + "'";
+        String command = "INSERT INTO Customers (email, password, firstName, lastName, dob, phone, street, city, state, postcode, isActive) VALUES ('" + customer.getEmail() + "'";
         command = appendParamterToString(command, customer.getPassword());
         command = appendParamterToString(command, customer.getFirstName());
         command = appendParamterToString(command, customer.getLastName());
@@ -121,30 +114,38 @@ public class DBManager {
         command = appendParamterToString(command, customer.getCity());
         command = appendParamterToString(command, customer.getState());
         command = appendParamterToString(command, customer.getPostcode());
-        command += ")";
+        command += ", true)";
+        System.out.println(command);
         st.executeUpdate(command);
         
         return findCustomer(customer.getEmail(), customer.getPassword());
+    }
+    
+    public void addItem(Item item)
+        throws SQLException
+    {
+        String command = "INSERT INTO SHOPPING (item, price, type, stock) values ('" + item.getItem() + "'";
+        command += ", " + item.getPrice() + ", '" + item.getType() + "', " + item.getStock() + ")";
+        st.executeUpdate(command);
     }
 
     private String appendParamToString(String string, String parameter, String specificParameter) {
         return string + ", "+ specificParameter + " = '" + parameter + "'";
     }
 
-    public void updateItemDetails(String name, String type, float price, int stock)
+    public void updateItemDetails(int itemID, String name, String type, float price, int stock)
         throws SQLException
     {
-        String command = "UPDATE SHOPPING SET ITEM = '" + name  + "' ";
+        String command = "UPDATE SHOPPING SET ITEM = '" + name + "'";
         command = appendParamToString(command, type, "Type");
-        command += ", Price=" + price + ", stock=" + stock + " WHERE ITEM = '" + name + "'";
-        System.out.println(command);
+        command += ", Price=" + price + ", stock=" + stock + " WHERE ITEMID = " + itemID;
         st.executeUpdate(command);
     }
 
-    public void updateCustomerDetails(String email, String firstName, String lastName, String dob, String phone, String street, String city, String state, String postcode)
+    public void updateCustomerDetails(String email, String firstName, String lastName, String dob, String phone, String street, String city, String state, String postcode, boolean isActive)
         throws SQLException
     {
-        String command = "UPDATE Customers SET FirstName = '" + firstName + "' ";
+        String command = "UPDATE Customers SET FirstName = '" + firstName + "'";
         command = appendParamToString(command, lastName, "LastName");
         command = appendParamToString(command, dob, "DOB");
         command = appendParamToString(command, phone, "Phone");
@@ -152,20 +153,22 @@ public class DBManager {
         command = appendParamToString(command, city, "City");
         command = appendParamToString(command, state, "State");
         command = appendParamToString(command, postcode, "Postcode");
-        command += "WHERE EMAIL = '" + email + "'";
+        command += ", isActive = " + isActive + " WHERE EMAIL = '" + email + "'";
         st.executeUpdate(command);
     }
 
-    public void deleteItem(String item_name) throws SQLException {
-        st.executeUpdate("DELETE FROM SHOPPING WHERE ITEM = '" + item_name +"'");
+    public void deleteItem(int ID) throws SQLException {
+        st.executeUpdate("DELETE FROM SHOPPING WHERE ITEMID = " + ID);
     }
 
     public void deleteCustomer(int ID) throws SQLException {
         st.executeUpdate("DELETE FROM Customers where CustomerID = " + ID);
     }
 
-    public ArrayList<Customer> fetchCustomers() throws SQLException {
+    public ArrayList<Customer> fetchCustomers(String sort) throws SQLException {
         String fetch = "select * from Customers";
+        fetch += sort == null ? "" : " ORDER BY " + sort;
+        
         ResultSet rs = st.executeQuery(fetch);
         ArrayList<Customer> temp = new ArrayList<>();
 
@@ -184,12 +187,6 @@ public class DBManager {
     {
         String fetch = "select * from customers where EMAIL = '" + email + "'";
         ResultSet rs = st.executeQuery(fetch);
-
-        while (rs.next()) {
-            if (email.equals(rs.getString(2))) {
-                return true;
-            }
-        }
-        return false;
+        return rs.next() && email.equals(rs.getString(2));
     }
 }

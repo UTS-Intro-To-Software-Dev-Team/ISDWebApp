@@ -21,9 +21,9 @@
             links.add(new String[] {"register.jsp", "Register"});
             links.add(new String[] {"login.jsp", "Login"});
         } else { //Logged in
-            if (manager.isCustomerStaff(customer.getEmail())) {
+            if (customer.isIsStaff()) {
                 links.add(new String[] {"userManagement.jsp", "Customer Management"});
-                links.add(new String[] {"itemManagement.jsp", "Item management"});
+                links.add(new String[] {"itemManagement.jsp", "Item Management"});
             }
             
             links.add(new String[] {"edit.jsp", "Edit Account Details"});

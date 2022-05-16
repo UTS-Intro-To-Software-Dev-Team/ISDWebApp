@@ -9,11 +9,11 @@
     </head>
     
     <%
-        Customer cust = (Customer)session.getAttribute("customer");
+        Customer customer = (Customer)session.getAttribute("customer");
         DBManager manager = (DBManager)session.getAttribute("manager");
         String sort = (String)session.getAttribute("sort");
-        if (cust == null || manager == null || !manager.isCustomerStaff(cust.getEmail())) {
-            response.sendRedirect("homePage.jsp");
+        if (customer == null || manager == null || !customer.isIsStaff()) {
+            response.sendRedirect(customer != null ? "homePage.jsp" : "login.jsp");
             return;
         }
     %>
@@ -23,9 +23,13 @@
         <h1>Item Management</h1>
         <form method="POST" action="DBServlet">
             <div style="display: flex; justify-content: center;">
+                <button name="button" value="sortName" type="submit">Sort by name</button>
+                <button name="button" value="sortType" type="submit">Sort by type</button>
+                <button name="button" value="add" type="submit">Add new item</button>
+        </form>
+        <form method="POST" action="DBServlet">
                 <button name="button" value="edit" type="submit">Edit</button>
                 <button name="button" value="delete" type="submit">Delete</button>
-                <button name="button" value="add" type="submit">Add new item</button>
             </div>
             
             <table class="align-center form-table">
@@ -45,7 +49,7 @@
                         <td><%= item.getType() %></td>
                         <td><%= item.getStock() %></td>
 
-                        <td> <input type="radio" name="itemName" value="<%=item.getItem()%>"> </td>
+                        <td> <input type="radio" name="itemID" value="<%=item.getItemID()%>" required> </td>
                     </tr>
                 <% } %>
             </table>

@@ -16,7 +16,7 @@
             return;
         }
         
-        Item item = manager.findItem((String)session.getAttribute("itemName"));
+        Item item = manager.findItem(Integer.parseInt((String)session.getAttribute("itemID")));
         if (item == null) {
             response.sendRedirect("shoppingPage.jsp");
             return;
@@ -58,8 +58,8 @@
                 <tr>
                     <td><label for="state"><b>State:</b></label></td>
                     <td>
-                        <select name="state" required selected value="${customer.state}">
-                            <option value="NSW">New South Wales</option>
+                        <select name="state" required>
+                            <option selected hidden>${customer.state}</option>
                             <option value="QLD">Queensland</option>
                             <option value="SA">South Australia</option>
                             <option value="TAS">Tasmania</option>

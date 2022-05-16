@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import uts.isd.model.Customer;
+import uts.isd.model.Item;
 import uts.isd.model.dao.DBManager;
 
 public class DBServlet extends HttpServlet {
@@ -36,7 +37,7 @@ public class DBServlet extends HttpServlet {
             case "edit.jsp" -> EditServlet(request, response);
             case "adminEdit.jsp" -> AdminEditServlet(request, response);
             case "itemEdit.jsp" -> ItemEditServlet(request, response);
-
+            case "addItem.jsp" -> AddItemServlet(request, response);
             case "itemManagement.jsp" -> ItemManagementServlet(request, response);
             case "userManagement.jsp" -> UserManagementServlet(request, response);
             case "shoppingPage.jsp" -> ShoppingServlet(request, response);
@@ -83,11 +84,14 @@ public class DBServlet extends HttpServlet {
 
         try {
             Customer customer = manager.findCustomer(email, password);
-            if (customer != null) {
+            if (customer != null && customer.isIsActive()) {
                 session.setAttribute("customer", customer);
                 redirect = "homePage.jsp";
+            } else if (!manager.checkCustomer(email)) {
+                session.setAttribute("emailErr", "Email does not exist.");
+            } else if (customer != null && !customer.isIsActive()) {
+                session.setAttribute("emailErr", "The current accout is inactive.");
             } else {
-                session.setAttribute("emailErr", manager.checkCustomer(email) ? null : "Email does not exist.");
                 session.setAttribute("passErr", "Password is incorrect.");
             }
         } catch (SQLException ex) {
@@ -112,7 +116,7 @@ public class DBServlet extends HttpServlet {
 
         try {
             if (!invalidDataCheck(firstName, lastName, dob, phone, postcode)) {
-                manager.updateCustomerDetails(email, firstName, lastName, dob, phone, street, city, state, postcode);
+                manager.updateCustomerDetails(email, firstName, lastName, dob, phone, street, city, state, postcode, customer.isIsActive());
                 session.setAttribute("customer", manager.findCustomer(email, password));
                 redirect = "edit.jsp";
             }
@@ -144,14 +148,8 @@ public class DBServlet extends HttpServlet {
             }
 
             case "order" -> {
-                session.setAttribute("itemName", request.getParameter("itemName"));
-                Customer customer = (Customer)session.getAttribute("customer");
-                if (customer == null) {
-                    redirect = "login.jsp";
-                }
-                if (session.getAttribute("itemName") != null) {
-                    redirect = "orderItem.jsp";
-                }
+                session.setAttribute("itemID", request.getParameter("itemID"));
+                redirect = "orderItem.jsp";
             }
         }
     }
@@ -207,18 +205,35 @@ public class DBServlet extends HttpServlet {
     private void ItemManagementServlet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
-        String item_name = request.getParameter("itemName");
+        String ID = request.getParameter("itemID");        
+        int itemID = ID == null ? -1 : Integer.parseInt(ID);
+        String sort = (String)session.getAttribute("sort");
+        
         try {
             switch (request.getParameter("button")){
                 case "edit" -> {
-                    session.setAttribute("item", manager.findItem(item_name));
+                    session.setAttribute("item", manager.findItem(itemID));
                     redirect = "itemEdit.jsp";
+                }
+                
+                case "sortType" -> {
+                    if (sort == null || !sort.equals("TYPE ASC")) {
+                        session.setAttribute("sort", "TYPE ASC");
+                    } else {
+                        session.setAttribute("sort", "TYPE DESC");
+                    }
+                }
+
+                case "sortName" -> {
+                    if (sort == null || !sort.equals("ITEM ASC")) {
+                        session.setAttribute("sort", "ITEM ASC");
+                    } else {
+                        session.setAttribute("sort", "ITEM DESC");
+                    }
                 }
 
                 case "delete" -> {
-                    if(item_name != null){
-                        manager.deleteItem(item_name);
-                    }
+                    manager.deleteItem(itemID);
                 }
                 
                 case "add" -> redirect = "addItem.jsp";
@@ -232,22 +247,43 @@ public class DBServlet extends HttpServlet {
             throws ServletException, IOException
     {
         String ID = request.getParameter("customerID");
-        if (ID == null) {
-            return;
-        }
+        int customerID = ID == null ? -1 : Integer.parseInt(ID);
+        String sort = (String)session.getAttribute("sort");
         
-        int customerID = Integer.parseInt(request.getParameter("customerID"));
         try {
             switch (request.getParameter("button")){
                 case "edit" -> {
                     session.setAttribute("customer2", manager.findCustomer(customerID));
                     redirect = "adminEdit.jsp";
                 }
+                
+                case "sortNumber" -> {
+                    if (sort == null || !sort.equals("phone ASC")) {
+                        session.setAttribute("sort", "phone ASC");
+                    } else {
+                        session.setAttribute("sort", "phone DESC");
+                    }
+                }
+
+                case "sortFirstName" -> {
+                    if (sort == null || !sort.equals("firstName ASC")) {
+                        session.setAttribute("sort", "firstName ASC");
+                    } else {
+                        session.setAttribute("sort", "firstName DESC");
+                    }
+                }
+                
+                case "sortLastName" -> {
+                    if (sort == null || !sort.equals("lastName ASC")) {
+                        session.setAttribute("sort", "lastName ASC");
+                    } else {
+                        session.setAttribute("sort", "lastName DESC");
+                    }
+                }
 
                 case "delete" -> {
                     manager.deleteCustomer(customerID);
                 }
-
             }
         } catch (SQLException ex) {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -256,21 +292,51 @@ public class DBServlet extends HttpServlet {
     
     private void ItemEditServlet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
-
     {
+        Item item = (Item)session.getAttribute("item");
         String item_name = request.getParameter("itemName");
         float price = Float.parseFloat(request.getParameter("itemPrice"));
         String type = request.getParameter("itemType");
         int stock = Integer.parseInt(request.getParameter("itemStock"));
 
         try {
-            manager.updateItemDetails(item_name, type, price, stock);
-            session.setAttribute("item1", null);
-            redirect = "itemManagement.jsp";
-            
+            if (!invalidItemDataCheck(item_name, type, price, stock)) {
+                manager.updateItemDetails(item.getItemID(), item_name, type, price, stock);
+                session.setAttribute("item", null);
+                redirect = "itemManagement.jsp";
+            }
         } catch (SQLException ex) {
             Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private boolean invalidItemDataCheck(String item_name, String type, float price, int stock)
+        throws SQLException
+    {
+        boolean hasFailed = false;
+        String message = "First letter of each word must be either a capital letter or a number.";
+        hasFailed = DataCheck(hasFailed, validator.validatePattern("item", item_name), "nameErr", message);
+        
+        message = "This should only contain letters and start with a capitalised letter.";
+        hasFailed = DataCheck(hasFailed, validator.validatePattern("name", type), "typeErr", message);
+        
+        message = "Invalid price.";
+        hasFailed = DataCheck(hasFailed, price >= 0, "priceErr", message);
+        
+        message = "Invalid stock number.";
+        hasFailed = DataCheck(hasFailed, stock >= 0, "stockErr", message);
+        
+        return hasFailed;
+    }
+    
+    private boolean invalidItemDataCheck(Item item)
+        throws SQLException
+    {
+        boolean hasFailed = false;
+        String message = "This item already exists.";
+        hasFailed = DataCheck(hasFailed, manager.findItem(item.getItem()) == null, "existsErr", message);
+        hasFailed = hasFailed || invalidItemDataCheck(item.getItem(), item.getType(), item.getPrice(), item.getStock());
+        return hasFailed;
     }
     
     private void AdminEditServlet(HttpServletRequest request, HttpServletResponse response)
@@ -286,10 +352,11 @@ public class DBServlet extends HttpServlet {
         String city = request.getParameter("city");
         String state = request.getParameter("state");
         String postcode = request.getParameter("postcode");
+        boolean isActive = request.getParameter("isActive") != null;
 
         try {
             if (!invalidDataCheck(firstName, lastName, dob, phone, postcode)) {
-                manager.updateCustomerDetails(email, firstName, lastName, dob, phone, street, city, state, postcode);
+                manager.updateCustomerDetails(email, firstName, lastName, dob, phone, street, city, state, postcode, isActive);
                 session.setAttribute("customer2", null);
                 redirect = "userManagement.jsp";
             }
@@ -298,4 +365,22 @@ public class DBServlet extends HttpServlet {
         }
     }
     
+    private void AddItemServlet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
+    {
+        String item_name = request.getParameter("itemName");
+        float price = Float.parseFloat(request.getParameter("itemPrice"));
+        String type = request.getParameter("itemType");
+        int stock = Integer.parseInt(request.getParameter("itemStock"));
+        
+        Item item = new Item(item_name, price, type, stock);
+        try {
+            if (!invalidItemDataCheck(item)) {
+                manager.addItem(item);
+                redirect = "itemManagement.jsp";
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

@@ -12,10 +12,10 @@
     
     <%
         Customer customer = (Customer)session.getAttribute("customer");
-        Item item = (Item)session.getAttribute("item1");
+        Item item = (Item)session.getAttribute("item");
         DBManager manager = (DBManager)session.getAttribute("manager");
-        if (customer == null || manager == null || !manager.isCustomerStaff(customer.getEmail())) {
-            response.sendRedirect("homePage.jsp");
+        if (customer == null || manager == null || item == null || !customer.isIsStaff()) {
+            response.sendRedirect(customer != null ? "homePage.jsp" : "login.jsp");
             return;
         }
     %>
@@ -23,21 +23,39 @@
     
     <body>
         <%
-            item = (Item)session.getAttribute("item");
+            String nameErr = (String)session.getAttribute("nameErr");
+            String priceErr = (String)session.getAttribute("priceErr");
+            String typeErr = (String)session.getAttribute("typeErr");
+            String stockErr = (String)session.getAttribute("stockErr");
         %>
 
         <h1 class="align-center">Edit Item Details - <%= item.getItem()%></h1>
         <form class="align-center" action="DBServlet" method="POST">
             <table class="align-center form-table">
+                <tr><td><label for="itemName"><b>Item Name:</b></label></td></tr>
+                <tr><td><input type="text" name="itemName" placeholder="Enter item name" value="<%= item.getItem()%>" required pattern="^[A-Z0-9][A-Za-z0-9]*( [A-Z0-9][A-Za-z0-9]+)*$" title="First letter of each word must be either a capital letter or a number."></td></tr>
+                <% if (nameErr != null) { %>
+                    <tr><td><b><%= nameErr %></b></td></tr>
+                <% } %>
+                
                 <tr><td><label for="itemPrice"><b>Item Price:</b></label></td></tr>
-                <tr><td><input type="text" name="itemPrice" placeholder="Enter item price" value="<%= item.getPrice()%>" required></td></tr>
+                <tr><td><input type="number" name="itemPrice" placeholder="Enter item price" value="<%= item.getPrice()%>" required min="0" step="0.01"></td></tr>
+                <% if (priceErr != null) { %>
+                    <tr><td><b><%= priceErr %></b></td></tr>
+                <% } %>
 
                 <tr><td><label for="itemType"><b>Item Type:</b></label></td></tr>
-                <tr><td><input type="number" name="itemType" placeholder="Enter item type" value="<%= item.getType()%>" required pattern="^[A-Z][a-z]*$"%></td></tr>
+                <tr><td><input type="text" name="itemType" placeholder="Enter item type" value="<%= item.getType()%>" required pattern="^[A-Z][a-z]*$"%></td></tr>
+                <% if (typeErr != null) { %>
+                    <tr><td><b><%= typeErr %></b></td></tr>
+                <% } %>
 
-                <tr><td><label for="itemStock"><b>Item stock:</b></label></td></tr>
-                <tr><td><input type="number" name="itemStock" placeholder="Enter item stock" value="<%= item.getStock()%>"></td></tr>
-                <tr><td><button type="submit" name="button" value="edit"><b>Update Catalogue</b></button></td></tr>
+                <tr><td><label for="itemStock"><b>Item Stock:</b></label></td></tr>
+                <tr><td><input type="number" name="itemStock" placeholder="Enter item stock" value="<%= item.getStock()%>" required min="0"></td></tr>
+                <tr><td><button type="submit" name="button" value=""><b>Update Catalogue</b></button></td></tr>
+                <% if (stockErr != null) { %>
+                    <tr><td><b><%= stockErr %></b></td></tr>
+                <% } %>
             </table>
         </form>
     </body>

@@ -17,8 +17,10 @@
         %>
         <form method="POST" action="DBServlet">
             <div style="display: flex; justify-content: center;">
-                <button name="button" value="sortType" type="submit">Sort by type</button>
                 <button name="button" value="sortName" type="submit">Sort by name</button>
+                <button name="button" value="sortType" type="submit">Sort by type</button>
+        </form>
+        <form method="POST" action="DBServlet">
                 <button name="button" value="order" type="submit">Order</button>
             </div>
             <table class="align-center form-table">
@@ -36,7 +38,7 @@
                         <td>$<%= item.getPrice() %></td>
                         <td><%= item.getType() %></td>
                         <td><%= item.getStock() %></td>
-                        <td> <input type="radio" name="itemName" value="<%=item.getItem()%>"> </td>
+                        <td> <input type="radio" name="itemID" value="<%=item.getItemID()%>" required> </td>
                     </tr>
                 <% } %>
             </table>
