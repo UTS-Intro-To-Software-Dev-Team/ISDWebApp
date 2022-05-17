@@ -10,7 +10,8 @@
     
     <%
         Customer customer = (Customer)session.getAttribute("customer");
-        if (customer == null) {
+        DBManager manager = (DBManager)session.getAttribute("manager");
+        if (customer == null || manager == null) {
             response.sendRedirect("login.jsp");
             return;
         }
@@ -18,7 +19,36 @@
     <jsp:include page="PageComponents/JSPHeader.jsp"/>
 
     <body>
-        <h1>Hello World!</h1>
+        <h1>Shipment Methods</h1>
+        <form method="POST" action="DBServlet">
+            <center>
+                <table class="align-center">
+                    <tr>
+                        <th>Item Name</th>
+                        <th>Payment Method</th>
+                        <th>Shipment Method</th>
+                        <th>Status</th>
+                        <th>Quantity</th>
+                        <th>Total Price</th>
+                        <th>Purchase Date</th>
+                        <th>Destination Address</th>
+                    </tr>
+
+                    <% for (Order order : manager.fetchOrders(customer.getCustomerID())) {%>
+                        <tr>
+                            <td><%= order.getItemName() %></td>
+                            <td><%= order.getPaymentMethod() %></td>
+                            <td><%= order.getShipmentMethod() %></td>
+                            <td><%= order.getStatus() %></td>
+                            <td><%= order.getQuantity() %></td>
+                            <td>$<%= order.getTotalPrice() %></td>
+                            <td><%= order.getDate() %></td>
+                            <td><%= order.getAddress() %></td>
+                        </tr>
+                    <% } %>
+                </table>
+            </center>
+        </form>
     </body>
     
 

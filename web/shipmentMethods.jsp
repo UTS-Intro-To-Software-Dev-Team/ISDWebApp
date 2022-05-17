@@ -21,14 +21,11 @@
     <body>
         <h1>Shipment Methods</h1>
         <form method="POST" action="DBServlet">
-            <div style="display: flex; justify-content: center;">
-                <button name="button" value="add" type="submit">Add new method</button>
-        </form>
-        <form method="POST" action="DBServlet">
+            <center>
+                <button name="button" formnovalidate value="add" type="submit">Add new method</button>
                 <button name="button" value="edit" type="submit">Edit</button>
                 <button name="button" value="delete" type="submit">Delete</button>
-            </div>
-            
+            </center>
             <table class="align-center">
                 <tr>
                     <th>Shipment Methods</th>
@@ -38,7 +35,7 @@
                 <% for (Shipment shipment : manager.fetchShipmentMethods(customer.getCustomerID())) {%>
                     <tr>
                         <td><label for="<%= shipment.getShipmentMethod()%>"><%= shipment.getShipmentMethod() %></label></td>
-                        <td> <input type="radio" id="<%= shipment.getShipmentMethod()%>" name="shipmentID" value="<%=shipment.getShipmentId()%>" required> </td>
+                        <td> <input type="radio" id="<%= shipment.getShipmentMethod()%>" name="shipmentID" value="<%=shipment.getShipmentID()%>" required> </td>
                     </tr>
                 <% } %>
             </table>

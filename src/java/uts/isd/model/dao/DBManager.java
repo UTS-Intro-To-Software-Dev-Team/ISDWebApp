@@ -150,8 +150,31 @@ public class DBManager {
         st.executeUpdate(command);
     }
 
+    public void addOrder(Order order, Customer customer)
+        throws SQLException
+    {
+        String command = "INSERT INTO orders (customerID, itemName, paymentMethod, shippingMethod, status, quantity, totalPrice, date, street, city, state, postcode) values (" + customer.getCustomerID();
+        command += appendParam(order.getItemName());
+        command += appendParam(order.getPaymentMethod());
+        command += appendParam(order.getShipmentMethod());
+        command += appendParam(order.getStatus());
+        command += appendParam(order.getQuantity());
+        command += appendParam(order.getTotalPrice());
+        command += appendParam(order.getDate());
+        command += appendParam(order.getStreet());
+        command += appendParam(order.getCity());
+        command += appendParam(order.getState());
+        command += appendParam(order.getPostcode());
+        command += ")";
+        st.executeUpdate(command);
+    }
+    
     private String appendParam(String parameter, String specificParameter) {
         return ", " + specificParameter + " = '" + parameter + "'";
+    }
+    
+    private String appendParam(double parameter) {
+        return ", " + parameter;
     }
 
     public void updateItemDetails(int itemID, String name, String type, float price, int stock)
@@ -284,29 +307,61 @@ public class DBManager {
         }
         return temp;
     }
+    
+    private Order orderFromResult(ResultSet rs)
+        throws SQLException
+    {
+        int orderID = rs.getInt("orderID");
+        String itemName = rs.getString("itemName");
+        String paymentMethod = rs.getString("paymentMethod");
+        String shipmentMethod = rs.getString("shippingMethod");
+        String status = rs.getString("status");
+        int quantity = rs.getInt("quantity");
+        float totalPrice = rs.getFloat("totalPrice");
+        String date = rs.getString("date");
+        String street = rs.getString("street");
+        String city = rs.getString("city");
+        String state = rs.getString("state");
+        String postcode = rs.getString("postcode");
+        return new Order(orderID, itemName, paymentMethod, shipmentMethod, status, quantity, totalPrice, date, street, city, state, postcode);
+    }
+    
+    public ArrayList<Order> fetchOrders(int customerId)
+        throws SQLException
+    {
+        String fetch = "select * from orders WHERE customerid=" + customerId;
+        
+        ResultSet rs = st.executeQuery(fetch);
+        ArrayList<Order> temp = new ArrayList<>();
+        while(rs.next()) {
+            temp.add(orderFromResult(rs));
+        }
+        return temp;
+    }
+    
+    private boolean doesStringExist(String comparer, String columnName, String query)
+        throws SQLException
+    {
+        ResultSet rs = st.executeQuery(query);
+        return rs.next() && comparer.equals(rs.getString(columnName));
+    }
 
-    public boolean checkCustomer(String email)
+    public boolean doesCustomerExist(String email)
         throws SQLException
     {
-        String fetch = "select * from customers where EMAIL = '" + email + "'";
-        ResultSet rs = st.executeQuery(fetch);
-        return rs.next() && email.equals(rs.getString(2));
+        return doesStringExist(email, "email", "select * from customers where EMAIL = '" + email + "'");
     }
     
-    public boolean checkPayment(int customerId, String paymentMethod)
+    public boolean doesPaymentExist(int customerId, String paymentMethod)
         throws SQLException
     {
-        String fetch = "select * from payment where customerID = " + customerId + " and paymentMethod = '" + paymentMethod + "'";
-        ResultSet rs = st.executeQuery(fetch);
-        return rs.next() && paymentMethod.equals(rs.getString(3));
+        return doesStringExist(paymentMethod, "paymentMethod", "select * from payment where customerID = " + customerId + " and paymentMethod = '" + paymentMethod + "'");
     }
     
-    public boolean checkShipment(int customerId, String shipmentMethod)
+    public boolean doesShipmentExist(int customerId, String shipmentMethod)
         throws SQLException
     {
-        String fetch = "select * from shipments where customerID = " + customerId + " and shipmentMethod = '" + shipmentMethod + "'";
-        ResultSet rs = st.executeQuery(fetch);
-        return rs.next() && shipmentMethod.equals(rs.getString(3));
+        return doesStringExist(shipmentMethod, "shipmentMethod", "select * from shipments where customerID = " + customerId + " and shipmentMethod = '" + shipmentMethod + "'");
     }
     
 }

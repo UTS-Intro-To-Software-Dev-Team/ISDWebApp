@@ -13,7 +13,7 @@ public class Shipment {
         this.shipmentMethod = method;
     }
 
-    public int getShipmentId() {
+    public int getShipmentID() {
         return shipmentId;
     }
 
