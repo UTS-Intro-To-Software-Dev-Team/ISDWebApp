@@ -3,12 +3,19 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <jsp:include page="PageComponents/CommonMeta.jsp"/>
-
         <title>Edit Page</title>
     </head>
+
+    <%
+        Customer customer = (Customer)session.getAttribute("customer");
+        if (customer == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+    %>
     <jsp:include page="PageComponents/JSPHeader.jsp"/>
+
     <body>
         <%
             String emailErr = (String) session.getAttribute("emailErr");
@@ -19,7 +26,6 @@
             String dateErr = (String) session.getAttribute("dateErr");
             String phoneErr = (String) session.getAttribute("phoneErr");
             String postcodeErr = (String) session.getAttribute("postcodeErr");
-            Customer customer = (Customer)session.getAttribute("Customer");
         %>
 
         <h1 class="align-center">Edit User Details</h1>
@@ -44,7 +50,7 @@
                 <% } %>
 
                 <tr><td><label for="phone"><b>Phone Number:</b></label></td></tr>
-                <tr><td><input type="text" name="phone" placeholder="Enter phone number" value="${customer.phone}" required pattern="^[0-9]{3,15}$" title="Not a valid phone number."></td></tr>
+                <tr><td><input type="number" name="phone" placeholder="Enter phone number" value="${customer.phone}" required pattern="^[0-9]{3,15}$" title="Not a valid phone number."></td></tr>
                 <% if (phoneErr != null) { %>
                     <tr><td><b><%= phoneErr %></b></td></tr>
                 <% } %>
@@ -68,7 +74,7 @@
                 </td></tr>
 
                 <tr><td><label for="postcode"><b>Postcode:</b></label></td></tr>
-                <tr><td><input type="text" name="postcode" placeholder="####" style="width: 5%; text-align: center;" value="${customer.postcode}" required pattern="^[0-9]{4}$" minlength="4" maxlength="4" title="Postcode must be a 4 digit number."></td></tr>
+                <tr><td><input type="number" name="postcode" placeholder="####" style="width: 5%; text-align: center;" value="${customer.postcode}" required pattern="^[0-9]{4}$" minlength="4" maxlength="4" title="Postcode must be a 4 digit number."></td></tr>
                 <% if (postcodeErr != null) { %>
                     <tr><td><b><%= postcodeErr %></b></td></tr>
                 <% } %>

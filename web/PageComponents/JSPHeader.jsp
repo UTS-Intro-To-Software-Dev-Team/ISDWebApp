@@ -1,4 +1,7 @@
 <%@page import="uts.isd.model.*" %>
+<%@page import="uts.isd.model.dao.*" %>
+<%@page import="java.util.ArrayList" %>
+
 <head>
     <link rel="stylesheet" href="CSS/Header.css">
 </head>
@@ -10,17 +13,23 @@
         String pageName = uri.substring(uri.lastIndexOf("/") + 1);
         session.setAttribute("pageName", pageName);
 
-        String[][] links = session.getAttribute("customer") == null || pageName.equals("logout.jsp") ?
-        new String[][] { //If logged out
-            {"register.jsp", "Register"},
-            {"login.jsp", "Login"},
-
-        } : new String[][] { //If logged in
-            {"edit.jsp", "Edit Account Details"},
-            {"orderHistory.jsp", "Order History"},
-            {"shipmentPage.jsp", "Shipment Details"},
-            {"logout.jsp", "Logout"},
-        };
+        DBManager manager = (DBManager)session.getAttribute("manager");
+        Customer customer = (Customer)session.getAttribute("customer");
+        
+        ArrayList<String[]> links = new ArrayList<String[]>();
+        if (customer == null || pageName.equals("logout.jsp")) { //Logged out
+            links.add(new String[] {"register.jsp", "Register"});
+            links.add(new String[] {"login.jsp", "Login"});
+        } else { //Logged in
+            if (manager.isCustomerStaff(customer.getEmail())) {
+                links.add(new String[] {"userManagement.jsp", "Customer Management"});
+                links.add(new String[] {"itemManagement.jsp", "Item management"});
+            }
+            
+            links.add(new String[] {"edit.jsp", "Edit Account Details"});
+            links.add(new String[] {"orderHistory.jsp", "Order History"});
+            links.add(new String[] {"logout.jsp", "Logout"});
+        }
     %>
     <div>
         <% if (!pageName.equals("homePage.jsp")) { %>

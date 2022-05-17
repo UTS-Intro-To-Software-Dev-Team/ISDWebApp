@@ -1,6 +1,7 @@
 package uts.isd.model;
 
 public class Customer {
+    private int customerID;
     private String email;
     private String password;
     private String firstName;
@@ -12,7 +13,16 @@ public class Customer {
     private String city;
     private String state;
     private String postcode;
+    private boolean isStaff;
+    private boolean isActive;
 
+    public Customer(int customerID, String email, String password, String firstName, String lastName, String dob, String phone, String street, String city, String state, String postcode, boolean isStaff, boolean isActive) {
+        this(email, password, firstName, lastName, dob, phone, street, city, state, postcode);
+        this.customerID = customerID;
+        this.isStaff = isStaff;
+        this.isActive = isActive;
+    }
+    
     public Customer(String email, String password, String firstName, String lastName, String dob, String phone, String street, String city, String state, String postcode) {
         this.email = email;
         this.password = password;
@@ -26,83 +36,55 @@ public class Customer {
         this.postcode = postcode;
     }
 
+    public int getCustomerID() {
+        return customerID;
+    }
+    
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getFirstName() {
         return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
     public String getDob() {
         return dob;
-    }
-
-    public void setDob(String dob) {
-        this.dob = dob;
     }
 
     public String getPhone() {
         return phone;
     }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
+    
     public String getStreet() {
         return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
     }
 
     public String getCity() {
         return city;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
     public String getState() {
         return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
     }
 
     public String getPostcode() {
         return postcode;
     }
 
-    public void setPostcode(String postcode) {
-        this.postcode = postcode;
+    public boolean isIsStaff() {
+        return isStaff;
+    }
+
+    public boolean isIsActive() {
+        return isActive;
     }
 }

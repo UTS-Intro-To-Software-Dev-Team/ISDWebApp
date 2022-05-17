@@ -13,8 +13,10 @@
         <%
             Customer customer = (Customer)session.getAttribute("customer");
         %>
+        <a href="shoppingPage.jsp"><button type="submit"><b>Shopping</b></button></a>
         <h1>Welcome!</h1>
         <% if (customer != null) { %>
+            <p>ID: <%= customer.getCustomerID() %></p>
             <p>Email: <%= customer.getEmail() %></p>
             <p>Password: <%= customer.getPassword() %></p>
             <p>First name: <%= customer.getFirstName() %></p>
@@ -25,6 +27,8 @@
             <p>City: <%= customer.getCity() %></p>
             <p>State: <%= customer.getState() %></p>
             <p>Postcode: <%= customer.getPostcode() %></p>
+            <p>Is Staff? <%= customer.isIsStaff() %></p>
+            <p>Is Active? <%= customer.isIsActive() %></p>
         <% } %>
     </body>
     <jsp:include page="PageComponents/JSPFooter.jsp"/>
