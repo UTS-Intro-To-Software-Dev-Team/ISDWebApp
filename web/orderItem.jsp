@@ -121,6 +121,7 @@
                         </td>
                      </tr>
                 </table>
+                <button type="submit" name="button" value="cancel" formnovalidate>Cancel</button>
                 <button type="submit" name="button" value="paymentMethod" formnovalidate>View payment methods</button>
                 <button type="submit" name="button" value="shipmentMethod" formnovalidate>View shipment methods</button>
                 <button type="submit" name="button" value="purchase">Proceed to purchase</button>

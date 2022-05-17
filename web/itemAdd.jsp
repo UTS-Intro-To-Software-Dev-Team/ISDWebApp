@@ -49,10 +49,12 @@
 
                 <tr><td><label for="itemStock"><b>Item Stock:</b></label></td></tr>
                 <tr><td><input type="number" name="itemStock" placeholder="Enter item stock" required min="0"></td></tr>
-                <tr><td><button type="submit" name="button" value=""><b>Add Item</b></button></td></tr>
                 <% if (stockErr != null) { %>
                     <tr><td><b><%= stockErr %></b></td></tr>
                 <% } %>
+                
+                <tr><td><button type="submit" name="button" value="add"><b>Add Item</b></button></td></tr>
+                <tr><td><button type="submit" name="button" formnovalidate value="cancel"><b>Cancel</b></button></td></tr>
             </table>
         </form>
     </body>

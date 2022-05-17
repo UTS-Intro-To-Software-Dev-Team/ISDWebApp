@@ -206,19 +206,25 @@ public class DBManager {
         st.executeUpdate(command);
     }
 
-    public void updateCustomerDetails(String email, String firstName, String lastName, String dob, String phone, String street, String city, String state, String postcode, boolean isActive)
+    public void updateCustomerDetails(int customerID, Customer customer, boolean isActive)
         throws SQLException
     {
-        String command = "UPDATE Customers SET FirstName = '" + firstName + "'";
-        command += appendParam(lastName, "LastName");
-        command += appendParam(dob, "DOB");
-        command += appendParam(phone, "Phone");
-        command += appendParam(street, "Street");
-        command += appendParam(city, "City");
-        command += appendParam(state, "State");
-        command += appendParam(postcode, "Postcode");
-        command += ", isActive = " + isActive + " WHERE EMAIL = '" + email + "'";
+        String command = "UPDATE Customers SET FirstName = '" + customer.getFirstName() + "'";
+        command += appendParam(customer.getLastName(), "LastName");
+        command += appendParam(customer.getDob(), "DOB");
+        command += appendParam(customer.getPhone(), "Phone");
+        command += appendParam(customer.getStreet(), "Street");
+        command += appendParam(customer.getCity(), "City");
+        command += appendParam(customer.getState(), "State");
+        command += appendParam(customer.getPostcode(), "Postcode");
+        command += ", isActive = " + isActive + " WHERE EMAIL = '" + customer.getEmail() + "'";
         st.executeUpdate(command);
+    }
+    
+    public void updateCustomerDetails(int customerID, Customer customer)
+        throws SQLException
+    {
+        updateCustomerDetails(customerID, customer, customer.isIsActive());
     }
 
     public void deleteItem(int ID) throws SQLException {
@@ -226,7 +232,7 @@ public class DBManager {
     }
 
     public void deleteCustomer(int ID) throws SQLException {
-        st.executeUpdate("DELETE FROM Customers where customerID = " + ID);
+        st.executeUpdate("DELETE CASCADE FROM Customers where customerID = " + ID);
     }
     
     public void deletePayment(int ID) throws SQLException {

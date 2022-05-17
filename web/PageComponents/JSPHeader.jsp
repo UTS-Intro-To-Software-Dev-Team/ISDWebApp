@@ -31,9 +31,9 @@
     %>
     <div>
         <% if (!pageName.equals("homePage.jsp")) { %>
-            <a href="homePage.jsp"><label class="link"><b>IoTBay</b></label></a>
+            <a href="homePage.jsp">IoTBay</a>
         <% } else { %>
-            <label><b>IoTBay</b></label>
+            <b>IoTBay</b>
         <% } %>
     </div>
 

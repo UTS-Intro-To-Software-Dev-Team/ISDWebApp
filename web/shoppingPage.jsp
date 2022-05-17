@@ -38,7 +38,9 @@
                         <td>$<%= item.getPrice() %></td>
                         <td><%= item.getType() %></td>
                         <td><%= item.getStock() %></td>
-                        <td> <input type="radio" name="itemID" value="<%=item.getItemID()%>" required> </td>
+                        <% if (item.getStock() > 0) { %>
+                            <td> <input type="radio" name="itemID" value="<%=item.getItemID()%>" required> </td>
+                        <% } %>
                     </tr>
                 <% } %>
             </table>
