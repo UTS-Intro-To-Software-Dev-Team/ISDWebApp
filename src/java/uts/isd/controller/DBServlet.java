@@ -55,6 +55,7 @@ public class DBServlet extends HttpServlet {
 
                 case "shoppingPage.jsp" -> ShoppingServlet(request);
                 case "orderItem.jsp" -> OrderItemServlet(request);
+                case "orderHistory.jsp" -> {}
                 case "orderPurchase.jsp" -> OrderPurchaseServlet(request);
 
                 default -> System.out.println("Unknown page: " + forward);
@@ -155,10 +156,7 @@ public class DBServlet extends HttpServlet {
                 redirect = "paymentEdit.jsp";
             }
 
-            case "delete" -> {
-                manager.deletePayment(paymentID);
-            }
-
+            case "delete" -> manager.deletePayment(paymentID);
             case "add" -> redirect = "paymentAdd.jsp";
         }
     }
@@ -217,10 +215,7 @@ public class DBServlet extends HttpServlet {
                 redirect = "shipmentEdit.jsp";
             }
 
-            case "delete" -> {
-                manager.deleteShipment(shipmentID);
-            }
-
+            case "delete" -> manager.deleteShipment(shipmentID);
             case "add" -> redirect = "shipmentAdd.jsp";
         }
     }
@@ -268,7 +263,6 @@ public class DBServlet extends HttpServlet {
     {
         String ID = request.getParameter("customerID");
         int customerID = ID == null ? -1 : Integer.parseInt(ID);
-        String sort = (String)session.getAttribute("sort");
         
         switch (request.getParameter("button")){
             case "edit" -> {
@@ -276,33 +270,7 @@ public class DBServlet extends HttpServlet {
                 redirect = "userManagementEdit.jsp";
             }
 
-            case "sortNumber" -> {
-                if (sort == null || !sort.equals("phone ASC")) {
-                    session.setAttribute("sort", "phone ASC");
-                } else {
-                    session.setAttribute("sort", "phone DESC");
-                }
-            }
-
-            case "sortFirstName" -> {
-                if (sort == null || !sort.equals("firstName ASC")) {
-                    session.setAttribute("sort", "firstName ASC");
-                } else {
-                    session.setAttribute("sort", "firstName DESC");
-                }
-            }
-
-            case "sortLastName" -> {
-                if (sort == null || !sort.equals("lastName ASC")) {
-                    session.setAttribute("sort", "lastName ASC");
-                } else {
-                    session.setAttribute("sort", "lastName DESC");
-                }
-            }
-
-            case "delete" -> {
-                manager.deleteCustomer(customerID);
-            }
+            case "delete" -> manager.deleteCustomer(customerID);
         }
     }
     
@@ -342,7 +310,6 @@ public class DBServlet extends HttpServlet {
     {
         String ID = request.getParameter("itemID");        
         int itemID = ID == null ? -1 : Integer.parseInt(ID);
-        String sort = (String)session.getAttribute("sort");
         
         switch (request.getParameter("button")){
             case "edit" -> {
@@ -350,26 +317,7 @@ public class DBServlet extends HttpServlet {
                 redirect = "itemEdit.jsp";
             }
 
-            case "sortType" -> {
-                if (sort == null || !sort.equals("TYPE ASC")) {
-                    session.setAttribute("sort", "TYPE ASC");
-                } else {
-                    session.setAttribute("sort", "TYPE DESC");
-                }
-            }
-
-            case "sortName" -> {
-                if (sort == null || !sort.equals("ITEM ASC")) {
-                    session.setAttribute("sort", "ITEM ASC");
-                } else {
-                    session.setAttribute("sort", "ITEM DESC");
-                }
-            }
-
-            case "delete" -> {
-                manager.deleteItem(itemID);
-            }
-
+            case "delete" -> manager.deleteItem(itemID);
             case "add" -> redirect = "itemAdd.jsp";
         }
     }
@@ -419,25 +367,7 @@ public class DBServlet extends HttpServlet {
     private void ShoppingServlet(HttpServletRequest request)
         throws ServletException, IOException, SQLException
     {
-        String sort = (String)session.getAttribute("sort");
-        
         switch(request.getParameter("button")) {
-            case "sortType" -> {
-                if (sort == null || !sort.equals("TYPE ASC")) {
-                    session.setAttribute("sort", "TYPE ASC");
-                } else {
-                    session.setAttribute("sort", "TYPE DESC");
-                }
-            }
-
-            case "sortName" -> {
-                if (sort == null || !sort.equals("ITEM ASC")) {
-                    session.setAttribute("sort", "ITEM ASC");
-                } else {
-                    session.setAttribute("sort", "ITEM DESC");
-                }
-            }
-
             case "order" -> {
                 session.setAttribute("itemID", request.getParameter("itemID"));
                 redirect = "orderItem.jsp";

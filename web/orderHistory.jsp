@@ -15,14 +15,30 @@
             response.sendRedirect("login.jsp");
             return;
         }
+        
+        String sortA = request.getParameter("sortA");
+        String sortB = request.getParameter("sortB");
+        String sort = " AND CAST(orderID AS CHAR(99)) LIKE '%" + (sortA != null ? sortA : "_") + "%' AND Date LIKE '%" + (sortB != null ? sortB : "_") + "%'";
     %>
     <jsp:include page="PageComponents/JSPHeader.jsp"/>
 
     <body>
         <center>
             <h1 class="spaced-letters blue">ORDER HISTORY</h1>
+            <form method="POST" action="DBServlet">
+                <center>
+                    <p>
+                        <label for="sortA">ID: </label><input type="text" name="sortA" id="sortA" placeholder="Search by ID" value="<%= (sortA != null ? sortA : "") %>">
+                        &emsp;
+                        <label for="sortB">Date: </label><input type="text" name="sortB" id="sortB" placeholder="Search by date" value="<%= (sortB != null ? sortB : "") %>">
+                        &emsp;
+                        <button name="button" formnovalidate value="search" type="submit">Search</button>
+                    </p>
+                </center>
+            </form>
             <table class="align-center">
                 <tr>
+                    <th>ID</th>
                     <th>Item Name</th>
                     <th>Payment Method</th>
                     <th>Shipment Method</th>
@@ -33,8 +49,9 @@
                     <th>Destination Address</th>
                 </tr>
 
-                <% for (Order order : manager.fetchOrders(customer.getCustomerID())) {%>
+                <% for (Order order : manager.fetchOrders(customer.getCustomerID(), sort)) {%>
                     <tr>
+                        <td><%= order.getOrderID() %></td>
                         <td><%= order.getItemName() %></td>
                         <td><%= order.getPaymentMethod() %></td>
                         <td><%= order.getShipmentMethod() %></td>

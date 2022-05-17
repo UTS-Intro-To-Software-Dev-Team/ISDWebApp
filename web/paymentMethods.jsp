@@ -15,22 +15,34 @@
             response.sendRedirect("login.jsp");
             return;
         }
+        
+        String sortA = request.getParameter("sortA");
+        String sortB = request.getParameter("sortB");
+        String sort = " AND CAST(paymentID AS CHAR(99)) LIKE '%" + (sortA != null ? sortA : "_") + "%' AND expiryDate LIKE '%" + (sortB != null ? sortB : "_") + "%'";
     %>
     <jsp:include page="PageComponents/JSPHeader.jsp"/>
 
     <body>
         <h1>Payment Methods</h1>
         <form method="POST" action="DBServlet">
-            <div style="display: flex; justify-content: center;">
-                <button name="button" value="add" type="submit">Add new method</button>
-        </form>
-        <form method="POST" action="DBServlet">
-                <button name="button" value="edit" type="submit">Edit</button>
-                <button name="button" value="delete" type="submit">Delete</button>
-            </div>
-            
+            <center>
+                <p>
+                    <label for="sortA">ID: </label><input type="text" name="sortA" id="sortA" placeholder="Search by ID" value="<%= (sortA != null ? sortA : "") %>">
+                    &emsp;
+                    <label for="sortB">Date: </label><input type="text" name="sortB" id="sortB" placeholder="Search by expiry date" value="<%= (sortB != null ? sortB : "") %>">
+                    &emsp;
+                    <button name="button" formnovalidate value="search" type="submit">Search</button>
+                    &emsp;
+                    <button name="button" formnovalidate value="add" type="submit">Add new method</button>
+                    &emsp;
+                    <button name="button" value="edit" type="submit">Edit</button>
+                    &emsp;
+                    <button name="button" value="delete" type="submit">Delete</button>
+                </p>
+            </center>
             <table class="align-center form-table" style="width: 60%;">
                 <tr>
+                    <th>ID</th>
                     <th>Payment Methods</th>
                     <th>Card Numbers</th>
                     <th>Full Name</th>
@@ -40,8 +52,9 @@
                     <th>Select</th>
                 </tr>
 
-                <% for (Payment payment : manager.fetchPaymentMethods(customer.getCustomerID())) {%>
+                <% for (Payment payment : manager.fetchPaymentMethods(customer.getCustomerID(), sort)) {%>
                     <tr>
+                        <td><label for="<%= payment.getPaymentMethod() %>"><%= payment.getPaymentID() %></label></td>  
                         <td><label for="<%= payment.getPaymentMethod() %>"><%= payment.getPaymentMethod() %></label></td>  
                         <td><label for="<%= payment.getPaymentMethod() %>"><%= payment.getCardNumber() %></label></td>
                         <td><label for="<%= payment.getPaymentMethod() %>"><%= payment.getFullName() %></label></td>

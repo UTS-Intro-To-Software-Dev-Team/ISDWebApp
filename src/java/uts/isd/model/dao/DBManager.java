@@ -46,8 +46,7 @@ public class DBManager {
     }
 
     public ArrayList<Item> fetchItems(String sort) throws SQLException {
-        String fetch = "select * from SHOPPING";
-        fetch += sort == null ? "" : " ORDER BY " + sort;
+        String fetch = "select * from SHOPPING " + sort;
         
         ResultSet rs = st.executeQuery(fetch);
         ArrayList<Item> temp = new ArrayList<>();
@@ -244,8 +243,7 @@ public class DBManager {
     }
 
     public ArrayList<Customer> fetchCustomers(String sort) throws SQLException {
-        String fetch = "select * from Customers";
-        fetch += sort == null ? "" : " ORDER BY " + sort;
+        String fetch = "select * from Customers " + sort;
         
         ResultSet rs = st.executeQuery(fetch);
         ArrayList<Customer> temp = new ArrayList<>();
@@ -292,8 +290,8 @@ public class DBManager {
         return rs.next() ? paymentFromResult(rs) : null;
     }
     
-    public ArrayList<Payment> fetchPaymentMethods(int id) throws SQLException {
-        String fetch = "select * from Payment WHERE customerid=" + id;
+    public ArrayList<Payment> fetchPaymentMethods(int id, String sort) throws SQLException {
+        String fetch = "select * from Payment WHERE customerid=" + id + sort;
         
         ResultSet rs = st.executeQuery(fetch);
         ArrayList<Payment> temp = new ArrayList<>();
@@ -303,8 +301,8 @@ public class DBManager {
         return temp;
     }
     
-    public ArrayList<Shipment> fetchShipmentMethods(int customerId) throws SQLException {
-        String fetch = "select * from Shipments WHERE customerid=" + customerId;
+    public ArrayList<Shipment> fetchShipmentMethods(int customerId, String sort) throws SQLException {
+        String fetch = "select * from Shipments WHERE customerid=" + customerId + sort;
         
         ResultSet rs = st.executeQuery(fetch);
         ArrayList<Shipment> temp = new ArrayList<>();
@@ -332,10 +330,10 @@ public class DBManager {
         return new Order(orderID, itemName, paymentMethod, shipmentMethod, status, quantity, totalPrice, date, street, city, state, postcode);
     }
     
-    public ArrayList<Order> fetchOrders(int customerId)
+    public ArrayList<Order> fetchOrders(int customerId, String sort)
         throws SQLException
     {
-        String fetch = "select * from orders WHERE customerid=" + customerId;
+        String fetch = "select * from orders WHERE customerid = " + customerId + sort;
         
         ResultSet rs = st.executeQuery(fetch);
         ArrayList<Order> temp = new ArrayList<>();

@@ -11,11 +11,14 @@
     <%
         Customer customer = (Customer)session.getAttribute("customer");
         DBManager manager = (DBManager)session.getAttribute("manager");
-        String sort = (String)session.getAttribute("sort");
         if (customer == null || manager == null || !customer.isIsStaff()) {
             response.sendRedirect(customer != null ? "homePage.jsp" : "login.jsp");
             return;
         }
+        
+        String sortName = request.getParameter("sortName");
+        String sortType = request.getParameter("sortType");
+        String sort = "WHERE item LIKE '%" + (sortName != null ? sortName : "_") + "%' AND type LIKE '%" + (sortType != null ? sortType : "_") + "%'";
     %>
     <jsp:include page="PageComponents/JSPHeader.jsp"/>
 
@@ -23,11 +26,19 @@
         <center><h1 class="spaced-letters blue">ITEM MANAGEMENT</h1></center>
         <form method="POST" action="DBServlet">
             <center>
-                <button name="button" formnovalidate value="sortName" type="submit">Sort by name</button>
-                <button name="button" formnovalidate value="sortType" type="submit">Sort by type</button>
-                <button name="button" formnovalidate value="add" type="submit">Add new item</button>
-                <button name="button" value="edit" type="submit">Edit</button>
-                <button name="button" value="delete" type="submit">Delete</button>
+                <p>
+                    <label for="sortName">Name: </label><input type="text" name="sortName" id="sortName" placeholder="Search by name" value="<%= (sortName != null ? sortName : "") %>">
+                    &emsp;
+                    <label for="sortType">Type: </label><input type="text" name="sortType" id="sortType" placeholder="Search by type" value="<%= (sortType != null ? sortType : "") %>">
+                    &emsp;
+                    <button name="button" formnovalidate value="search" type="submit">Search</button>
+                    &emsp;
+                    <button name="button" formnovalidate value="add" type="submit">Add new item</button>
+                    &emsp;
+                    <button name="button" value="edit" type="submit">Edit</button>
+                    &emsp;
+                    <button name="button" value="delete" type="submit">Delete</button>
+                </p>
             </center>
             <table class="align-center form-table">
                 <tr>

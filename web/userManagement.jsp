@@ -11,11 +11,15 @@
     <%
         Customer cust = (Customer)session.getAttribute("customer");
         DBManager manager = (DBManager)session.getAttribute("manager");
-        String sort = (String)session.getAttribute("sort");
         if (cust == null || manager == null || !cust.isIsStaff()) {
             response.sendRedirect(cust != null ? "homePage.jsp" : "login.jsp");
             return;
         }
+        
+        String sortA = request.getParameter("sortA");
+        String sortB = request.getParameter("sortB");
+        String sortC = request.getParameter("sortC");
+        String sort = "WHERE firstName LIKE '%" + (sortA != null ? sortA : "_") + "%' AND lastName LIKE '%" + (sortB != null ? sortB : "_") + "%' AND phone LIKE '%" + (sortC != null ? sortC : "_") + "%'";
     %>
     <jsp:include page="PageComponents/JSPHeader.jsp"/>
 
@@ -23,10 +27,16 @@
         <center><h1 class="spaced-letters blue">USER MANAGEMENT</h1></center>
         <form method="POST" action="DBServlet">
             <center>
-                <button name="button" formnovalidate value="sortFirstName" type="submit">Sort by first name</button>
-                <button name="button" formnovalidate value="sortLastName" type="submit">Sort by last name</button>
-                <button name="button" formnovalidate value="sortNumber" type="submit">Sort by number</button>
+                <label for="sortA">First Name: </label><input type="text" name="sortA" id="sortA" placeholder="Search by first name" value="<%= (sortA != null ? sortA : "") %>">
+                &emsp;
+                <label for="sortB">Last Name: </label><input type="text" name="sortB" id="sortB" placeholder="Search by last name" value="<%= (sortB != null ? sortB : "") %>">
+                &emsp;
+                <label for="sortC">Phone: </label><input type="text" name="sortC" id="sortC" placeholder="Search by phone" value="<%= (sortC != null ? sortC : "") %>">
+                <p></p>
+                <button name="button" formnovalidate value="search" type="submit">Search</button>
+                &emsp;
                 <button name="button" value="edit" type="submit">Edit</button>
+                &emsp;
                 <button name="button" value="delete" type="submit">Delete</button> 
             </center>
             <table class="align-center form-table" style="width: 100%;">

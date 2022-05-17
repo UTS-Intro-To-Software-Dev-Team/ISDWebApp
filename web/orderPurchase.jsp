@@ -37,6 +37,7 @@
             <h1>DO YOU CONFIRM?</h1>
             <form method="POST" action="DBServlet">
                 <button type="submit" name="button" value="yes">Yes</button>
+                &emsp;
                 <button type="submit" name="button" value="no">no</button>
             </form>
         </center>

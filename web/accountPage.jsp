@@ -20,8 +20,11 @@
     <body>
         <center>
             <a href="edit.jsp"><button>Edit Account Details</button></a>
+            &emsp;
             <a href="paymentMethods.jsp"><button>View Payment Methods</button></a>
+            &emsp;
             <a href="shipmentMethods.jsp"><button>View Shipment Methods</button></a>
+            &emsp;
             <a href="orderHistory.jsp"><button>View Order History</button></a>
         </center>
     </body>

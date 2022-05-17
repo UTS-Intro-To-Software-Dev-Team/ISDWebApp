@@ -34,8 +34,6 @@ public class Validator implements Serializable {
             "fullNameErr", "expiryDateErr",
             
             "shipmentMethodErr",
-            
-            "sort",//We need to fix this.
         }) {
             session.setAttribute(error, null);
         }

@@ -122,8 +122,11 @@
                      </tr>
                 </table>
                 <button type="submit" name="button" value="cancel" formnovalidate>Cancel</button>
+                &emsp;
                 <button type="submit" name="button" value="paymentMethod" formnovalidate>View payment methods</button>
+                &emsp;
                 <button type="submit" name="button" value="shipmentMethod" formnovalidate>View shipment methods</button>
+                &emsp;
                 <button type="submit" name="button" value="purchase">Proceed to purchase</button>
             </form>
         </center> 
