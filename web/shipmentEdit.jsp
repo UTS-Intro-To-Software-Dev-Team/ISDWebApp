@@ -36,7 +36,8 @@
                 <tr><td><label for="shipmentMethod"><b>Payment Method:</b></label></td></tr>
                 <tr><td><input type="text" id="shipmentMethod" name="shipmentMethod" placeholder="Enter method name" value="<%= shipmentMethod %>" required pattern="^[A-Z0-9][A-Za-z0-9]*( [A-Z0-9][A-Za-z0-9]+)*$" title="First letter of each word must be either a capital letter or a number."></td></tr>
                 
-                <tr><td><button type="submit"><b>Update Method</b></button></td></tr>
+                <tr><td><button type="submit" name="button" value="shipmentAddEdit"><b>Update Method</b></button></td></tr>
+                <tr><td><button type="submit" name="button" formnovalidate value="shipmentCancel">Cancel</button></td></tr>
             </table>
         </form>
     </body>

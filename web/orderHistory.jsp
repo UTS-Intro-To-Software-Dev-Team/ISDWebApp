@@ -19,8 +19,8 @@
     <jsp:include page="PageComponents/JSPHeader.jsp"/>
 
     <body>
-        <h1>Order History</h1>
         <center>
+            <h1 class="spaced-letters blue">ORDER HISTORY</h1>
             <table class="align-center">
                 <tr>
                     <th>Item Name</th>

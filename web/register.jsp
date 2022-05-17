@@ -45,50 +45,50 @@
                 <% } %>
 
                 <tr><td><label for="firstName"><b>First Name:</b></label></td></tr>
-                <tr><td><input type="text" name="firstName" placeholder="Enter first name" value="<%= firstName != null ? firstName : "" %>" required pattern="^[A-Z][a-z]*$" title="This should only contain letters and start with a capitalised letter."></td></tr>
+                <tr><td><input type="text" name="firstName" id="firstName" placeholder="Enter first name" value="<%= firstName != null ? firstName : "" %>" required pattern="^[A-Z][a-z]*$" title="This should only contain letters and start with a capitalised letter."></td></tr>
                 <% if (firstNameErr != null) { %>
                     <tr><td><b><%= firstNameErr %></b></td></tr>
                 <% } %>
 
                 <tr><td><label for="lastName"><b>Last Name:</b></label></td></tr>
-                <tr><td><input type="text" name="lastName" placeholder="Enter last name" value="<%= lastName != null ? lastName : "" %>" required pattern="^[A-Z][a-z]*$" title="This should only contain letters and start with a capitalised letter."></td></tr>
+                <tr><td><input type="text" name="lastName" id="lastName" placeholder="Enter last name" value="<%= lastName != null ? lastName : "" %>" required pattern="^[A-Z][a-z]*$" title="This should only contain letters and start with a capitalised letter."></td></tr>
                 <% if (lastNameErr != null) { %>
                     <tr><td><b><%= lastNameErr %></b></td></tr>
                 <% } %>
 
                 <tr><td><label for="email"><b>Email:</b></label></td></tr>
-                <tr><td><input type="email" name="email" placeholder="Enter email" value="<%= email != null ? email : "" %>" required></td></tr>
+                <tr><td><input type="email" name="email" id="email" placeholder="Enter email" value="<%= email != null ? email : "" %>" required></td></tr>
                 <% if (emailErr != null) { %>
                     <tr><td><b><%= emailErr %></b></td></tr>
                 <% } %>
 
                 <tr><td><label for="password"><b>Password:</b></label></td></tr>
-                <tr><td><input type="password" name="password" placeholder="Enter password" required minlength="8"></td></tr>
+                <tr><td><input type="password" name="password" id="password" placeholder="Enter password" required minlength="8"></td></tr>
                 <% if (passErr != null) { %>
                     <tr><td><b><%= passErr %></b></td></tr>
                 <% } %>
 
                 <tr><td><label for="dob"><b>Date Of Birth:</b></label></td></tr>
-                <tr><td><input type="date" name="dob" value="<%= dob != null ? dob : "" %>" required></td></tr>
+                <tr><td><input type="date" name="dob" id="dob" value="<%= dob != null ? dob : "" %>" required></td></tr>
                 <% if (dateErr != null) { %>
                     <tr><td><b><%= dateErr %></b></td></tr>
                 <% } %>
                 
                 <tr><td><label for="phone"><b>Phone Number:</b></label></td></tr>
-                <tr><td><input type="number" name="phone" placeholder="Enter phone number" value="<%= phone != null ? phone : "" %>" required pattern="^[0-9]{3,15}$" title="Not a valid phone number."></td></tr>
+                <tr><td><input type="number" name="phone" id="phone" placeholder="Enter phone number" value="<%= phone != null ? phone : "" %>" required pattern="^[0-9]{3,15}$" title="Not a valid phone number."></td></tr>
                 <% if (phoneErr != null) { %>
                     <tr><td><b><%= phoneErr %></b></td></tr>
                 <% } %>
 
                 <tr><td><label for="street"><b>Street:</b></label></td></tr>
-                <tr><td><input type="text" name="street" placeholder="Enter street" value="<%= street != null ? street : "" %>" required></td></tr>
+                <tr><td><input type="text" name="street" id="street" placeholder="Enter street" value="<%= street != null ? street : "" %>" required></td></tr>
 
                 <tr><td><label for="city"><b>City:</b></label></td></tr>
-                <tr><td><input type="text" name="city" placeholder="Enter city" value="<%= city != null ? city : "" %>" required></td></tr>
+                <tr><td><input type="text" name="city" id="city" placeholder="Enter city" value="<%= city != null ? city : "" %>" required></td></tr>
 
                 <tr><td><label for="state"><b>State:</b></label></td></tr>
                 <tr><td>
-                    <select name="state" required>
+                    <select name="state" id="state" required>
                         <% if (state != null) { %>
                             <option selected hidden><%= state %></option>
                         <% } else { %>
@@ -109,7 +109,7 @@
                     <tr><td><b><%= postcodeErr %></b></td></tr>
                 <% } %>
 
-                <tr><td><button type="submit"><b>Register Now</b></button></td></tr>
+                <tr><td><button type="submit" name="button" value="registerEdit"><b>Register Now</b></button></td></tr>
             </table>
         </form>
     </body>

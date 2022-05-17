@@ -42,13 +42,13 @@
 
                 <% for (Payment payment : manager.fetchPaymentMethods(customer.getCustomerID())) {%>
                     <tr>
-                        <td><%= payment.getPaymentMethod() %></td>  
-                        <td><%= payment.getCardNumber() %></td>
-                        <td><%= payment.getFullName() %></td>
-                        <td><%= payment.getExpiryDate() %></td>
-                        <td><%= payment.getCvv() %></td>
-
-                        <td> <input type="radio" name="paymentID" value="<%=payment.getPaymentID()%>" required> </td>
+                        <td><label for="<%= payment.getPaymentMethod() %>"><%= payment.getPaymentMethod() %></label></td>  
+                        <td><label for="<%= payment.getPaymentMethod() %>"><%= payment.getCardNumber() %></label></td>
+                        <td><label for="<%= payment.getPaymentMethod() %>"><%= payment.getFullName() %></label></td>
+                        <td><label for="<%= payment.getPaymentMethod() %>"><%= payment.getExpiryDate() %></label></td>
+                        <td><label for="<%= payment.getPaymentMethod() %>"><%= payment.getCvv() %></label></td>
+                        
+                        <td> <input type="radio" name="paymentID" id="<%=payment.getPaymentMethod()%>" value="<%=payment.getPaymentID()%>" required> </td>
                     </tr>
                 <% } %>
             </table>

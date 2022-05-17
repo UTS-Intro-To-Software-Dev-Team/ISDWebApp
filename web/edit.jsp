@@ -28,42 +28,42 @@
             String postcodeErr = (String) session.getAttribute("postcodeErr");
         %>
 
-        <h1 class="align-center">Edit User Details</h1>
+        <h1 class="align-center spaced-letters blue">EDIT USER DETAILS</h1>
         <form class="align-center" action="DBServlet" method="POST">
             <table class="align-center form-table">
                 <tr><td><label for="firstName"><b>First Name:</b></label></td></tr>
-                <tr><td><input type="text" name="firstName" placeholder="Enter first name" value="${customer.firstName}" required pattern="^[A-Z][a-z]*$" title="This should only contain letters and start with a capitalised letter."></td></tr>
+                <tr><td><input type="text" name="firstName" id="firstName" placeholder="Enter first name" value="${customer.firstName}" required pattern="^[A-Z][a-z]*$" title="This should only contain letters and start with a capitalised letter."></td></tr>
                 <% if (firstNameErr != null) { %>
                     <tr><td><b><%= firstNameErr %></b></td></tr>
                 <% } %>
 
                 <tr><td><label for="lastName"><b>Last Name:</b></label></td></tr>
-                <tr><td><input type="text" name="lastName" placeholder="Enter last name" value="${customer.lastName}" required pattern="^[A-Z][a-z]*$" title="This should only contain letters and start with a capitalised letter."></td></tr>
+                <tr><td><input type="text" name="lastName" id="lastName" placeholder="Enter last name" value="${customer.lastName}" required pattern="^[A-Z][a-z]*$" title="This should only contain letters and start with a capitalised letter."></td></tr>
                 <% if (lastNameErr != null) { %>
                     <tr><td><b><%= lastNameErr %></b></td></tr>
                 <% } %>
 
                 <tr><td><label for="dob"><b>Date Of Birth:</b></label></td></tr>
-                <tr><td><input type="date" name="dob" value="${customer.dob}" required></td></tr>
+                <tr><td><input type="date" name="dob" id="dob" value="${customer.dob}" required></td></tr>
                 <% if (dateErr != null) { %>
                     <tr><td><b><%= dateErr %></b></td></tr>
                 <% } %>
 
                 <tr><td><label for="phone"><b>Phone Number:</b></label></td></tr>
-                <tr><td><input type="number" name="phone" placeholder="Enter phone number" value="${customer.phone}" required pattern="^[0-9]{3,15}$" title="Not a valid phone number."></td></tr>
+                <tr><td><input type="number" name="phone" id="phone" placeholder="Enter phone number" value="${customer.phone}" required pattern="^[0-9]{3,15}$" title="Not a valid phone number."></td></tr>
                 <% if (phoneErr != null) { %>
                     <tr><td><b><%= phoneErr %></b></td></tr>
                 <% } %>
 
                 <tr><td><label for="street"><b>Street:</b></label></td></tr>
-                <tr><td><input type="text" name="street" placeholder="Enter street" value="${customer.street}" required></td></tr>
+                <tr><td><input type="text" name="street" id="street" placeholder="Enter street" value="${customer.street}" required></td></tr>
 
                 <tr><td><label for="city"><b>City:</b></label></td></tr>
-                <tr><td><input type="text" name="city" placeholder="Enter city" value="${customer.city}" required></td></tr>
+                <tr><td><input type="text" name="city" id="city" placeholder="Enter city" value="${customer.city}" required></td></tr>
 
                 <tr><td><label for="state"><b>State:</b></label></td></tr>
                 <tr><td>
-                    <select name="state" required>
+                    <select name="state" id="state" required>
                         <option selected hidden>${customer.state}</option>
                         <option value="NSW">New South Wales</option>
                         <option value="QLD">Queensland</option>
@@ -74,12 +74,13 @@
                     </select>
                 </td></tr>
 
-                <tr><td><label for="postcode"><b>Postcode: </b></label><input type="number" name="postcode" placeholder="####" style="width: 5%; text-align: center;" value="${customer.postcode}" required pattern="^[0-9]{4}$" minlength="4" maxlength="4" title="Postcode must be a 4 digit number."></td></tr>
+                <tr><td><label for="postcode"><b>Postcode: </b></label><input type="number" name="postcode" id="postcode" placeholder="####" style="width: 5%; text-align: center;" value="${customer.postcode}" required pattern="^[0-9]{4}$" minlength="4" maxlength="4" title="Postcode must be a 4 digit number."></td></tr>
                 <% if (postcodeErr != null) { %>
                     <tr><td><b><%= postcodeErr %></b></td></tr>
                 <% } %>
 
-                <tr><td><button type="submit"><b>Update Details</b></button></td></tr>
+                <tr><td><button type="submit" name="button" value="registerEdit"><b>Update Details</b></button></td></tr>
+                <tr><td><button type="submit" name="button" formnovalidate value="registerEditCancel">Cancel</button></td></tr>
             </table>
         </form>
     </body>

@@ -3,7 +3,7 @@
 <html>
     <head>
         <jsp:include page="PageComponents/CommonMeta.jsp"/>
-        <title>Logout Page</title>
+        <title>Logout</title>
     </head>
 
     <jsp:include page="PageComponents/JSPHeader.jsp"/>

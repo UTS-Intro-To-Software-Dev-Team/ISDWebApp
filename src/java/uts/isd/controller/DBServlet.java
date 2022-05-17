@@ -36,7 +36,6 @@ public class DBServlet extends HttpServlet {
                 case "register.jsp" -> RegisterServlet(request);
                 case "login.jsp" -> LoginServlet(request);
 
-                case "accountPage.jsp" -> AccountPageServlet(request);
                 case "edit.jsp" -> EditServlet(request);
 
                 case "paymentMethods.jsp" -> PaymentMethodsServlet(request);
@@ -101,20 +100,14 @@ public class DBServlet extends HttpServlet {
         }
     }
     
-    private void AccountPageServlet(HttpServletRequest request)
-        throws ServletException, IOException, SQLException
-    {
-        switch(request.getParameter("button")) {
-            case "edit" -> redirect = "edit.jsp";
-            case "paymentMethods" -> redirect = "paymentMethods.jsp";
-            case "shipmentMethods" -> redirect = "shipmentMethods.jsp";
-            case "orderHistory" -> redirect = "orderHistory.jsp";
-        }
-    }
-    
     private void RegisterEdit(HttpServletRequest request, String email, String password, boolean isAdd)
         throws ServletException, IOException, SQLException
     {
+        if (!request.getParameter("button").equals("registerEdit")) {
+            redirect = "accountPage.jsp";
+            return;
+        }
+        
         Customer customer = (Customer)session.getAttribute("customer");
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
@@ -173,6 +166,11 @@ public class DBServlet extends HttpServlet {
     private void PaymentAddEdit(HttpServletRequest request, boolean isAdd)
         throws ServletException, IOException, SQLException
     {
+        if (!request.getParameter("button").equals("paymentAddEdit")) {
+            redirect = "paymentMethods.jsp";
+            return;
+        }
+        
         Customer customer = (Customer)session.getAttribute("customer");
         Payment payment = (Payment)session.getAttribute("payment");
         String paymentMethod = request.getParameter("paymentMethod");
@@ -230,6 +228,11 @@ public class DBServlet extends HttpServlet {
     private void ShipmentAddEdit(HttpServletRequest request, boolean isAdd)
         throws ServletException, IOException, SQLException
     {
+        if (!request.getParameter("button").equals("shipmentAddEdit")) {
+            redirect = "shipmentMethods.jsp";
+            return;
+        }
+        
         Customer customer = (Customer)session.getAttribute("customer");
         Shipment shipment = (Shipment)session.getAttribute("shipment");
         String shipmentMethod = request.getParameter("shipmentMethod");
@@ -306,6 +309,11 @@ public class DBServlet extends HttpServlet {
     private void UserManagmentEditServlet(HttpServletRequest request)
             throws ServletException, IOException, SQLException
     {
+        if (!request.getParameter("button").equals("userManagementEdit")) {
+            redirect = "userManagement.jsp";
+            return;
+        }
+        
         Customer customer = (Customer)session.getAttribute("customer2");
         String email = customer.getEmail();
         String firstName = request.getParameter("firstName");
@@ -367,9 +375,9 @@ public class DBServlet extends HttpServlet {
     }
     
     private void ItemAddEdit(HttpServletRequest request, boolean isAdd)
-            throws ServletException, IOException, SQLException
+        throws ServletException, IOException, SQLException
     {
-        if (request.getParameter("button").equals("cancel")) {
+        if (!request.getParameter("button").equals("itemAddEdit")) {
             redirect = "itemManagement.jsp";
             return;
         }

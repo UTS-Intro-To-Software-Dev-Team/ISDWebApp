@@ -38,7 +38,8 @@
                     <tr><td><b><%= shipmentMethodErr %></b></td></tr>
                 <% } %>
                 
-                <tr><td><button type="submit"><b>Create Shipment Method</b></button></td></tr>
+                <tr><td><button type="submit" name="button" value="shipmentAddEdit"><b>Create Shipment Method</b></button></td></tr>
+                <tr><td><button type="submit" name="button" formnovalidate value="shipmentCancel">Cancel</button></td></tr>
             </table>
         </form>
     </body>

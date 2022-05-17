@@ -7,7 +7,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <jsp:include page="PageComponents/CommonMeta.jsp"/>
 
-        <title>Edit Page</title>
+        <title>Edit Page - Admin</title>
     </head>
     
     <%
@@ -34,7 +34,7 @@
             customer = (Customer)session.getAttribute("customer2");
         %>
 
-        <h1 class="align-center">Edit User Details - Admin</h1>
+        <h1 class="align-center spaced-letters blue">EDIT USER DETAILS - ADMIN</h1>
         <form class="align-center" action="DBServlet" method="POST">
             <table class="align-center form-table">
                 <tr><td><label for="firstName"><b>First Name:</b></label></td></tr>
@@ -85,15 +85,19 @@
                     <tr><td><b><%= postcodeErr %></b></td></tr>
                 <% } %>
                 
-                <tr><td>
-                    <label for="isActive"><b>Account active?</b></label>
-                    <% if (customer.isIsActive()) { %>
-                        <input type="checkbox" id="isActive" name="isActive" style="width: 20px;" checked>
-                    <% } else { %>
-                        <input type="checkbox" id="isActive" name="isActive" style="width: 20px;">
-                    <% } %>
-                </td></tr>
-                <tr><td><button type="submit" name="button" value="edit"><b>Update Details</b></button></td></tr>
+                <tr>
+                    <td>
+                        <label for="isActive"><b>Account active?</b></label>
+                        <% if (customer.isIsActive()) { %>
+                            <input type="checkbox" id="isActive" name="isActive" style="width: 20px;" checked>
+                        <% } else { %>
+                            <input type="checkbox" id="isActive" name="isActive" style="width: 20px;">
+                        <% } %>
+                    </td>
+                </tr>
+                
+                <tr><td><button type="submit" name="button" value="userManagementEdit"><b>Update Details</b></button></td></tr>
+                <tr><td><button type="submit" name="button" value="userManagementEditCancel">Cancel</button></td></tr>
             </table>
         </form>
     </body>

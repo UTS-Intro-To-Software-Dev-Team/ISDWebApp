@@ -20,7 +20,7 @@
     <jsp:include page="PageComponents/JSPHeader.jsp"/>
 
     <body>
-        <h1>User Management</h1>
+        <center><h1 class="spaced-letters blue">USER MANAGEMENT</h1></center>
         <form method="POST" action="DBServlet">
             <center>
                 <button name="button" formnovalidate value="sortFirstName" type="submit">Sort by first name</button>
@@ -47,18 +47,18 @@
 
                 <% for (Customer customer : manager.fetchCustomers(sort)) {%>
                     <tr>
-                        <td><%= customer.getFirstName() %></td>  
-                        <td><%= customer.getLastName() %></td>
-                        <td><%= customer.getEmail() %></td>
-                        <td><%= customer.getDob() %></td>
-                        <td><%= customer.getPhone() %></td>
-                        <td><%= customer.getStreet() %></td>
-                        <td><%= customer.getCity() %></td>
-                        <td><%= customer.getState() %></td>
-                        <td><%= customer.getPostcode() %></td>
-                        <td><%= customer.isIsActive() %></td>
+                        <td><label for="<%=customer.getEmail()%>"><%= customer.getFirstName() %></label></td>  
+                        <td><label for="<%=customer.getEmail()%>"><%= customer.getLastName() %></label></td>
+                        <td><label for="<%=customer.getEmail()%>"><%= customer.getEmail() %></label></td>
+                        <td><label for="<%=customer.getEmail()%>"><%= customer.getDob() %></label></td>
+                        <td><label for="<%=customer.getEmail()%>"><%= customer.getPhone() %></label></td>
+                        <td><label for="<%=customer.getEmail()%>"><%= customer.getStreet() %></label></td>
+                        <td><label for="<%=customer.getEmail()%>"><%= customer.getCity() %></label></td>
+                        <td><label for="<%=customer.getEmail()%>"><%= customer.getState() %></label></td>
+                        <td><label for="<%=customer.getEmail()%>"><%= customer.getPostcode() %></label></td>
+                        <td><label for="<%=customer.getEmail()%>"><%= customer.isIsActive() %></label></td>
 
-                        <td> <input type="radio" name="customerID" value="<%=customer.getCustomerID()%>" required> </td>
+                        <td> <input type="radio" name="customerID" id="<%=customer.getEmail()%>" value="<%=customer.getCustomerID()%>" required> </td>
                     </tr>
                 <% } %>
             </table>

@@ -4,7 +4,7 @@
 <html>
     <head>
         <jsp:include page="PageComponents/CommonMeta.jsp"/>
-        <title>Login Page</title>
+        <title>Login</title>
     </head>
 
     <%
@@ -28,13 +28,13 @@
         <form action="DBServlet" method="POST">
             <table class="align-center form-table">
                 <tr><td><label for="email"><b>Email:</b></label></td></tr>
-                <tr><td><input type="email" name="email" placeholder="Enter username" required value="<%= email %>"></td></tr>
+                <tr><td><input type="email" name="email" id="email" placeholder="Enter username" required value="<%= email %>"></td></tr>
                 <% if (emailErr != null) { %>
                     <tr><td><b><%= emailErr %></b></td></tr>
                 <% } %>
 
                 <tr><td><label for="password"><b>Password:</b></label></td></tr>
-                <tr><td><input type="password" name="password" placeholder="Enter password" required></td></tr>
+                <tr><td><input type="password" name="password" id="password" placeholder="Enter password" required></td></tr>
                 <% if (passErr != null) { %>
                     <tr><td><b><%= passErr %></b></td></tr>
                 <% } %>

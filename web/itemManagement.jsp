@@ -5,7 +5,7 @@
 <html>
     <head>
         <jsp:include page="PageComponents/CommonMeta.jsp"/>
-        <title>Item Management Page</title>
+        <title>Item Management</title>
     </head>
     
     <%
@@ -20,7 +20,7 @@
     <jsp:include page="PageComponents/JSPHeader.jsp"/>
 
     <body>
-        <h1>Item Management</h1>
+        <center><h1 class="spaced-letters blue">ITEM MANAGEMENT</h1></center>
         <form method="POST" action="DBServlet">
             <center>
                 <button name="button" formnovalidate value="sortName" type="submit">Sort by name</button>
@@ -41,12 +41,12 @@
 
                 <% for (Item item : manager.fetchItems(sort)) {%>
                     <tr>
-                        <td><%= item.getItem() %></td>  
-                        <td>$<%= item.getPrice() %></td>
-                        <td><%= item.getType() %></td>
-                        <td><%= item.getStock() %></td>
+                        <td><label for="<%=item.getItem()%>"><%= item.getItem() %></label></td>  
+                        <td><label for="<%=item.getItem()%>">$<%= item.getPrice() %></label></td>
+                        <td><label for="<%=item.getItem()%>"><%= item.getType() %></label></td>
+                        <td><label for="<%=item.getItem()%>"><%= item.getStock() %></label></td>
 
-                        <td> <input type="radio" name="itemID" value="<%=item.getItemID()%>" required> </td>
+                        <td> <input type="radio" name="itemID" id="<%=item.getItem()%>" value="<%=item.getItemID()%>" required> </td>
                     </tr>
                 <% } %>
             </table>

@@ -16,13 +16,11 @@
             String sort = (String)session.getAttribute("sort");
         %>
         <form method="POST" action="DBServlet">
-            <div style="display: flex; justify-content: center;">
-                <button name="button" value="sortName" type="submit">Sort by name</button>
-                <button name="button" value="sortType" type="submit">Sort by type</button>
-        </form>
-        <form method="POST" action="DBServlet">
+            <center>
+                <button name="button" formnovalidate value="sortName" type="submit">Sort by name</button>
+                <button name="button" formnovalidate value="sortType" type="submit">Sort by type</button>
                 <button name="button" value="order" type="submit">Order</button>
-            </div>
+            </center>
             <table class="align-center form-table">
                 <tr>
                     <th>Item Name</th>
@@ -34,12 +32,12 @@
 
                 <% for (Item item : manager.fetchItems(sort)) {%>
                     <tr>
-                        <td><%= item.getItem() %></td>  
-                        <td>$<%= item.getPrice() %></td>
-                        <td><%= item.getType() %></td>
-                        <td><%= item.getStock() %></td>
+                        <td><label for="<%=item.getItem()%>"><%= item.getItem() %></label></td>  
+                        <td><label for="<%=item.getItem()%>">$<%= item.getPrice() %></label></td>
+                        <td><label for="<%=item.getItem()%>"><%= item.getType() %></label></td>
+                        <td><label for="<%=item.getItem()%>"><%= item.getStock() %></label></td>
                         <% if (item.getStock() > 0) { %>
-                            <td> <input type="radio" name="itemID" value="<%=item.getItemID()%>" required> </td>
+                            <td> <input type="radio" name="itemID" id="<%=item.getItem()%>" value="<%=item.getItemID()%>" required> </td>
                         <% } %>
                     </tr>
                 <% } %>

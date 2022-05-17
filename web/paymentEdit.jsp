@@ -80,7 +80,8 @@
                     <tr><td><b><%= cvvErr %></b></td></tr>
                 <% } %>
                 
-                <tr><td><button type="submit"><b>Update Method</b></button></td></tr>
+                <tr><td><button type="submit" name="button" value="paymentAddEdit"><b>Update Method</b></button></td></tr>
+                <tr><td><button type="submit" name="button" formnovalidate value="paymentAddEditCancel">Cancel</button></td></tr>
             </table>
         </form>
     </body>

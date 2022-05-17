@@ -77,7 +77,8 @@
                     <tr><td><b><%= cvvErr %></b></td></tr>
                 <% } %>
                 
-                <tr><td><button type="submit"><b>Create Payment Method</b></button></td></tr>
+                <tr><td><button type="submit" name="button" value="paymentAddEdit"><b>Create Payment Method</b></button></td></tr>
+                <tr><td><button type="submit" name="button" formnovalidate value="paymentAddEditCancel">Cancel</button></td></tr>
             </table>
         </form>
     </body>
