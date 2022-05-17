@@ -26,6 +26,8 @@
             <a href="shipmentMethods.jsp"><button>View Shipment Methods</button></a>
             &emsp;
             <a href="orderHistory.jsp"><button>View Order History</button></a>
+            &emsp;
+            <a href="accessLogs.jsp"><button>View Access Logs</button></a>
         </center>
     </body>
 </html>

@@ -37,6 +37,7 @@ public class DBServlet extends HttpServlet {
                 case "login.jsp" -> LoginServlet(request);
 
                 case "edit.jsp" -> EditServlet(request);
+                case "accessLogs.jsp" -> {}
 
                 case "paymentMethods.jsp" -> PaymentMethodsServlet(request);
                 case "paymentAdd.jsp" -> PaymentAddServlet(request);
@@ -91,6 +92,7 @@ public class DBServlet extends HttpServlet {
         Customer customer = manager.findCustomer(email, password);
         if (customer != null && customer.isIsActive()) {
             session.setAttribute("customer", customer);
+            manager.addAccessLog(customer, "Logged In");
             redirect = "homePage.jsp";
         } else if (!manager.doesCustomerExist(email)) {
             session.setAttribute("emailErr", "Email does not exist.");

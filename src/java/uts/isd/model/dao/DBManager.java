@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class DBManager {
@@ -53,6 +55,37 @@ public class DBManager {
 
         while(rs.next()) {
             temp.add(itemFromResult(rs));
+        }
+        return temp;
+    }
+    
+    private AccessLogs accessLogsFromResult(ResultSet rs)
+        throws SQLException
+    {
+        int id = rs.getInt("accessLogID");
+        String date = rs.getString("date");
+        String activity = rs.getString("activity");
+        return new AccessLogs(id, date, activity);
+    }
+    
+    public void addAccessLog(Customer customer, String activity)
+        throws SQLException
+    {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        String command = "INSERT INTO AccessLogs (customerID, Date, Activity) values (" + customer.getCustomerID();
+        command += appendParam(dtf.format(LocalDateTime.now()));
+        command += appendParam(activity);
+        command += ")";
+        st.executeUpdate(command);
+    }
+    
+    public ArrayList<AccessLogs> fetchAccessLogs(int customerID, String sort) throws SQLException {
+        String fetch = "select * from AccessLogs WHERE customerid=" + customerID + sort;
+        
+        ResultSet rs = st.executeQuery(fetch);
+        ArrayList<AccessLogs> temp = new ArrayList<>();
+        while(rs.next()) {
+            temp.add(accessLogsFromResult(rs));
         }
         return temp;
     }
