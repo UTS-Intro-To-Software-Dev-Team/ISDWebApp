@@ -232,7 +232,7 @@ public class DBManager {
     }
 
     public void deleteCustomer(int ID) throws SQLException {
-        st.executeUpdate("DELETE CASCADE FROM Customers where customerID = " + ID);
+        st.executeUpdate("DELETE FROM customers where customerID = " + ID);
     }
     
     public void deletePayment(int ID) throws SQLException {
