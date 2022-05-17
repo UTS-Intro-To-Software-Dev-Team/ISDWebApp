@@ -1,5 +1,6 @@
 <%@page import="uts.isd.model.*" %>
 <%@page import="uts.isd.model.dao.*" %>
+<%@page import="java.util.ArrayList" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -17,6 +18,7 @@
         }
         
         Item item = manager.findItem(Integer.parseInt((String)session.getAttribute("itemID")));
+        ArrayList<Shipment> methods = manager.fetchShipmentMethods(customer.getCustomerID());
         if (item == null) {
             response.sendRedirect("shoppingPage.jsp");
             return;
@@ -77,6 +79,19 @@
                 <% if (postcodeErr != null) { %>
                     <tr><td><b><%= postcodeErr %></b></td></tr>
                 <% } %>
+                <% if(methods != null) { %>
+                <tr>
+                    <td>Shipment Method:</td>
+                    <td>
+                        <select name="method" required>
+                            
+                        <% for(Shipment method : methods) { %>
+                        <option ><%=method.getShipmentMethod()%></option>
+                        <% } %>    
+                        </select>
+                    </td>
+                 </tr>
+                 <% } %>
             </table>
             <button type="submit">Purchase</button>
         </form>
