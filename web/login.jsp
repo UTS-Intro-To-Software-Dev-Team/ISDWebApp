@@ -1,3 +1,4 @@
+<%@page import="uts.isd.model.*" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -6,6 +7,12 @@
         <title>Login Page</title>
     </head>
 
+    <%
+        if ((Customer)session.getAttribute("customer") != null) {
+            response.sendRedirect("homePage.jsp");
+            return;
+        }
+    %>
     <jsp:include page="PageComponents/JSPHeader.jsp"/>
 
     <body>
@@ -16,7 +23,8 @@
             String email = request.getParameter("email");
             email = email != null ? email : "";
         %>
-
+        
+        <h1 class="align-center spaced-letters blue">LOGIN</h1>
         <form action="DBServlet" method="POST">
             <table class="align-center form-table">
                 <tr><td><label for="email"><b>Email:</b></label></td></tr>

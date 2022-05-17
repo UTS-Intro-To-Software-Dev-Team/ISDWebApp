@@ -18,11 +18,11 @@
     %>
     <jsp:include page="PageComponents/JSPHeader.jsp"/>
     <body>
-        <form method="POST" action="DBServlet">
-            <button name="button" value="edit" type="submit">Edit Account Details</button>
-            <button name="button" value="paymentMethods" type="submit">View Payment Methods</button>
-            <button name="button" value="shipmentMethods" type="submit">View Shipment Methods</button>
-            <button name="button" value="orderHistory" type="submit">View Order History</button>
-        </form>
+        <center>
+            <a href="edit.jsp"><button>Edit Account Details</button></a>
+            <a href="paymentMethods.jsp"><button>View Payment Methods</button></a>
+            <a href="shipmentMethods.jsp"><button>View Shipment Methods</button></a>
+            <a href="orderHistory.jsp"><button>View Order History</button></a>
+        </center>
     </body>
 </html>

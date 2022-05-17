@@ -7,6 +7,12 @@
         <title>Register Page</title>
     </head>
 
+    <%
+    if ((Customer)session.getAttribute("customer") != null) {
+        response.sendRedirect("homePage.jsp");
+        return;
+    }
+    %>
     <jsp:include page="PageComponents/JSPHeader.jsp"/>
 
     <body>
@@ -82,10 +88,13 @@
 
                 <tr><td><label for="state"><b>State:</b></label></td></tr>
                 <tr><td>
-                    <select name="state" required selected value="<%= state != null ? state : "" %>">
+                    <select name="state" required>
                         <% if (state != null) { %>
                             <option selected hidden><%= state %></option>
-                        <% } %>
+                        <% } else { %>
+                            <option hidden value="">Choose a state.</option>
+                        <% }%>
+                        
                         <option value="NSW">New South Wales</option>
                         <option value="QLD">Queensland</option>
                         <option value="SA">South Australia</option>

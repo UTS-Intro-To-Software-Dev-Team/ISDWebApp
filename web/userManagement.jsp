@@ -22,21 +22,18 @@
     <body>
         <h1>User Management</h1>
         <form method="POST" action="DBServlet">
-            <div style="display: flex; justify-content: center;">
-                <button name="button" value="sortFirstName" type="submit">Sort by first name</button>
-                <button name="button" value="sortLastName" type="submit">Sort by last name</button>
-                <button name="button" value="sortNumber" type="submit">Sort by number</button>
-        </form>
-        <form method="POST" action="DBServlet">
+            <center>
+                <button name="button" formnovalidate value="sortFirstName" type="submit">Sort by first name</button>
+                <button name="button" formnovalidate value="sortLastName" type="submit">Sort by last name</button>
+                <button name="button" formnovalidate value="sortNumber" type="submit">Sort by number</button>
                 <button name="button" value="edit" type="submit">Edit</button>
                 <button name="button" value="delete" type="submit">Delete</button> 
-            </div>
+            </center>
             <table class="align-center form-table" style="width: 100%;">
                 <tr>
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Email</th>
-                    <th>Password</th>
                     <th>Date of Birth</th>
                     <th>Phone</th>
                     <th>Street</th>
@@ -53,7 +50,6 @@
                         <td><%= customer.getFirstName() %></td>  
                         <td><%= customer.getLastName() %></td>
                         <td><%= customer.getEmail() %></td>
-                        <td><%= customer.getPassword() %></td>
                         <td><%= customer.getDob() %></td>
                         <td><%= customer.getPhone() %></td>
                         <td><%= customer.getStreet() %></td>

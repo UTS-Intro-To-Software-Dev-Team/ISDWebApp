@@ -18,83 +18,96 @@
         }
         
         Item item = manager.findItem(Integer.parseInt((String)session.getAttribute("itemID")));
-        ArrayList<Shipment> methods = manager.fetchShipmentMethods(customer.getCustomerID());
         if (item == null) {
             response.sendRedirect("shoppingPage.jsp");
             return;
         }
+        ArrayList<Shipment> methods = manager.fetchShipmentMethods(customer.getCustomerID());
+        
         String postcodeErr = (String) session.getAttribute("postcodeErr");
+        String shipmentMethod = request.getParameter("shipmentMethod");
     %>
     
     <jsp:include page="PageComponents/JSPHeader.jsp"/>
     
     <body>
-        <form method="POST" action="DBServlet">
-            <h1 style="text-align: center"><%= item.getItem() %></h1>
-            <table class="form-table align-center">
-                <tr>
-                    <td>Unit price:</td>
-                    <td>$<%= item.getPrice() %></td>
-                </tr>
+        <center>
+            <form method="POST" action="DBServlet">
+                <h1><%= item.getItem() %></h1>
+                <table class="testTable">
+                    <tr>
+                        <td>Unit price:</td>
+                        <td>$<%= item.getPrice() %></td>
+                    </tr>
 
-                <tr>
-                    <td>Stock:</td>
-                    <td><%= item.getStock() %></td>
-                </tr>
-                
-                <tr>
-                    <td>Quantity:</td>
-                    <td><input type="number" name="quantity" placeholder="1 - <%= item.getStock() %>" value="1" required min="1" max="<%= item.getStock() %>"></td>
-                </tr>
+                    <tr>
+                        <td>Stock:</td>
+                        <td><%= item.getStock() %></td>
+                    </tr>
 
-                <tr>
-                    <td><label for="street"><b>Street:</b></label></td>
-                    <td><input type="text" name="street" placeholder="Enter street" value="${customer.street}" required></td>
-                </tr>
+                    <tr>
+                        <td>Quantity:</td>
+                        <td><input type="number" name="quantity" placeholder="1 - <%= item.getStock() %>" value="1" required min="1" max="<%= item.getStock() %>"></td>
+                    </tr>
 
-                <tr>
-                    <td><label for="city"><b>City:</b></label></td>
-                    <td><input type="text" name="city" placeholder="Enter city" value="${customer.city}" required></td>
-                </tr>
+                    <tr>
+                        <td><label for="street"><b>Street:</b></label></td>
+                        <td><input type="text" name="street" placeholder="Enter street" value="${customer.street}" required></td>
+                    </tr>
 
-                <tr>
-                    <td><label for="state"><b>State:</b></label></td>
-                    <td>
-                        <select name="state" required>
-                            <option selected hidden>${customer.state}</option>
-                            <option value="NSW">New South Wales</option>
-                            <option value="QLD">Queensland</option>
-                            <option value="SA">South Australia</option>
-                            <option value="TAS">Tasmania</option>
-                            <option value="VIC">Victoria</option>
-                            <option value="WA">Western Australia</option>
-                        </select>
-                    </td>
-                </tr>
+                    <tr>
+                        <td><label for="city"><b>City:</b></label></td>
+                        <td><input type="text" name="city" placeholder="Enter city" value="${customer.city}" required></td>
+                    </tr>
 
-                <tr>
-                    <td><label for="postcode"><b>Postcode:</b></label></td>
-                    <td><input type="number" name="postcode" placeholder="####" style="width: 50px; text-align: center;" value="${customer.postcode}" required pattern="^[0-9]{4}$" minlength="4" maxlength="4" title="Postcode must be a 4 digit number."></td>
-                </tr>
-                <% if (postcodeErr != null) { %>
-                    <tr><td><b><%= postcodeErr %></b></td></tr>
-                <% } %>
-                <% if(methods != null) { %>
-                <tr>
-                    <td>Shipment Method:</td>
-                    <td>
-                        <select name="method" required>
-                            
-                        <% for(Shipment method : methods) { %>
-                        <option ><%=method.getShipmentMethod()%></option>
-                        <% } %>    
-                        </select>
-                    </td>
-                 </tr>
-                 <% } %>
-            </table>
-            <button type="submit">Purchase</button>
-        </form>
+                    <tr>
+                        <td><label for="state"><b>State:</b></label></td>
+                        <td>
+                            <select name="state" required style="width: 100%;">
+                                <option selected hidden>${customer.state}</option>
+                                <option value="NSW">New South Wales</option>
+                                <option value="QLD">Queensland</option>
+                                <option value="SA">South Australia</option>
+                                <option value="TAS">Tasmania</option>
+                                <option value="VIC">Victoria</option>
+                                <option value="WA">Western Australia</option>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><label for="postcode"><b>Postcode:</b></label></td>
+                        <td><input type="number" name="postcode" placeholder="####" style="width: 50px;" value="${customer.postcode}" required pattern="^[0-9]{4}$" minlength="4" maxlength="4" title="Postcode must be a 4 digit number."></td>
+                    </tr>
+                    <% if (postcodeErr != null) { %>
+                        <tr><td><b><%= postcodeErr %></b></td></tr>
+                    <% } %>
+
+                    <tr>
+                        <td><label for="shipmentMethod"><b>Shipment Method:<b></label></td>
+                        <td>
+                            <select name="shipmentMethod" id="shipmentMethod" required style="width: 100%;">
+                                <% if (shipmentMethod != null) { %>
+                                    <option selected hidden><%= shipmentMethod %></option>
+                                <% } else { %>
+                                    <option hidden value="">Choose a method.</option>
+                                <% } %>
+                                
+                                <% if (methods.size() == 0) { %>
+                                <<option value="">None. Create a new</option>
+                                <% }%>
+                                
+                                <% for(Shipment method : methods) { %>
+                                    <option><%=method.getShipmentMethod()%></option>
+                                <% } %>
+                            </select>
+                        </td>
+                     </tr>
+                </table>
+                <button type="submit" name="button" value="purchase">Purchase</button>
+                <button type="submit" formnovalidate>Create a new payment method</button>
+            </form>
+        </center> 
     </body>
     
     <jsp:include page="PageComponents/JSPFooter.jsp"/>

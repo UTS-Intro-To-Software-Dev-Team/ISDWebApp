@@ -35,7 +35,7 @@ public class Validator implements Serializable {
             
             "shipmentMethodErr",
             
-            "sort",
+            "sort",//We need to fix this.
         }) {
             session.setAttribute(error, null);
         }

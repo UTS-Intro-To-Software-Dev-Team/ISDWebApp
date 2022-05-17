@@ -22,16 +22,13 @@
     <body>
         <h1>Item Management</h1>
         <form method="POST" action="DBServlet">
-            <div style="display: flex; justify-content: center;">
-                <button name="button" value="sortName" type="submit">Sort by name</button>
-                <button name="button" value="sortType" type="submit">Sort by type</button>
-                <button name="button" value="add" type="submit">Add new item</button>
-        </form>
-        <form method="POST" action="DBServlet">
+            <center>
+                <button name="button" formnovalidate value="sortName" type="submit">Sort by name</button>
+                <button name="button" formnovalidate value="sortType" type="submit">Sort by type</button>
+                <button name="button" formnovalidate value="add" type="submit">Add new item</button>
                 <button name="button" value="edit" type="submit">Edit</button>
                 <button name="button" value="delete" type="submit">Delete</button>
-            </div>
-            
+            </center>
             <table class="align-center form-table">
                 <tr>
                     <th>Item</th>

@@ -13,7 +13,6 @@
         String pageName = uri.substring(uri.lastIndexOf("/") + 1);
         session.setAttribute("pageName", pageName);
 
-        DBManager manager = (DBManager)session.getAttribute("manager");
         Customer customer = (Customer)session.getAttribute("customer");
         
         ArrayList<String[]> links = new ArrayList<String[]>();

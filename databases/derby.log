@@ -1,7 +1,7 @@
-Tue May 17 03:32:34 AEST 2022 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
+Tue May 17 16:01:55 AEST 2022 : Apache Derby Network Server - 10.14.2.0 - (1828579) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Tue May 17 03:33:07 AEST 2022:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0180-cded-c6d1-00006449ffa6 
+Tue May 17 16:02:11 AEST 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0180-d09b-d3a4-00006449ffa6 
 on database directory C:\Users\zelno\Downloads\Stuff\Coding Stuff\WebApp\ISDWebApp\databases\customerdb with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@73d16e93 
 Loaded from file:/C:/Users/zelno/Downloads/Stuff/Coding%20Stuff/WebApp/ISDWebApp/External%20Libraries/db-derby-10.14.2.0-bin/lib/derby.jar
 java.vendor=Oracle Corporation
@@ -12,40 +12,3 @@ os.arch=amd64
 os.version=10.0
 derby.system.home=C:\Users\zelno\Downloads\Stuff\Coding Stuff\WebApp\ISDWebApp\databases
 Database Class Loader started - derby.database.classpath=''
-Tue May 17 06:08:51 AEST 2022 Thread[DRDAConnThread_2,5,main] (XID = 7725), (SESSIONID = 19), (DATABASE = customerdb), (DRDAID = ????????.????-4340342488146613053{10}), Cleanup action starting
-Tue May 17 06:08:51 AEST 2022 Thread[DRDAConnThread_2,5,main] (XID = 7725), (SESSIONID = 19), (DATABASE = customerdb), (DRDAID = ????????.????-4340342488146613053{10}), Failed Statement is: DELETE FROM shipment where shipmentID = 3
-java.lang.NullPointerException: Cannot invoke "String.length()" because "s" is null
-	at java.base/java.io.StringReader.<init>(StringReader.java:51)
-	at org.apache.derby.impl.services.uuid.BasicUUID.<init>(Unknown Source)
-	at org.apache.derby.impl.services.uuid.BasicUUIDFactory.recreateUUID(Unknown Source)
-	at org.apache.derby.impl.sql.catalog.SYSTABLESRowFactory.buildDescriptorBody(Unknown Source)
-	at org.apache.derby.impl.sql.catalog.SYSTABLESRowFactory.buildDescriptor(Unknown Source)
-	at org.apache.derby.impl.sql.catalog.DataDictionaryImpl.getDescriptorViaIndexMinion(Unknown Source)
-	at org.apache.derby.impl.sql.catalog.DataDictionaryImpl.getDescriptorViaIndex(Unknown Source)
-	at org.apache.derby.impl.sql.catalog.DataDictionaryImpl.getTableDescriptorIndex1Scan(Unknown Source)
-	at org.apache.derby.impl.sql.catalog.DataDictionaryImpl.getUncachedTableDescriptor(Unknown Source)
-	at org.apache.derby.impl.sql.catalog.NameTDCacheable.setIdentity(Unknown Source)
-	at org.apache.derby.impl.services.cache.ConcurrentCache.find(Unknown Source)
-	at org.apache.derby.impl.sql.catalog.DataDictionaryImpl.getTableDescriptor(Unknown Source)
-	at org.apache.derby.impl.sql.compile.QueryTreeNode.getTableDescriptor(Unknown Source)
-	at org.apache.derby.impl.sql.compile.FromBaseTable.bindTableDescriptor(Unknown Source)
-	at org.apache.derby.impl.sql.compile.FromBaseTable.bindNonVTITables(Unknown Source)
-	at org.apache.derby.impl.sql.compile.FromList.bindTables(Unknown Source)
-	at org.apache.derby.impl.sql.compile.SelectNode.bindNonVTITables(Unknown Source)
-	at org.apache.derby.impl.sql.compile.DMLStatementNode.bindTables(Unknown Source)
-	at org.apache.derby.impl.sql.compile.DeleteNode.bindStatement(Unknown Source)
-	at org.apache.derby.impl.sql.GenericStatement.prepMinion(Unknown Source)
-	at org.apache.derby.impl.sql.GenericStatement.prepare(Unknown Source)
-	at org.apache.derby.impl.sql.conn.GenericLanguageConnectionContext.prepareInternalStatement(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedStatement.execute(Unknown Source)
-	at org.apache.derby.impl.jdbc.EmbedStatement.executeLargeUpdate(Unknown Source)
-	at org.apache.derby.impl.drda.DRDAConnThread.parseEXCSQLIMM(Unknown Source)
-	at org.apache.derby.impl.drda.DRDAConnThread.processCommands(Unknown Source)
-	at org.apache.derby.impl.drda.DRDAConnThread.run(Unknown Source)
-Cleanup action completed
-----------------------------------------------------------------
-Tue May 17 06:10:31 AEST 2022: Shutting down Derby engine
-----------------------------------------------------------------
-Tue May 17 06:10:31 AEST 2022:
-Shutting down instance a816c00e-0180-cded-c6d1-00006449ffa6 on database directory C:\Users\zelno\Downloads\Stuff\Coding Stuff\WebApp\ISDWebApp\databases\customerdb with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@73d16e93 
-----------------------------------------------------------------
