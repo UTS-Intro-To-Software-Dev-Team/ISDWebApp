@@ -24,8 +24,8 @@
         }
         session.setAttribute("item", item);
         
-        ArrayList<Payment> paymentMethods = manager.fetchPaymentMethods(customer.getCustomerID());
-        ArrayList<Shipment> shipmentMethods = manager.fetchShipmentMethods(customer.getCustomerID());
+        ArrayList<Payment> paymentMethods = manager.fetchPaymentMethods(customer.getCustomerID(), "");
+        ArrayList<Shipment> shipmentMethods = manager.fetchShipmentMethods(customer.getCustomerID(), "");
         
         String postcodeErr = (String) session.getAttribute("postcodeErr");
         String paymentMethod = request.getParameter("paymentMethod");
